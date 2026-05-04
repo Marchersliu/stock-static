@@ -511,7 +511,7 @@ tr:last-child td { border-bottom:none; }
     <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⚠️ 未来一周关键期 — 择机撤离策略</div>
     <div style="font-size:12px;color:var(--text2);line-height:1.7;">
       <b>背景：</b>半导体概念持续火热（费城半导体指数+2.3%新高），但九州一轨20日已涨<b style="color:var(--red)">+123%</b>，翻倍后估值极高（PB 6.63），技术指标全面超买（KDJ-J 99.43 / RSI6 78.35）。<br>
-      <b>策略：</b>5/6复市后<b>冲高不追</b>，<b style="color:var(--gold)">60~65元区间分批减仓</b>（60减30%、62减30%、65清仓），<b style="color:var(--red)">绝不在涨停日加仓</b>。<br>
+      <b>策略：</b>5/6复市后<b>冲高不追</b>，<b style="color:var(--gold)">60~65元区间分批减仓</b>（60减30%、62减30%、65清仓），<b style="color:var(--gold)">用户判断可能冲到65~70</b>，<b style="color:var(--red)">绝不在涨停日加仓</b>。<br>
       <b>底线：</b>跌破49元无条件止损，不犹豫。
     </div>
   </div>
@@ -789,6 +789,43 @@ tr:last-child td { border-bottom:none; }
 </div>
 
 
+<!-- 🔒 清仓后防守策略卡 -->
+<div class="card" style="background:linear-gradient(135deg, rgba(59,130,246,0.06) 0%, rgba(168,85,247,0.06) 50%, rgba(34,197,94,0.06) 100%);border:1px solid rgba(168,85,247,0.3);">
+  <div class="card-title" style="color:var(--purple);">🔒 清仓后防守策略</div>
+  <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;">
+    <!-- 阶段一 -->
+    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--gold);">
+      <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">阶段一 · 5/6 ~ 5/15（访华前窗口）</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+        <div style="margin-bottom:6px;"><span style="color:var(--red);font-weight:700;">九州一轨</span> · 用户判断股价将冲到 <span style="color:var(--gold);font-weight:700;">65~70</span> 区间，semiconductor概念已到极致</div>
+        <div style="margin-bottom:6px;"><span style="color:var(--green);">✅</span> 5/10-5/15 特朗普访华期间，A股大概率维持面子，不会大跌迎客</div>
+        <div style="margin-bottom:6px;"><span style="color:var(--red);">❌</span> 不新建高风险仓位，停止追高科技股</div>
+        <div><span style="color:var(--cyan);font-weight:700;">💰 现金比例提升至 50%+</span> · 为回调做准备</div>
+      </div>
+    </div>
+    <!-- 阶段二 -->
+    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--green);">
+      <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px;">阶段二 · 5/15后（回调期·建仓防守型资产）</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+        <div style="margin-bottom:6px;"><span style="color:var(--green);">✅</span> 等跌不动再进场，不抄底半山腰 · 关注沪深300跌破3800点信号</div>
+        <div style="margin-bottom:6px;"><span style="color:var(--purple);font-weight:700;">🛡️ 防守资产优先级</span>：长江电力(类债券·逆周期) > 中国核电(能源安全) > 招商银行(高股息·估值最低) > 中国铝业(通胀受益)</div>
+        <div style="margin-bottom:6px;"><span style="color:var(--orange);">⚠️</span> 楼市全面牛市概率极低，资金更可能流向高股息股票 > 黄金 > 海外资产 > 国债</div>
+        <div><span style="color:var(--blue);font-weight:700;">📅 关键时间点</span>：5/15后利好出尽 → 6月年中财报季验证业绩能否支撑估值</div>
+      </div>
+    </div>
+    <!-- 风险摘要 -->
+    <div style="background:rgba(220,38,38,0.06);padding:14px;border-radius:10px;border-left:4px solid var(--red);">
+      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⚠️ 全球估值警报</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+        <div style="margin-bottom:4px;">标普500 CAPE 39-40倍 · 155年仅次于2000年互联网泡沫(44.2)</div>
+        <div style="margin-bottom:4px;">57%机构投资者将"AI估值崩盘"列为2026年最大风险(德银调查)</div>
+        <div style="margin-bottom:4px;">沪深300十年百分位90% · 上证站在十年顶端 · 融涨特征显著</div>
+        <div>监管5/1统一推送风险提示 · 全市场券商同步提醒 · 降温信号明确</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- 计划建仓标的 -->
 <div class="card">
   <div class="card-title">📅 计划建仓标的<span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
@@ -799,10 +836,10 @@ tr:last-child td { border-bottom:none; }
         <tr><td><strong>宝丰能源</strong></td><td>600989</td><td>30.70</td><td>38</td><td class="down">-1.38%</td><td class="up">+2.06%</td><td class="up">+6.67%</td><td class="up">+10.99%</td><td class="down">-8.8%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+50%新闻，但主力净流出3.6亿</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>华友钴业</strong></td><td>603799</td><td>66.59</td><td>50</td><td class="down">-1.58%</td><td class="up">+0.44%</td><td class="up">+7.02%</td><td class="up">+1.66%</td><td class="down">-12.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);">固态电池材料新闻，均线多头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>科伦药业</strong></td><td>002422</td><td>34.57</td><td>28-30</td><td class="up">+1.38%</td><td class="up">+4.00%</td><td class="up">+4.13%</td><td class="up">+3.07%</td><td class="down">-7.4%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">无重大新闻，资金平稳</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>招商银行</strong></td><td>600036</td><td>38.27</td><td>35-36</td><td class="down">-0.60%</td><td class="down">-2.82%</td><td class="down">-3.87%</td><td class="down">-4.01%</td><td class="down">-8.5%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);">主力净流出9.5亿，空头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>中国核电</strong></td><td>601985</td><td>8.99</td><td>7.5-8.0</td><td class="neutral">0.00%</td><td class="down">-0.33%</td><td class="down">-1.10%</td><td class="up">+0.90%</td><td class="down">-5.4%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">主力净流入1.4亿</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>中国铝业</strong></td><td>601600</td><td>11.65</td><td>9.5-10.0</td><td class="down">-2.18%</td><td class="down">-2.75%</td><td class="down">-2.10%</td><td class="down">-4.12%</td><td class="down">-9.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+56%新闻，但价格跌破均线</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>长江电力</strong></td><td>600900</td><td>27.32</td><td>26-26.5</td><td class="up">+2.05%</td><td class="up">+2.48%</td><td class="up">+1.37%</td><td class="up">+0.70%</td><td class="down">-4.8%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);">主力净流入3.6亿，均线多头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>招商银行</strong></td><td>600036</td><td>38.27</td><td>35-36</td><td class="down">-0.60%</td><td class="down">-2.82%</td><td class="down">-3.87%</td><td class="down">-4.01%</td><td class="down">-8.5%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型</span> 高股息·估值最低·银行龙头</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>中国核电</strong></td><td>601985</td><td>8.99</td><td>7.5-8.0</td><td class="neutral">0.00%</td><td class="down">-0.33%</td><td class="down">-1.10%</td><td class="up">+0.90%</td><td class="down">-5.4%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型</span> 核电·能源安全·逆周期·主力净流入1.4亿</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>中国铝业</strong></td><td>601600</td><td>11.65</td><td>9.5-10.0</td><td class="down">-2.18%</td><td class="down">-2.75%</td><td class="down">-2.10%</td><td class="down">-4.12%</td><td class="down">-9.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型</span> 有色·全球通胀受益·实物资产·Q1净利+56%</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>长江电力</strong></td><td>600900</td><td>27.32</td><td>26-26.5</td><td class="up">+2.05%</td><td class="up">+2.48%</td><td class="up">+1.37%</td><td class="up">+0.70%</td><td class="down">-4.8%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型·核心</span> 水电=类债券·逆周期·主力净流入3.6亿·均线多头</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>赢合科技</strong></td><td>300457</td><td>28.99</td><td>--</td><td class="up">+0.52%</td><td class="up">+3.31%</td><td class="up">+2.87%</td><td class="up">+1.19%</td><td class="down">--</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+308%但应收/利润=1020%，现金流为负</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>洛阳钼业</strong></td><td>603993</td><td>18.62</td><td>25-28</td><td class="down">-2.97%</td><td class="down">-2.00%</td><td class="down">-3.82%</td><td class="down">-7.27%</td><td class="down">-25.5%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">2025净利+50%，铜产量+14%，新增黄金业务，全球第一大钴生产商</td><td><span class="badge badge-green">关注</span></td></tr>
       </tbody>
@@ -1816,14 +1853,14 @@ function updateWatchlistFromBackend(data) {
   if (!tbody || !data.stocks) return;
 
   const watchlist = [
-    {code:'600989.SH', name:'宝丰能源', target:'38', rec:28.00},
-    {code:'603799.SH', name:'华友钴业', target:'50', rec:58.00},
-    {code:'002422.SZ', name:'科伦药业', target:'28-30', rec:32.00},
-    {code:'600036.SH', name:'招商银行', target:'35-36', rec:35.00},
-    {code:'601985.SH', name:'中国核电', target:'7.5-8.0', stop:6.5, rec:8.50},
-    {code:'601600.SH', name:'中国铝业', target:'9.5-10.0', stop:7.8, rec:10.50},
-    {code:'600900.SH', name:'长江电力', target:'26-26.5', stop:22, rec:26.00},
-    {code:'300457.SZ', name:'赢合科技', target:'--', rec:25.00},
+    {code:'600989.SH', name:'宝丰能源', target:'38', rec:28.00, note:'Q1净利+50%新闻，但主力净流出3.6亿'},
+    {code:'603799.SH', name:'华友钴业', target:'50', rec:58.00, note:'固态电池材料新闻，均线多头排列'},
+    {code:'002422.SZ', name:'科伦药业', target:'28-30', rec:32.00, note:'无重大新闻，资金平稳'},
+    {code:'600036.SH', name:'招商银行', target:'35-36', rec:35.00, note:'🛡️ 防守型 高股息·估值最低·银行龙头'},
+    {code:'601985.SH', name:'中国核电', target:'7.5-8.0', stop:6.5, rec:8.50, note:'🛡️ 防守型 核电·能源安全·逆周期·主力净流入1.4亿'},
+    {code:'601600.SH', name:'中国铝业', target:'9.5-10.0', stop:7.8, rec:10.50, note:'🛡️ 防守型 有色·全球通胀受益·实物资产·Q1净利+56%'},
+    {code:'600900.SH', name:'长江电力', target:'26-26.5', stop:22, rec:26.00, note:'🛡️ 防守型·核心 水电=类债券·逆周期·主力净流入3.6亿·均线多头'},
+    {code:'300457.SZ', name:'赢合科技', target:'--', rec:25.00, note:'Q1净利+308%但应收/利润=1020%，现金流为负'},
   ];
 
   // 消息面判断：基于PREMARKET_NEWS中portfolio分类的新闻

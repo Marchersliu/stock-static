@@ -1211,149 +1211,37 @@ const GLOBAL_MARKETS = {
 };
 
 // ===================== 盘前新闻数据 =====================
-let LAST_NEWS_UPDATE = '2026-05-05 00:32'; // 新闻最后更新时间
-const PAGE_BUILD = 'v0505-0032'; // 页面版本，用于检测缓存
+let LAST_NEWS_UPDATE = '2026-05-05 00:47'; // 新闻最后更新时间
+const PAGE_BUILD = 'v0505-0047'; // 页面版本，用于检测缓存
 
 const PREMARKET_NEWS = [
   {
-    id: 'auto_0', catTags: ["chain", "geo"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富 / Tushare·金融界", sourceClass: 'eastmoney',
-    title: "现货黄金跌超2%",
+    id: 'auto_0', catTags: ["geo"], category: 'eastmoney', level: 'none',
+    source: "Tushare·东方财富 / Tushare·财联社", sourceClass: 'eastmoney',
+    title: "伊朗媒体：伊方没有计划袭击阿联酋",
     summary: "",
-    time: "05-04 23:24", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-05 00:38", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_1', catTags: ["geo"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富 / Tushare·财联社 / Tushare·第一财经", sourceClass: 'eastmoney',
-    title: "阿联酋国防部称监测到4枚来自伊朗的巡航导弹",
+    id: 'auto_1', catTags: ["geo"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
+    title: "美军上将声称：已在霍尔木兹海峡开辟“自由通行航道”",
     summary: "",
-    time: "05-04 23:24", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-05 00:24", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_2', catTags: ["chain", "geo"], category: 'eastmoney', level: 'none',
+    id: 'auto_2', catTags: ["market"], category: 'eastmoney', level: 'none',
     source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "国际原油短线快速拉升",
+    title: "联邦快递、联合包裹股价继续下跌 均跌近10%",
     summary: "",
-    time: "05-04 23:22", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-05 00:21", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
     id: 'auto_3', catTags: ["geo"], category: 'eastmoney', level: 'none',
     source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "欧元集团主席：欧洲已做好应对美关税威胁的准备",
+    title: "无人机袭击致阿联酋富查伊拉石油工业区起火",
     summary: "",
-    time: "05-04 23:04", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_4', catTags: ["market"], category: 'eastmoney', level: 'industry',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "墨西哥中央银行调查显示 私营部门分析师预计2026年底整体通胀率为4.38%",
-    summary: "",
-    time: "05-04 23:01", tags: [{text:"📈", cls:"market"}]
-  },
-  {
-    id: 'auto_5', catTags: ["market"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富 / Tushare·金融界 / Tushare·财联社", sourceClass: 'eastmoney',
-    title: "江西生物制品研究所股份有限公司向港交所提交上市申请书",
-    summary: "",
-    time: "05-04 22:57", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_6', catTags: ["market"], category: 'eastmoney', level: 'industry',
-    source: "Tushare·东方财富 / Tushare·金融界 / Tushare·财联社", sourceClass: 'eastmoney',
-    title: "礼邦医药（江苏）股份有限公司-B向港交所提交上市申请书",
-    summary: "",
-    time: "05-04 22:51", tags: [{text:"📈", cls:"market"}]
-  },
-  {
-    id: 'auto_7', catTags: ["market"], category: 'jinrongjie', level: 'none',
-    source: "Tushare·金融界", sourceClass: 'jinrongjie',
-    title: "CSG股价重挫26%，盘中多次停牌",
-    summary: "",
-    time: "05-04 22:51", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_8', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "伊朗伊斯兰革命卫队：过去数小时无商船或油轮通过霍尔木...",
-    summary: "",
-    time: "05-04 22:48", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_9', catTags: ["geo"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富 / Tushare·财联社 / Tushare·第一财经", sourceClass: 'eastmoney',
-    title: "伊朗伊斯兰革命卫队：过去数小时无商船或油轮通过霍尔木兹海峡",
-    summary: "",
-    time: "05-04 22:47", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_10', catTags: ["geo"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "据报道 巴西总统卢拉将在未来几天前往美国 与美国总统特朗普会面",
-    summary: "",
-    time: "05-04 22:40", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_11', catTags: ["geo"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富 / Tushare·第一财经", sourceClass: 'eastmoney',
-    title: "韩国确认霍尔木兹海峡内一韩船只爆炸起火",
-    summary: "",
-    time: "05-04 22:38", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_12', catTags: ["market"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "五部门联合严查动力电池回收",
-    summary: "",
-    time: "05-04 22:37", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_13', catTags: ["chain", "geo", "market"], category: 'wscn', level: 'industry',
-    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
-    title: "美伊恐战火重燃，美股低开，芯片股力挺标普纳指早盘转涨，原油一度涨超5%",
-    summary: "",
-    time: "05-04 22:34", tags: [{text:"📈", cls:"market"}]
-  },
-  {
-    id: 'auto_14', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "韩国称正在确认霍尔木兹海峡附近是否有韩船只遭袭",
-    summary: "",
-    time: "05-04 22:33", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_15', catTags: ["market"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富 / Tushare·金融界 / Tushare·财联社", sourceClass: 'eastmoney',
-    title: "杭州千岛湖鲟龙科技股份有限公司向港交所提交上市申请书",
-    summary: "",
-    time: "05-04 22:33", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_16', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "全球市场震动！霍尔木兹海峡局势突变",
-    summary: "",
-    time: "05-04 22:29", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_17', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "海事情报公司：一载有伊朗液化天然气船只似突破美军封锁",
-    summary: "",
-    time: "05-04 22:28", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_18', catTags: ["market"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "史上最大IPO，传来重磅消息！",
-    summary: "",
-    time: "05-04 22:28", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_19', catTags: ["market"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "港股5月开门红，光模块龙头，大涨超16%",
-    summary: "",
-    time: "05-04 22:27", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-05 00:04", tags: [{text:"⚠️", cls:"geo"}]
   }
 ];
 
@@ -1648,7 +1536,7 @@ function renderGlobal() {
     document.getElementById('global-grid').innerHTML = Object.entries(GLOBAL_MARKETS).map(([name, d]) => {
     const pct = d.pct || 0;
     const unit = d.unit || '';
-    const td = d.tradeDate ? d.tradeDate.substring(5) : '';
+    const td = d.tradeDate ? `${parseInt(d.tradeDate.substring(5,7))}/${parseInt(d.tradeDate.substring(8,10))}` : '';
     const flowHtml = d.inflow ? `<div style="font-size:10px;color:var(--text3);margin-top:3px;line-height:1.4;"><span style="color:var(--red);">▲ ${d.inflow}</span> · <span style="color:var(--green);">▼ ${d.outflow}</span></div>` : '';
     return `<div class="global-box">
       <div class="name">${map[name] || ''} ${name}<span style="font-size:9px;color:var(--text3);margin-left:4px;">${td}</span></div>

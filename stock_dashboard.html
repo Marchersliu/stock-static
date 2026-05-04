@@ -633,6 +633,9 @@ tr:last-child td { border-bottom:none; }
     <div class="commodity-box">
       <div class="name">碳酸锂（电池级）</div>
       <div class="price" style="color:var(--text);">15.3-15.8万/吨</div>
+      <div class="change neutral">区间震荡</div>
+      <div class="note">锂电上游 · <span style="color:var(--cyan);font-size:10px;">SMM</span><span style="font-size:9px;color:var(--text3);"> · 4/30现货</span></div>
+    </div>
 <!-- 铜（与洛阳钼业相关） -->
     <div class="commodity-box" style="border:1px solid var(--purple);">
       <div class="name">沪铜（Cu） <span style="font-size:10px;color:var(--purple);">期货</span></div>
@@ -657,9 +660,6 @@ tr:last-child td { border-bottom:none; }
       <div class="price" style="color:var(--gold);">$2,380/盎司</div>
       <div class="change up">+1.5%</div>
       <div class="note">洛阳钼业黄金业务 · <span style="color:var(--gold);font-size:10px;">伦敦金</span><span style="font-size:9px;color:var(--text3);"> · 5/4</span></div>
-    </div>
-      <div class="change neutral">区间震荡</div>
-      <div class="note">锂电上游 · <span style="color:var(--cyan);font-size:10px;">SMM</span><span style="font-size:9px;color:var(--text3);"> · 4/30现货</span></div>
     </div>
     <div class="commodity-box">
       <div class="name">电解钴（Co:99.8%）</div>
@@ -781,14 +781,14 @@ tr:last-child td { border-bottom:none; }
   <div class="card-title">📅 计划建仓标的<span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
-      <thead><tr><th>名称</th><th>代码</th><th>当前价</th><th>日涨跌</th><th>3日涨跌</th><th>5日涨跌</th><th>7日涨跌</th><th>距目标</th><th>消息面</th><th>资金面</th><th>技术面</th><th>说明</th><th>建议</th></tr></thead>
+      <thead><tr><th>名称</th><th>代码</th><th>当前价</th><th>目标价</th><th>日涨跌</th><th>3日涨跌</th><th>5日涨跌</th><th>7日涨跌</th><th>距目标</th><th>消息面</th><th>资金面</th><th>技术面</th><th>说明</th><th>建议</th></tr></thead>
       <tbody id="watchlist-table">
-        <tr><td><strong>宝丰能源</strong></td><td>600989</td><td>30.70</td><td class="down">-1.38%</td><td class="up">+2.06%</td><td class="up">+6.67%</td><td class="up">+10.99%</td><td class="down">-8.8%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+50%新闻，但主力净流出3.6亿</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>华友钴业</strong></td><td>603799</td><td>66.59</td><td class="down">-1.58%</td><td class="up">+0.44%</td><td class="up">+7.02%</td><td class="up">+1.66%</td><td class="down">-12.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);">固态电池材料新闻，均线多头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>宝丰能源</strong></td><td>600989</td><td>30.70</td><td>38</td><td class="down">-1.38%</td><td class="up">+2.06%</td><td class="up">+6.67%</td><td class="up">+10.99%</td><td class="down">-8.8%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+50%新闻，但主力净流出3.6亿</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>华友钴业</strong></td><td>603799</td><td>66.59</td><td>50</td><td class="down">-1.58%</td><td class="up">+0.44%</td><td class="up">+7.02%</td><td class="up">+1.66%</td><td class="down">-12.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);">固态电池材料新闻，均线多头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>科伦药业</strong></td><td>002422</td><td>34.57</td><td class="up">+1.38%</td><td class="up">+4.00%</td><td class="up">+4.13%</td><td class="up">+3.07%</td><td class="down">-7.4%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">无重大新闻，资金平稳</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>招商银行</strong></td><td>600036</td><td>38.27</td><td class="down">-0.60%</td><td class="down">-2.82%</td><td class="down">-3.87%</td><td class="down">-4.01%</td><td class="down">-8.5%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);">主力净流出9.5亿，空头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>中国核电</strong></td><td>601985</td><td>8.99</td><td class="neutral">0.00%</td><td class="down">-0.33%</td><td class="down">-1.10%</td><td class="up">+0.90%</td><td class="down">-5.4%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">主力净流入1.4亿</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>中国铝业</strong></td><td>601600</td><td>11.65</td><td class="down">-2.18%</td><td class="down">-2.75%</td><td class="down">-2.10%</td><td class="down">-4.12%</td><td class="down">-9.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+56%新闻，但价格跌破均线</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>中国铝业</strong></td><td>601600</td><td>11.65</td><td>9.5-10.0</td><td class="down">-2.18%</td><td class="down">-2.75%</td><td class="down">-2.10%</td><td class="down">-4.12%</td><td class="down">-9.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+56%新闻，但价格跌破均线</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>长江电力</strong></td><td>600900</td><td>27.32</td><td class="up">+2.05%</td><td class="up">+2.48%</td><td class="up">+1.37%</td><td class="up">+0.70%</td><td class="down">-4.8%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);">主力净流入3.6亿，均线多头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>赢合科技</strong></td><td>300457</td><td>28.99</td><td class="up">+0.52%</td><td class="up">+3.31%</td><td class="up">+2.87%</td><td class="up">+1.19%</td><td class="down">--</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+308%但应收/利润=1020%，现金流为负</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>洛阳钼业</strong></td><td>603993</td><td>18.62</td><td class="down">-2.97%</td><td class="down">-2.00%</td><td class="down">-3.82%</td><td class="down">-7.27%</td><td class="down">-25.5%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">2025净利+50%，铜产量+14%，新增黄金业务，全球第一大钴生产商</td><td><span class="badge badge-green">关注</span></td></tr>
@@ -1201,7 +1201,7 @@ const GLOBAL_MARKETS = {
   "创业板指": {close: 2055.00, pct: 0.24, region: "cn", tradeDate: "2026-04-30", inflow: "锂电+光伏", outflow: "医疗+传媒"},
   "恒生指数": {close: 26095.88, pct: 1.24, region: "hk", tradeDate: "2026-05-04", inflow: "科网+金融", outflow: "地产+能源"},
   "韩国KOSPI": {close: 6936.99, pct: 5.12, region: "kr", tradeDate: "2026-05-04", inflow: "半导体+汽车", outflow: "金融+重工"},
-  "日经225": {close: 59513.12, pct: 0.38, region: "jp", tradeDate: "2026-05-01", inflow: "出口+汽车", outflow: "内需+金融"},
+  "日经225": {close: 59513.12, pct: 0.38, region: "jp", tradeDate: "2026-05-01", note: "5/4-6黄金周休市", inflow: "出口+汽车", outflow: "内需+金融"},
   "台湾加权": {close: 40705.14, pct: 4.57, region: "tw", tradeDate: "2026-05-04", inflow: "电子+半导体", outflow: "金融+地产"},
   "道琼斯": {close: 49074.11, pct: -0.76, region: "us", tradeDate: "2026-05-04", inflow: "消费+医疗", outflow: "科技+金融"},
   "纳斯达克": {close: 25016.00, pct: -0.39, region: "us", tradeDate: "2026-05-04", inflow: "AI+半导体", outflow: "生物+金融"},

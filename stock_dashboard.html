@@ -789,38 +789,57 @@ tr:last-child td { border-bottom:none; }
 </div>
 
 
-<!-- 🔒 清仓后防守策略卡 -->
-<div class="card" style="background:linear-gradient(135deg, rgba(59,130,246,0.06) 0%, rgba(168,85,247,0.06) 50%, rgba(34,197,94,0.06) 100%);border:1px solid rgba(168,85,247,0.3);">
-  <div class="card-title" style="color:var(--purple);">🔒 清仓后防守策略</div>
+<!-- 📊 当前持仓调仓方案卡 -->
+<div class="card" style="background:linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(234,179,8,0.06) 50%, rgba(34,197,94,0.06) 100%);border:1px solid rgba(220,38,38,0.3);">
+  <div class="card-title" style="color:var(--red);">📊 当前持仓调仓方案 · 5/6~5/15执行</div>
   <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;">
-    <!-- 阶段一 -->
+    <!-- 当前持仓结构 -->
+    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--red);">
+      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">🚨 当前持仓结构（极度危险）</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
+          <span style="background:rgba(220,38,38,0.15);padding:4px 10px;border-radius:6px;color:var(--red);font-weight:700;">九州一轨 86%</span>
+          <span style="background:rgba(234,179,8,0.15);padding:4px 10px;border-radius:6px;color:var(--gold);">ST晨鸣 8.2%</span>
+          <span style="background:rgba(168,85,247,0.15);padding:4px 10px;border-radius:6px;color:var(--purple);">红星发展 2.5%</span>
+          <span style="background:rgba(74,158,255,0.15);padding:4px 10px;border-radius:6px;color:var(--blue);">鑫磊股份 1.96%</span>
+          <span style="background:rgba(7,182,212,0.15);padding:4px 10px;border-radius:6px;color:var(--cyan);">禾望电气 0.87%</span>
+        </div>
+        <div style="margin-bottom:4px;"><span style="color:var(--red);font-weight:700;">致命1：</span>单吊86% = 赌博，九州回调20% = 总仓亏17%</div>
+        <div style="margin-bottom:4px;"><span style="color:var(--red);font-weight:700;">致命2：</span>0%防守仓位，大盘跌10%你可能跌20%+</div>
+        <div><span style="color:var(--red);font-weight:700;">致命3：</span>ST晨鸣8.2% = 退市风险，一旦归零直接损失8%</div>
+      </div>
+    </div>
+    <!-- 三步调仓计划 -->
     <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--gold);">
-      <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">阶段一 · 5/6 ~ 5/15（访华前窗口）</div>
+      <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">⚡ 三步调仓计划</div>
       <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="margin-bottom:6px;"><span style="color:var(--red);font-weight:700;">九州一轨</span> · 用户判断股价将冲到 <span style="color:var(--gold);font-weight:700;">65~70</span> 区间，semiconductor概念已到极致</div>
-        <div style="margin-bottom:6px;"><span style="color:var(--green);">✅</span> 5/10-5/15 特朗普访华期间，A股大概率维持面子，不会大跌迎客</div>
-        <div style="margin-bottom:6px;"><span style="color:var(--red);">❌</span> 不新建高风险仓位，停止追高科技股</div>
-        <div><span style="color:var(--cyan);font-weight:700;">💰 现金比例提升至 50%+</span> · 为回调做准备</div>
+        <div style="margin-bottom:6px;"><span style="color:var(--gold);font-weight:700;">Step 1 · 九州减仓</span> 86%→30%，60元减30%、62元再减30%、65元清仓</div>
+        <div style="margin-bottom:6px;"><span style="color:var(--gold);font-weight:700;">Step 2 · 清理问题股</span> ST晨鸣8.2%全部清仓 | 鑫磊股份1.96%清仓 | 红星发展2.5%视情况</div>
+        <div><span style="color:var(--gold);font-weight:700;">Step 3 · 建仓防守</span> 长江电力15%(等26以下) + 中国神华15% + 招商银行10% + 现金20%</div>
       </div>
     </div>
-    <!-- 阶段二 -->
+    <!-- 目标仓位 -->
     <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--green);">
-      <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px;">阶段二 · 5/15后（回调期·建仓防守型资产）</div>
+      <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px;">🎯 目标仓位结构</div>
       <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="margin-bottom:6px;"><span style="color:var(--green);">✅</span> 等跌不动再进场，不抄底半山腰 · 关注沪深300跌破3800点信号</div>
-        <div style="margin-bottom:6px;"><span style="color:var(--purple);font-weight:700;">🛡️ 防守资产优先级</span>：长江电力(类债券·逆周期) > 中国核电(能源安全) > 招商银行(高股息·估值最低) > 中国铝业(通胀受益)</div>
-        <div style="margin-bottom:6px;"><span style="color:var(--orange);">⚠️</span> 楼市全面牛市概率极低，资金更可能流向高股息股票 > 黄金 > 海外资产 > 国债</div>
-        <div><span style="color:var(--blue);font-weight:700;">📅 关键时间点</span>：5/15后利好出尽 → 6月年中财报季验证业绩能否支撑估值</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
+          <span style="background:rgba(220,38,38,0.1);padding:3px 8px;border-radius:4px;">进攻 35%</span>
+          <span style="background:rgba(34,197,94,0.1);padding:3px 8px;border-radius:4px;">防守 45%</span>
+          <span style="background:rgba(168,85,247,0.1);padding:3px 8px;border-radius:4px;">现金 20%</span>
+        </div>
+        <div style="margin-bottom:4px;">进攻：九州一轨30% + 红星发展2.5% + 禾望电气0.87% + 宝丰能源+华友(场外)2%</div>
+        <div style="margin-bottom:4px;">防守：长江电力15% + 中国神华15% + 招商银行10% + 交通银行5%</div>
+        <div>现金：20%机动，等更低位置加仓或应对突发</div>
       </div>
     </div>
-    <!-- 风险摘要 -->
+    <!-- 执行时间表 -->
     <div style="background:rgba(220,38,38,0.06);padding:14px;border-radius:10px;border-left:4px solid var(--red);">
-      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⚠️ 全球估值警报</div>
+      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⏰ 5/6~5/15 执行时间表</div>
       <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="margin-bottom:4px;">标普500 CAPE 39-40倍 · 155年仅次于2000年互联网泡沫(44.2)</div>
-        <div style="margin-bottom:4px;">57%机构投资者将"AI估值崩盘"列为2026年最大风险(德银调查)</div>
-        <div style="margin-bottom:4px;">沪深300十年百分位90% · 上证站在十年顶端 · 融涨特征显著</div>
-        <div>监管5/1统一推送风险提示 · 全市场券商同步提醒 · 降温信号明确</div>
+        <div style="margin-bottom:4px;"><span style="color:var(--gold);font-weight:700;">5/6 开盘</span> · 九州冲高60→减仓30%；ST晨鸣/鑫磊挂涨停价清仓</div>
+        <div style="margin-bottom:4px;"><span style="color:var(--gold);font-weight:700;">5/6~5/7</span> · 九州到62→再减30%；清理红星发展/禾望电气</div>
+        <div style="margin-bottom:4px;"><span style="color:var(--green);font-weight:700;">5/8~5/15</span> · 建仓防守：长江电力26以下 + 中国神华46以下</div>
+        <div><span style="color:var(--green);font-weight:700;">5/15后</span> · 若大盘回调，加仓招行37以下 + 交行6.5以下</div>
       </div>
     </div>
   </div>

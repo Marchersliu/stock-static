@@ -344,7 +344,17 @@ tr:last-child td { border-bottom:none; }
           <td>煤价↓电费稳<br>蒸汽自给</td>
           <td><span class="badge badge-red">产品跌·原料涨·承压</span></td>
         </tr>
+        
         <tr>
+          <td><strong>洛阳钼业</strong></td>
+          <td>铜精矿/钴/黄金</td>
+          <td class="highlight">电解铜~101,030元/吨<br>钴~230,000元/吨<br>黄金~780元/克</td>
+          <td>铜矿石(刚果金TFM/KFM)<br>钴矿石(刚果金)<br>金矿石(巴西)</td>
+          <td>铜矿<span class="up">↑供应紧</span><br>钴矿<span class="neutral">趋稳</span><br>金矿<span class="up">↑新增</span></td>
+          <td>电解/冶炼</td>
+          <td>水电(非洲)</td>
+          <td><span class="badge badge-green">产量增·成本降</span></td>
+        </tr><tr>
           <td><strong>禾望电气</strong></td>
           <td>风电变流器<br>光伏逆变器</td>
           <td class="neutral">~3-8万/台<br>(功率相关)</td>
@@ -756,6 +766,7 @@ tr:last-child td { border-bottom:none; }
         <tr><td><strong>中国铝业</strong></td><td>601600</td><td>11.65</td><td class="down">-2.18%</td><td class="down">-2.75%</td><td class="down">-2.10%</td><td class="down">-4.12%</td><td class="down">-9.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+56%新闻，但价格跌破均线</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>长江电力</strong></td><td>600900</td><td>27.32</td><td class="up">+2.05%</td><td class="up">+2.48%</td><td class="up">+1.37%</td><td class="up">+0.70%</td><td class="down">-4.8%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);">主力净流入3.6亿，均线多头排列</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>赢合科技</strong></td><td>300457</td><td>28.99</td><td class="up">+0.52%</td><td class="up">+3.31%</td><td class="up">+2.87%</td><td class="up">+1.19%</td><td class="down">--</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">Q1净利+308%但应收/利润=1020%，现金流为负</td><td><span class="badge badge-blue">观察</span></td></tr>
+        <tr><td><strong>洛阳钼业</strong></td><td>603993</td><td>18.62</td><td class="down">-2.97%</td><td class="down">-2.00%</td><td class="down">-3.82%</td><td class="down">-7.27%</td><td class="down">-25.5%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">2025净利+50%，铜产量+14%，新增黄金业务，全球第一大钴生产商</td><td><span class="badge badge-green">关注</span></td></tr>
       </tbody>
     </table>
   </div>
@@ -1162,159 +1173,161 @@ const GLOBAL_MARKETS = {
   "上证指数": {close: 4112.16, pct: 0.11, region: "cn", tradeDate: "2026-04-30", inflow: "科技+医药", outflow: "金融+消费"},
   "深证成指": {close: 15107.55, pct: -0.09, region: "cn", tradeDate: "2026-04-30", inflow: "新能源+电子", outflow: "地产+白酒"},
   "创业板指": {close: 2055.00, pct: 0.24, region: "cn", tradeDate: "2026-04-30", inflow: "锂电+光伏", outflow: "医疗+传媒"},
-  "恒生指数": {close: 26095.88, pct: 1.24, region: "hk", tradeDate: "2026-05-02", inflow: "科网+金融", outflow: "地产+能源"},
+  "恒生指数": {close: 26095.88, pct: 1.24, region: "hk", tradeDate: "2026-05-04", inflow: "科网+金融", outflow: "地产+能源"},
+  "韩国KOSPI": {close: 6936.99, pct: 5.12, region: "kr", tradeDate: "2026-05-04", inflow: "半导体+汽车", outflow: "金融+重工"},
+  "日经225": {close: 59513.12, pct: 0.38, region: "jp", tradeDate: "2026-05-01", inflow: "出口+汽车", outflow: "内需+金融"},
+  "台湾加权": {close: 40705.14, pct: 4.57, region: "tw", tradeDate: "2026-05-04", inflow: "电子+半导体", outflow: "金融+地产"},
   "道琼斯": {close: 49499.27, pct: -0.31, region: "us", tradeDate: "2026-05-01", inflow: "消费+医疗", outflow: "工业+能源"},
   "纳斯达克": {close: 25114.44, pct: 0.89, region: "us", tradeDate: "2026-05-01", inflow: "AI+半导体", outflow: "生物+金融"},
   "标普500": {close: 7230.12, pct: 0.29, region: "us", tradeDate: "2026-05-01", inflow: "科技+通信", outflow: "公用+材料"},
-  "日经225": {close: 59513.12, pct: 0.38, region: "jp", tradeDate: "2026-04-28", inflow: "出口+汽车", outflow: "内需+金融"},
   "WTI原油": {close: 101.94, pct: -2.76, region: "oil", unit: "$/桶", tradeDate: "2026-05-01"},
   "布伦特原油": {close: 108.17, pct: -2.73, region: "oil", unit: "$/桶", tradeDate: "2026-05-01"},
 };
 
 // ===================== 盘前新闻数据 =====================
-let LAST_NEWS_UPDATE = '2026-05-04 20:41'; // 新闻最后更新时间
-const PAGE_BUILD = 'v0504-2041'; // 页面版本，用于检测缓存
+let LAST_NEWS_UPDATE = '2026-05-04 22:21'; // 新闻最后更新时间
+const PAGE_BUILD = 'v0504-2221'; // 页面版本，用于检测缓存
 
 const PREMARKET_NEWS = [
   {
-    id: 'auto_0', catTags: ["market"], category: 'eastmoney', level: 'industry',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "据报道，eBay确认收到GameStop主动发起的收购要约",
+    id: 'auto_0', catTags: ["portfolio", "market"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "营收、归母净利润创四年最低，科伦药业“节流”难解“断流”之困",
     summary: "",
-    time: "05-04 20:08", tags: [{text:"📈", cls:"market"}]
+    time: "05-04 22:08", tags: [{text:"📈", cls:"market"}]
   },
   {
     id: 'auto_1', catTags: ["geo"], category: 'ths', level: 'none',
     source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "伊朗官员称向一艘美军舰警告性开火 造成损失情况不明",
+    title: "伊朗回应美所谓疏导霍尔木兹海峡行动",
     summary: "",
-    time: "05-04 20:01", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-04 21:23", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_2', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "奥地利外交部证实已驱逐3名俄罗斯外交官",
+    id: 'auto_2', catTags: ["geo"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻 / Tushare·同花顺 / Tushare·东方财富", sourceClass: 'wscn',
+    title: "伊朗军方称对美驱逐舰进行了警告射击",
     summary: "",
-    time: "05-04 20:01", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-04 21:18", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
     id: 'auto_3', catTags: ["geo"], category: 'eastmoney', level: 'none',
     source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "伊朗称向一艘美军舰警告性开火 造成损失情况不明",
+    title: "美国财长贝森特：全球石油供应缺口为每日800万至1000万桶",
     summary: "",
-    time: "05-04 19:54", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-04 21:15", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_4', catTags: ["market"], category: 'sina', level: 'none',
-    source: "Tushare·新浪财经", sourceClass: 'sina',
-    title: "富瀚微冲刺港股：年营收17亿，净利同比降48% 杨小奇控制25%股权",
+    id: 'auto_4', catTags: ["geo"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻 / Tushare·同花顺 / Tushare·东方财富", sourceClass: 'wscn',
+    title: "霍尔木兹海峡内一韩国船舶遭“外部冲击”",
     summary: "",
-    time: "05-04 19:53", tags: [{text:"⚠️", cls:"geo"}]
+    time: "05-04 21:14", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_5', catTags: ["market"], category: 'sina', level: 'none',
+    id: 'auto_5', catTags: ["geo"], category: 'ths', level: 'none',
+    source: "Tushare·同花顺 / Tushare·东方财富", sourceClass: 'ths',
+    title: "阿联酋称伊朗无人机袭击该国石油公司船只",
+    summary: "",
+    time: "05-04 20:50", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_6', catTags: ["geo"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "伊朗伊斯兰革命卫队称将强制拦截“违规船只”",
+    summary: "",
+    time: "05-04 20:46", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_7', catTags: ["geo"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "国际海事组织：霍尔木兹海峡附近船只仍应“保持最大程度谨慎”",
+    summary: "",
+    time: "05-04 20:46", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_8', catTags: ["geo"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "伊朗说阿联酋退出欧佩克不具建设性",
+    summary: "",
+    time: "05-04 20:45", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_9', catTags: ["chain", "geo", "market"], category: 'cls', level: 'none',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "美股盘前要闻一览：伊朗宣称“击中美军舰”，美方否认，油价冲高回落；纳指期货小幅上涨，存储概念股延续涨势",
+    summary: "",
+    time: "05-04 20:43", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_10', catTags: ["market"], category: 'cls', level: 'none',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "港股公告精选｜石四药集团首季营收超12亿港元 亿华通上年亏损同比扩大逾3成",
+    summary: "",
+    time: "05-04 20:33", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_11', catTags: ["geo"], category: 'cls', level: 'none',
+    source: "Tushare·财联社 / Tushare·第一财经", sourceClass: 'cls',
+    title: "美军称两艘悬挂美国国旗的商船成功通过霍尔木兹海峡",
+    summary: "",
+    time: "05-04 20:26", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_12', catTags: ["chain", "geo"], category: 'cls', level: 'none',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "WTI原油期货日内涨幅收窄至1% 回吐伊朗宣称“击中美军舰”以来的涨幅",
+    summary: "",
+    time: "05-04 20:24", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_13', catTags: ["geo", "market"], category: 'cls', level: 'none',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "伊朗导弹搅动国际油市 冲突重燃担忧致美股指数全线下跌| 今夜看点",
+    summary: "",
+    time: "05-04 20:16", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_14', catTags: ["market"], category: 'sina', level: 'none',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "华谊兄弟年营收3亿：同比降33% 亏3亿 变成ST股 被申请重整 王忠军股权被拍卖",
     summary: "",
     time: "05-04 19:53", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_6', catTags: ["geo"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "阿联酋称油轮过霍尔木兹遭伊朗袭击",
+    id: 'auto_15', catTags: ["market"], category: 'sina', level: 'none',
+    source: "Tushare·新浪财经", sourceClass: 'sina',
+    title: "富瀚微冲刺港股：年营收17亿，净利同比降48% 杨小奇控制25%股权",
+    summary: "",
+    time: "05-04 19:53", tags: [{text:"⚠️", cls:"geo"}]
+  },
+  {
+    id: 'auto_16', catTags: ["market"], category: 'sina', level: 'none',
+    source: "Tushare·新浪财经", sourceClass: 'sina',
+    title: "营收净利双增，现金流腰斩？恒顺醋业年报里的“AB面”",
     summary: "",
     time: "05-04 19:35", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_7', catTags: ["market"], category: 'sina', level: 'none',
+    id: 'auto_17', catTags: ["market"], category: 'sina', level: 'none',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "一边分红一边募资，汇川技术给同行上了一课",
     summary: "",
     time: "05-04 19:30", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_8', catTags: ["geo", "market"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "伊朗攻击美军舰艇传闻刺激国际油价飙升",
-    summary: "",
-    time: "05-04 19:29", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_9', catTags: ["market"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "黑石数字基础设施据悉寻求通过IPO募资17.5亿美元",
-    summary: "",
-    time: "05-04 19:28", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_10', catTags: ["market"], category: 'sina', level: 'industry',
-    source: "Tushare·新浪财经", sourceClass: 'sina',
-    title: "母公司重整未正式落地，“国产奶粉第一股”贝因美就拟斥资6991万收购亏损资产！标的去年资产缩水超1000万，近两年均为净亏损",
-    summary: "",
-    time: "05-04 19:25", tags: [{text:"📈", cls:"market"}]
-  },
-  {
-    id: 'auto_11', catTags: ["market"], category: 'eastmoney', level: 'industry',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "SAP据称拟收购Prior Labs",
-    summary: "",
-    time: "05-04 19:23", tags: [{text:"📈", cls:"market"}]
-  },
-  {
-    id: 'auto_12', catTags: ["chain", "geo", "market"], category: 'wscn', level: 'none',
+    id: 'auto_18', catTags: ["chain", "geo", "market"], category: 'wscn', level: 'none',
     source: "Tushare·华尔街见闻", sourceClass: 'wscn',
     title: "回应特朗普“引导行动”！伊朗发射导弹击退美国军舰，油价应声大涨，美股期货跳水",
     summary: "",
     time: "05-04 19:22", tags: [{text:"⚠️", cls:"geo"}]
   },
   {
-    id: 'auto_13', catTags: ["geo"], category: 'yicai', level: 'none',
+    id: 'auto_19', catTags: ["geo"], category: 'yicai', level: 'none',
     source: "Tushare·第一财经", sourceClass: 'yicai',
     title: "消息人士：伊朗已为霍尔木兹海峡的各种情况做好准备",
     summary: "",
     time: "05-04 19:18", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_14', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺 / Tushare·东方财富 / Tushare·金融界 / Tushare·财联社 / Tushare·第一财经", sourceClass: 'ths',
-    title: "美军中央司令部称没有海军舰艇被伊朗导弹击中",
-    summary: "",
-    time: "05-04 19:09", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_15', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺 / Tushare·东方财富", sourceClass: 'ths',
-    title: "伊媒：伊朗已为霍尔木兹海峡的各种情况做好准备",
-    summary: "",
-    time: "05-04 19:05", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_16', catTags: ["market"], category: 'sina', level: 'none',
-    source: "Tushare·新浪财经", sourceClass: 'sina',
-    title: "惠同新材2026年一季报营收净利双增，近期股价波动明显",
-    summary: "",
-    time: "05-04 19:03", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_17', catTags: ["market"], category: 'cls', level: 'industry',
-    source: "Tushare·财联社", sourceClass: 'cls',
-    title: "“蛇吞象”！游戏驿站拟溢价收购eBay 百亿市值欲吃掉五百亿公司",
-    summary: "",
-    time: "05-04 18:55", tags: [{text:"📈", cls:"market"}]
-  },
-  {
-    id: 'auto_18', catTags: ["chain", "geo", "market"], category: 'wscn', level: 'none',
-    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
-    title: "特朗普启动\"引导行动\"后，伊朗发射两枚导弹逼退美军，油价应声大涨，美股期货跳水",
-    summary: "",
-    time: "05-04 18:51", tags: [{text:"⚠️", cls:"geo"}]
-  },
-  {
-    id: 'auto_19', catTags: ["geo"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺 / Tushare·东方财富", sourceClass: 'ths',
-    title: "美媒：特朗普对伊朗问题僵局感到“厌倦”",
-    summary: "",
-    time: "05-04 18:45", tags: [{text:"⚠️", cls:"geo"}]
   }
 ];
 
@@ -1603,7 +1616,7 @@ console.log(`[News] 已渲染 ${all.length} 条新闻（${filterLabel}·${DYNAMI
 
 // ===================== 全球市场 =====================
 function renderGlobal() {
-  const map = {"上证指数":"🇨🇳","深证成指":"🇨🇳","创业板指":"🇨🇳","恒生指数":"🇭🇰","道琼斯":"🇺🇸","纳斯达克":"🇺🇸","标普500":"🇺🇸","日经225":"🇯🇵","WTI原油":"🛢️","布伦特原油":"🛢️"};
+  const map = {"上证指数":"🇨🇳","深证成指":"🇨🇳","创业板指":"🇨🇳","恒生指数":"🇭🇰","韩国KOSPI":"🇰🇷","日经225":"🇯🇵","台湾加权":"🇹🇼","道琼斯":"🇺🇸","纳斯达克":"🇺🇸","标普500":"🇺🇸","WTI原油":"🛢️","布伦特原油":"🛢️"};
   
   function renderGrid() {
     document.getElementById('global-grid').innerHTML = Object.entries(GLOBAL_MARKETS).map(([name, d]) => {

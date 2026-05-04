@@ -2,8 +2,13 @@ import tushare as ts
 import json
 from datetime import datetime, timedelta
 
+import os
+
 # Tushare Pro setup
-ts.set_token('16e1c68c578e1c26ef7797f17acc2764bcfddb25692b52c3ef8a9878')
+TS_TOKEN = os.environ.get('TUSHARE_TOKEN', '')
+if not TS_TOKEN:
+    raise ValueError("TUSHARE_TOKEN environment variable not set")
+ts.set_token(TS_TOKEN)
 pro = ts.pro_api()
 
 # Stock list: (ts_code, name, sector, target_low, target_high, stop_loss)

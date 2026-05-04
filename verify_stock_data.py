@@ -29,7 +29,10 @@ import pandas as pd
 from datetime import datetime
 
 # ===================== 配置 =====================
-TOKEN = "16e1c68c578e1c26ef7797f17acc2764bcfddb25692b52c3ef8a9878"
+import os
+TOKEN = os.environ.get('TUSHARE_TOKEN', '')
+if not TOKEN:
+    raise ValueError("TUSHARE_TOKEN environment variable not set")
 HTML_PATH = "/Users/hf/.kimi_openclaw/workspace/stock_dashboard.html"
 BACKUP_SUFFIX = ".backup"
 

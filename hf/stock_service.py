@@ -23,7 +23,9 @@ import socket
 import tushare as ts
 import pandas as pd
 
-TOKEN = "16e1c68c578e1c26ef7797f17acc2764bcfddb25692b52c3ef8a9878"
+TOKEN = os.environ.get('TUSHARE_TOKEN', '')
+if not TOKEN:
+    raise ValueError("TUSHARE_TOKEN environment variable not set")
 ts.set_token(TOKEN)
 pro = ts.pro_api()
 

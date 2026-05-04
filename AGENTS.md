@@ -309,3 +309,18 @@ The goal: Be helpful without being annoying. Check in a few times a day, do usef
 
 This is a starting point. Add your own conventions, style, and rules as you figure out what works.
 
+## 🔄 自动处理规则（免打扰模式）
+
+以下情况**不需要询问用户**，直接自动处理：
+
+| 情况 | 自动行为 |
+|------|---------|
+| **报错 `failed`** | 立即分析原因 → 重试修复 → 用替代方案 |
+| **`overloaded`** | 等待3-5分钟后自动重试，不丢弃最近指令 |
+| **`error`** | 检查错误信息 → 定位问题 → 自动修复 |
+| **`timeout`** | 等待几分钟后重新运行任务 |
+
+- 所有自动修复操作记录到 `memory/YYYY-MM-DD.md`
+- 连续失败3次才向用户汇报并请求介入
+- 源自用户指令："如果是error也请直接处理" + "timeout后，过几分钟重新运行任务"
+

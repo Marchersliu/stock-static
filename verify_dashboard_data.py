@@ -7,7 +7,10 @@ import re, json, sys
 sys.path.insert(0, '/Users/hf/Library/Python/3.9/lib/python/site-packages')
 import tushare as ts
 
-TS_TOKEN = '16e1c68c578e1c26ef7797f17acc2764bcfddb25692b52c3ef8a9878'
+import os
+TS_TOKEN = os.environ.get('TUSHARE_TOKEN', '')
+if not TS_TOKEN:
+    raise ValueError("TUSHARE_TOKEN environment variable not set")
 pro = ts.pro_api(TS_TOKEN)
 
 # ===================== 1. 读取新闻数据 =====================

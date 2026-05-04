@@ -1172,8 +1172,8 @@ const GLOBAL_MARKETS = {
 };
 
 // ===================== 盘前新闻数据 =====================
-let LAST_NEWS_UPDATE = '2026-05-04 20:25'; // 新闻最后更新时间
-const PAGE_BUILD = 'v0504-2025'; // 页面版本，用于检测缓存
+let LAST_NEWS_UPDATE = '2026-05-04 20:41'; // 新闻最后更新时间
+const PAGE_BUILD = 'v0504-2041'; // 页面版本，用于检测缓存
 
 const PREMARKET_NEWS = [
   {
@@ -1479,9 +1479,19 @@ function renderNewsItem(item) {
     return `<span class="cat-tag ${ct.cls || 'market'}">${ct.text || ct}</span>`;
   }).join('');
   const catTagsHtml = catTags ? `<div class="cat-tags">${catTags}</div>` : '';
-  // 没有原始链接时，用标题构造百度搜索链接
-  const searchUrl = item.url || `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`;
-  const titleHtml = `<a href="${searchUrl}" target="_blank" style="color:inherit;text-decoration:none;cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${item.title}</a>`;
+  // 没有原始链接时：Tushare来源不跳转，其他来源用百度搜索
+  let titleHtml;
+  if (item.url) {
+    // 有原始链接
+    titleHtml = `<a href="${item.url}" target="_blank" style="color:inherit;text-decoration:none;cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${item.title}</a>`;
+  } else if (item.source && item.source.includes('Tushare')) {
+    // Tushare来源但没有原始链接 → 不跳转，纯文本显示
+    titleHtml = `<span style="color:inherit;cursor:default;">${item.title}</span>`;
+  } else {
+    // 其他来源没有链接 → 百度搜索
+    const searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`;
+    titleHtml = `<a href="${searchUrl}" target="_blank" style="color:inherit;text-decoration:none;cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${item.title}</a>`;
+  }
   return `
     <div class="news-item ${item.level}">
       <div class="news-source"><span class="dot ${item.sourceClass}"></span>${item.source}${tagsHtml}</div>
@@ -2418,8 +2428,20 @@ function fetchNewsCandidates() {
           }
           
           // 标题（可点击跳转）
-          const searchUrl = item.url || `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`;
-          const titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:15px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
+          let titleHtml, searchUrl, linkText;
+          if (item.url) {
+            searchUrl = item.url;
+            linkText = '查看原文';
+            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:15px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
+          } else if (item.source && item.source.includes('Tushare')) {
+            searchUrl = '#';
+            linkText = 'Tushare来源';
+            titleHtml = `<span style="color:var(--text);font-size:15px;font-weight:600;line-height:1.5;cursor:default;">${item.title}</span>`;
+          } else {
+            searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`;
+            linkText = '搜索查看';
+            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:15px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
+          }
           
           html += `<div style="background:var(--bg-inner);border-radius:12px;padding:14px 16px;border-left:3px solid ${cat.color};margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='var(--bg-card)'" onmouseout="this.style.background='var(--bg-inner)'">
             <!-- 顶部行：分类标签 + 来源/时间 -->
@@ -2437,9 +2459,9 @@ function fetchNewsCandidates() {
               </div>
             </div>
             <!-- 标题 -->
-            <div style="margin-bottom:${item.url ? '8px' : '0'}">${titleHtml}</div>
+            <div style="margin-bottom:${(item.url || (item.source && !item.source.includes('Tushare'))) ? '8px' : '0'}">${titleHtml}</div>
             <!-- 查看原文链接 -->
-            <div style="font-size:11px;"><a href="${searchUrl}" target="_blank" style="color:var(--text3);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text3)'">🔗 ${item.url ? '查看原文' : '搜索查看'} →</a></div>
+            <div style="font-size:11px;"><a href="${searchUrl}" target="_blank" style="color:var(--text3);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text3)'">🔗 ${linkText} →</a></div>
           </div>`;
         }
         grid.innerHTML = html;

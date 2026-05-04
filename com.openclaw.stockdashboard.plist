@@ -2,27 +2,29 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>Label</key>
-  <string>com.openclaw.stockdashboard</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>/usr/bin/python3</string>
-    <string>/Users/hf/.kimi_openclaw/workspace/stock_service.py</string>
-  </array>
-  <key>RunAtLoad</key>
-  <true/>
-  <key>KeepAlive</key>
-  <true/>
-  <key>StandardOutPath</key>
-  <string>/Users/hf/.kimi_openclaw/workspace/stock_service.log</string>
-  <key>StandardErrorPath</key>
-  <string>/Users/hf/.kimi_openclaw/workspace/stock_service.log</string>
-  <key>WorkingDirectory</key>
-  <string>/Users/hf/.kimi_openclaw/workspace</string>
-  <key>EnvironmentVariables</key>
-  <dict>
-    <key>PYTHONPATH</key>
-    <string>/Users/hf/Library/Python/3.9/lib/python/site-packages</string>
-  </dict>
+    <key>Label</key>
+    <string>com.openclaw.stockdashboard</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>TUSHARE_TOKEN</key>
+        <string>e53f440e3d606fab37832317782450f3d3aa0a54c296c8834ba61038</string>
+    </dict>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/python3</string>
+        <string>/Users/hf/.kimi_openclaw/workspace/stock_service.py</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>/Users/hf/.kimi_openclaw/workspace</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/hf/.kimi_openclaw/workspace/logs/stockdashboard.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/hf/.kimi_openclaw/workspace/logs/stockdashboard-error.log</string>
+    <key>ThrottleInterval</key>
+    <integer>60</integer>
 </dict>
 </plist>

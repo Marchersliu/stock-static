@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.openclaw.price-alerts</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/bin/env</string>
+        <string>TUSHARE_TOKEN=e53f440e3d606fab37832317782450f3d3aa0a54c296c8834ba61038</string>
+        <string>/usr/bin/python3</string>
+        <string>/Users/hf/.kimi_openclaw/workspace/send_imessage_alerts.py</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>30</integer>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/hf/.kimi_openclaw/workspace/logs/price-alerts.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/hf/.kimi_openclaw/workspace/logs/price-alerts-error.log</string>
+</dict>
+</plist>

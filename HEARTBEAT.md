@@ -139,3 +139,46 @@ cp verify_dashboard_data.py "/Users/hf/Library/Mobile Documents/com~apple~CloudD
 ### 监控页面
 - iCloud → 下载文件 → HF → 投资组合实时监控中心.html
 - 每日16:00后自动更新数据
+
+---
+
+## 🔔 价格提醒系统（九州一轨 iMessage 实时推送）
+
+### 配置
+- **股票**: 九州一轨 (688485.SH)
+- **当前价**: 55.20元 (2026-04-30收盘)
+- **提醒价位**: 57 / 60 / 65 / 67 / 70 元
+- **推送方式**: iMessage (AppleScript) — 30秒轮询，即时发送
+- **发送脚本**: `send_imessage_alerts.py`
+- **监控脚本**: `stock_service.py` 后台线程每2分钟检查价格
+
+### 提醒内容
+| 价位 | 提醒内容 | 操作建议 |
+|------|---------|---------|
+| 57元 | +22%浮盈，半导体概念火热，关注能否继续上冲 | 观察，不追 |
+| **60元** | **第一目标达成！+28.5%浮盈** | **减仓30%（卖7,044股）** |
+| **65元** | **第二目标达成！+39%浮盈** | **再减仓30%（卖7,044股）** |
+| 67元 | +43.5%浮盈，超目标区间 | 再减20%（卖4,696股） |
+| 70元 | +50%浮盈，炒作过热风险极高 | **强烈建议清仓或仅留底仓** |
+
+### 启动命令
+```bash
+# 1. 配置iMessage收件人（需要用户提供手机号）
+echo '{"recipient": "+86xxxxxxxxxxx"}' > ~/.kimi_openclaw/workspace/.imessage_config.json
+
+# 2. 启动价格提醒后台服务
+launchctl load ~/Library/LaunchAgents/com.openclaw.price-alerts.plist
+
+# 3. 确认服务运行
+launchctl list | grep price-alerts
+```
+
+### 技术方案
+- **检测端**: `stock_service.py` 每1分钟拉取Tushare实时数据，检查是否达到提醒阈值 → 写入 `price_alert_queue.json`
+- **发送端**: `send_imessage_alerts.py` 每30秒读取队列 → AppleScript发送iMessage → 标记已发送到 `price_alert_state.json`
+- **备份**: heartbeat中检查队列文件，如果launchd服务未运行，通过OpenClaw message工具兜底发送
+
+### 状态文件
+- `price_alert_queue.json` — 待发送提醒队列
+- `price_alert_state.json` — 已发送标记（每日重置）
+- `logs/price-alerts.log` — 发送日志

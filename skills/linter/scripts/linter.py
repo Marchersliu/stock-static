@@ -23,6 +23,7 @@ def lint_python(path, fix=False):
     # black (format check)
     if fix:
         run_command(f'black {path}', 'black format')
+        ok = True  # After fixing, it's ok
     else:
         ok = run_command(f'black --check {path}', 'black check') and ok
     

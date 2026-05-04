@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>五一节后 · 调仓策略卡</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #1a1a2e;
+      color: #eee;
+      line-height: 1.6;
+      padding: 16px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .card {
+      background: #16213e;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 14px;
+      border: 1px solid #0f3460;
+    }
+    .header {
+      text-align: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #0f3460;
+      margin-bottom: 16px;
+    }
+    .header h1 { font-size: 1.3rem; color: #e94560; letter-spacing: 1px; }
+    .header p { font-size: 0.8rem; color: #8892b0; margin-top: 4px; }
+    .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #0f3460;
+    }
+    .row:last-child { border-bottom: none; }
+    .label { color: #8892b0; font-size: 0.85rem; }
+    .value { font-weight: 600; font-size: 0.95rem; }
+    .value.red { color: #e94560; }
+    .value.green { color: #4ecca3; }
+    .value.gold { color: #ffd700; }
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 6px;
+    }
+    .tag-red { background: #e9456020; color: #e94560; }
+    .tag-green { background: #4ecca320; color: #4ecca3; }
+    .tag-gold { background: #ffd70020; color: #ffd700; }
+    .section-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #e94560;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .section-title.green { color: #4ecca3; }
+    .section-title.gold { color: #ffd700; }
+    .big-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffd700;
+      text-align: center;
+      margin: 8px 0;
+    }
+    .sub-number {
+      text-align: center;
+      color: #8892b0;
+      font-size: 0.85rem;
+      margin-bottom: 8px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      padding: 10px 6px;
+      text-align: left;
+      border-bottom: 1px solid #0f3460;
+    }
+    th {
+      color: #8892b0;
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+    td { color: #eee; }
+    td:last-child, th:last-child { text-align: right; }
+    .action-item {
+      background: #0f3460;
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+    }
+    .action-item .a-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .action-item .a-desc {
+      font-size: 0.82rem;
+      color: #8892b0;
+    }
+    .warn-box {
+      background: #e9456015;
+      border-left: 4px solid #e94560;
+      padding: 12px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.85rem;
+    }
+    .info-box {
+      background: #4ecca315;
+      border-left: 4px solid #4ecca3;
+      padding: 12px 14px;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.85rem;
+    }
+    .footer {
+      text-align: center;
+      color: #5a6680;
+      font-size: 0.75rem;
+      margin-top: 20px;
+      padding-top: 12px;
+      border-top: 1px solid #0f3460;
+    }
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #e94560;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-right: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 总览 -->
+  <div class="card">
+    <div class="header">
+      <h1>五一节后 · 调仓策略卡</h1>
+      <p>总资金 150万 | 更新于 2026-04-30</p>
+    </div>
+    <div class="big-number">172万</div>
+    <div class="sub-number">九州一轨清仓后可用总资金</div>
+    <div class="row" style="border-bottom:none;padding-top:8px;">
+      <span class="label">九州一轨卖出（65元）</span>
+      <span class="value green">152.1万</span>
+    </div>
+    <div class="row" style="border-bottom:none;">
+      <span class="label">现有其他持仓</span>
+      <span class="value">~20万</span>
+    </div>
+    <div class="row" style="border-bottom:none;">
+      <span class="label">清仓利润</span>
+      <span class="value gold">+43万</span>
+    </div>
+  </div>
+
+  <!-- 九州一轨清仓详情 -->
+  <div class="card">
+    <div class="section-title">🎯 九州一轨 688485</div>
+    <div class="row">
+      <span class="label">持仓股数</span>
+      <span class="value">约 23,400 股</span>
+    </div>
+    <div class="row">
+      <span class="label">成本价</span>
+      <span class="value">46.70 元</span>
+    </div>
+    <div class="row">
+      <span class="label">卖出目标</span>
+      <span class="value gold">65.00 元</span>
+    </div>
+    <div class="row">
+      <span class="label">预计卖出金额</span>
+      <span class="value green">152.1万</span>
+    </div>
+    <div class="row" style="border-bottom:none;">
+      <span class="label">这笔利润</span>
+      <span class="value gold">+43万（+39%）</span>
+    </div>
+  </div>
+
+  <!-- 新配置表格 -->
+  <div class="card">
+    <div class="section-title green">📊 新配置方案（172万）</div>
+    <table>
+      <tr>
+        <th>标的</th>
+        <th>仓位</th>
+        <th>金额</th>
+        <th>股数</th>
+      </tr>
+      <tr>
+        <td><strong style="color:#4ecca3">宝丰能源</strong></td>
+        <td>38%</td>
+        <td>65万</td>
+        <td>22,400股</td>
+      </tr>
+      <tr>
+        <td><strong style="color:#ffd700">红星发展</strong></td>
+        <td>18%</td>
+        <td>31万</td>
+        <td>14,700股</td>
+      </tr>
+      <tr>
+        <td><strong style="color:#e94560">禾望电气</strong></td>
+        <td>12%</td>
+        <td>21万</td>
+        <td>7,700股</td>
+      </tr>
+      <tr>
+        <td>ST晨鸣</td>
+        <td>7%</td>
+        <td>12万</td>
+        <td>维持现有</td>
+      </tr>
+      <tr>
+        <td>鑫磊股份</td>
+        <td>5%</td>
+        <td>9万</td>
+        <td>4,500股</td>
+      </tr>
+      <tr style="border-bottom:none;">
+        <td><strong>现金备用</strong></td>
+        <td>20%</td>
+        <td>34万</td>
+        <td>—</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- 操作顺序 -->
+  <div class="card">
+    <div class="section-title gold">📋 节后第一天操作顺序</div>
+
+    <div class="action-item">
+      <div class="a-title"><span class="step-num">1</span> 九州一轨挂65元清仓</div>
+      <div class="a-desc">卖出 23,400股，回笼 152.1万</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title" style="color:#4ecca3"><span class="step-num">2</span> 买入宝丰能源</div>
+      <div class="a-desc">29.50元以下买 22,400股，约66万。节后开盘即可买。</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title" style="color:#ffd700"><span class="step-num">3</span> 买入红星发展</div>
+      <div class="a-desc">20-21元分两笔：21元买10,000股；回调到20元再买5,000股。共31万。</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title" style="color:#e94560"><span class="step-num">4</span> 买入禾望电气</div>
+      <div class="a-desc">27元附近买 7,700股，约21万。AI板块强势时跟进。</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title"><span class="step-num">5</span> 买入鑫磊股份</div>
+      <div class="a-desc">20元以下买 4,500股，约9万。极小仓位试探。</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title"><span class="step-num">6</span> 留现金 34万</div>
+      <div class="a-desc">压箱底，等任何一只回调时补仓，或新机会。</div>
+    </div>
+  </div>
+
+  <!-- 九州备选走法 -->
+  <div class="card">
+    <div class="section-title">⚠️ 九州一轨如果没到65怎么办？</div>
+
+    <div class="action-item">
+      <div class="a-title" style="color:#ffd700">🥇 冲到65元</div>
+      <div class="a-desc">清仓，按上方方案执行。</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title" style="color:#4ecca3">🥈 回调到50元</div>
+      <div class="a-desc">先卖一半（11,700股），落袋20万利润。</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title" style="color:#e94560">🥉 跌破49元</div>
+      <div class="a-desc">剩下的全部清仓，保住利润，不恋战。</div>
+    </div>
+
+    <div class="action-item">
+      <div class="a-title" style="color:#ff4444">💀 横盘55-60超一周</div>
+      <div class="a-desc">不等了，分2-3天逐步减仓切换宝丰。确定性优先。</div>
+    </div>
+  </div>
+
+  <!-- 提醒 -->
+  <div class="card">
+    <div class="section-title">🛡️ 核心原则</div>
+    <div class="info-box">
+      从 <strong>"一只票赌命"</strong> 变成 <strong>"宝丰打底 + 红星弹性 + 禾望主题"</strong>。<br><br>
+      172万里拿130万打仗，留34万压箱底。这才是能睡得着的仓位。
+    </div>
+  </div>
+
+  <div class="footer">
+    本策略仅供参考，不构成投资建议。<br>
+    股市有风险，入市需谨慎。
+  </div>
+
+</body>
+</html>

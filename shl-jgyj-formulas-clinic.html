@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>倪海厦中医问诊 · 30问断症对照表</title>
+<style>
+:root {
+  --ink: #2c2416;
+  --accent: #8b0000;
+  --accent2: #6b8e6b;
+  --border: #c9bba5;
+  --bg: #fdfbf7;
+  --card: #fffef8;
+  --muted: #7a6f5b;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.6;
+  padding: 20px;
+}
+
+/* 打印优化 */
+@media print {
+  body { background: #fff; padding: 0; }
+  .no-print { display: none !important; }
+  .page-break { page-break-before: always; }
+  table { font-size: 10pt; }
+  th, td { padding: 6px 8px; }
+  input[type="checkbox"] { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  input[type="text"] { border-bottom: 1px solid #999; border-top: none; border-left: none; border-right: none; background: transparent; }
+}
+
+.container { max-width: 1100px; margin: 0 auto; }
+
+/* 页眉 */
+.header {
+  text-align: center;
+  padding: 20px 0 16px;
+  border-bottom: 3px double var(--accent);
+  margin-bottom: 16px;
+}
+.header h1 {
+  font-size: 1.6rem;
+  color: var(--accent);
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+.header .subtitle {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 4px;
+}
+
+/* 患者信息栏 */
+.patient-info {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px 16px;
+  background: var(--card);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+.patient-info .field {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.patient-info label {
+  font-size: 0.8rem;
+  color: var(--muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.patient-info input {
+  flex: 1;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  font-size: 0.9rem;
+  padding: 2px 4px;
+  min-width: 60px;
+}
+.patient-info input:focus { outline: none; border-bottom-color: var(--accent); }
+
+/* 表格 */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+  background: var(--card);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(44,36,22,0.06);
+}
+
+thead th {
+  background: var(--accent);
+  color: #fff;
+  font-weight: 600;
+  padding: 10px 8px;
+  text-align: left;
+  font-size: 0.82rem;
+}
+
+tbody td {
+  padding: 8px;
+  border-bottom: 1px solid #e8e0d0;
+  vertical-align: top;
+}
+
+tbody tr:nth-child(even) { background: rgba(139,0,0,0.02); }
+tbody tr:hover { background: rgba(139,0,0,0.04); }
+tbody tr:last-child td { border-bottom: none; }
+
+/* 列宽 */
+colgroup .col-num { width: 40px; }
+colgroup .col-question { width: 22%; }
+colgroup .col-diagnosis { width: 28%; }
+colgroup .col-formula { width: 26%; }
+colgroup .col-check { width: 60px; }
+colgroup .col-note { width: auto; }
+
+/* 序号 */
+.seq {
+  font-weight: 700;
+  color: var(--accent);
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+/* 问题 */
+.question {
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+/* 辨证 */
+.diagnosis-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.diagnosis-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 4px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+.diagnosis-option .label {
+  color: var(--muted);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.diagnosis-option .value {
+  color: var(--ink);
+}
+
+/* 经方 */
+.formula-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.formula-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.8rem;
+}
+.formula-row .arrow {
+  color: var(--muted);
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+.formula-row .name {
+  color: var(--accent);
+  font-weight: 600;
+}
+.formula-row .name.single {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* 勾选 */
+.check-cell {
+  text-align: center;
+  vertical-align: middle;
+}
+.check-cell input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+/* 备注输入 */
+.note-cell input {
+  width: 100%;
+  border: none;
+  border-bottom: 1px dashed var(--border);
+  background: transparent;
+  font-size: 0.8rem;
+  padding: 2px;
+  color: var(--ink);
+}
+.note-cell input:focus { outline: none; border-bottom-color: var(--accent); }
+.note-cell input::placeholder { color: #bbb; font-size: 0.75rem; }
+
+/* 底部签名区 */
+.footer-section {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  padding: 16px;
+  background: var(--card);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+.footer-section .sig-line {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+}
+.footer-section .sig-line label {
+  color: var(--muted);
+  font-size: 0.8rem;
+  white-space: nowrap;
+}
+.footer-section .sig-line .line {
+  flex: 1;
+  border-bottom: 1px solid var(--ink);
+  height: 20px;
+}
+
+/* 操作按钮 */
+.toolbar {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin: 16px 0;
+}
+.btn {
+  padding: 10px 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btn-primary { background: var(--accent); color: #fff; }
+.btn-secondary { background: var(--accent2); color: #fff; }
+.btn:hover { opacity: 0.85; }
+
+/* 统计摘要 */
+.summary-bar {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 12px;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+.summary-bar span { display: flex; align-items: center; gap: 4px; }
+.summary-bar .count { color: var(--accent); font-weight: 700; font-size: 1rem; }
+
+/* 分页提示 */
+.page-hint {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #bbb;
+  margin-top: 8px;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .patient-info { grid-template-columns: repeat(2, 1fr); }
+  table { font-size: 0.78rem; }
+  th, td { padding: 6px 4px; }
+  .question, .diagnosis-option, .formula-row { font-size: 0.75rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- 页眉 -->
+  <div class="header">
+    <h1>倪海厦中医问诊 · 30问断症对照表</h1>
+    <div class="subtitle">面诊勾选记录 · 打印版 · 贴合临床实用</div>
+  </div>
+
+  <!-- 患者信息 -->
+  <div class="patient-info">
+    <div class="field"><label>姓名</label><input type="text" id="pName" placeholder=""></div>
+    <div class="field"><label>性别</label><input type="text" id="pGender" placeholder=""></div>
+    <div class="field"><label>年龄</label><input type="text" id="pAge" placeholder=""></div>
+    <div class="field"><label>就诊日期</label><input type="text" id="pDate" placeholder=""></div>
+  </div>
+
+  <!-- 统计 -->
+  <div class="summary-bar">
+    <span>已勾选 <span class="count" id="checkedCount">0</span> / 30 项</span>
+    <span>|</span>
+    <span>涉及经方 <span class="count" id="formulaCount">0</span> 个</span>
+  </div>
+
+  <!-- 操作按钮 -->
+  <div class="toolbar no-print">
+    <button class="btn btn-primary" onclick="window.print()">🖨️ 打印表格</button>
+    <button class="btn btn-secondary" onclick="resetForm()">🔄 清空重填</button>
+  </div>
+
+  <!-- 主表格 -->
+  <table id="clinicTable">
+    <colgroup>
+      <col class="col-num">
+      <col class="col-question">
+      <col class="col-diagnosis">
+      <col class="col-formula">
+      <col class="col-check">
+      <col class="col-note">
+    </colgroup>
+    <thead>
+      <tr>
+        <th>序号</th>
+        <th>问诊问题</th>
+        <th>辨证结果</th>
+        <th>对应倪师经典经方</th>
+        <th>勾选</th>
+        <th>备注</th>
+      </tr>
+    </thead>
+    <tbody id="tableBody">
+      <!-- JS填充 -->
+    </tbody>
+  </table>
+
+  <!-- 底部签名 -->
+  <div class="footer-section">
+    <div class="sig-line"><label>医师签名</label><div class="line"></div></div>
+    <div class="sig-line"><label>处方日期</label><div class="line"></div></div>
+    <div class="sig-line"><label>复诊预约</label><div class="line"></div></div>
+  </div>
+
+  <div class="page-hint">— 本表仅供中医临床辅助参考，最终处方请医师辨证后确定 —</div>
+
+</div>
+
+<script>
+// ===================== 30问数据 =====================
+const CLINIC_DATA = [
+  {
+    q: "平时畏寒怕冷，还是怕热喜凉？",
+    pairs: [
+      { dx: "畏寒怕冷", type: "少阴/阳虚", rx: "麻黄附子细辛汤 / 金匮肾气丸" },
+      { dx: "怕热喜凉", type: "阳明热证", rx: "白虎汤" }
+    ]
+  },
+  {
+    q: "手脚常年冰凉，还是手脚心发热？",
+    pairs: [
+      { dx: "手脚冰凉", type: "厥阴寒凝", rx: "当归四逆汤" },
+      { dx: "手脚心热", type: "阴虚内热", rx: "知柏地黄丸" }
+    ]
+  },
+  {
+    q: "饮用热水舒服，还是凉水舒服？",
+    pairs: [
+      { dx: "喜热饮", type: "脾胃虚寒", rx: "理中汤" },
+      { dx: "喜冷饮", type: "胃热炽盛", rx: "清胃散" }
+    ]
+  },
+  {
+    q: "是否怕风、吹风易感冒？",
+    pairs: [
+      { dx: "怕风自汗", type: "太阳中风", rx: "桂枝汤" },
+      { dx: "畏寒无汗", type: "太阳伤寒", rx: "麻黄汤" }
+    ]
+  },
+  {
+    q: "是否常年疲劳乏力、精神萎靡？",
+    pairs: [
+      { dx: "气虚阳虚、正气不足", type: "气虚", rx: "四君子汤", single: true }
+    ]
+  },
+  {
+    q: "白天不活动也自汗，动则汗更甚？",
+    pairs: [
+      { dx: "气虚不固表", type: "表虚", rx: "玉屏风散", single: true }
+    ]
+  },
+  {
+    q: "夜间入睡后出汗，醒后汗止（盗汗）？",
+    pairs: [
+      { dx: "阴虚火旺", type: "阴虚", rx: "当归六黄汤", single: true }
+    ]
+  },
+  {
+    q: "仅头面部多汗，身体少汗？",
+    pairs: [
+      { dx: "上焦湿热/郁热", type: "湿热", rx: "麻黄连翘赤小豆汤", single: true }
+    ]
+  },
+  {
+    q: "下身多汗、阴囊/私处潮湿？",
+    pairs: [
+      { dx: "下焦湿热", type: "湿热", rx: "龙胆泻肝汤", single: true }
+    ]
+  },
+  {
+    q: "头痛部位：前额/两侧/后枕/头顶？",
+    pairs: [
+      { dx: "前额痛", type: "阳明头痛", rx: "桂枝汤" },
+      { dx: "两侧痛", type: "少阳头痛", rx: "小柴胡汤" },
+      { dx: "后枕痛", type: "太阳头痛", rx: "葛根汤" },
+      { dx: "头顶痛", type: "厥阴头痛", rx: "吴茱萸汤" }
+    ]
+  },
+  {
+    q: "是否头晕、天旋地转？",
+    pairs: [
+      { dx: "气血亏虚/痰湿中阻", type: "虚实", rx: "半夏白术天麻汤 / 归脾汤", single: true }
+    ]
+  },
+  {
+    q: "是否口苦、口干、口臭？",
+    pairs: [
+      { dx: "口苦", type: "少阳郁热", rx: "小柴胡汤" },
+      { dx: "口臭", type: "胃热炽盛", rx: "清胃散" }
+    ]
+  },
+  {
+    q: "鼻塞流清涕，还是黄稠涕？",
+    pairs: [
+      { dx: "流清涕", type: "风寒外感", rx: "麻黄汤" },
+      { dx: "流黄涕", type: "风热外感", rx: "桔梗汤" }
+    ]
+  },
+  {
+    q: "咽喉干痛、有异物感（梅核气）？",
+    pairs: [
+      { dx: "风热咽痛", type: "风热", rx: "银翘散" },
+      { dx: "咽中异物", type: "痰气互结", rx: "半夏散" }
+    ]
+  },
+  {
+    q: "是否耳鸣、耳内蝉鸣？",
+    pairs: [
+      { dx: "肾虚", type: "肾精不足", rx: "肾气丸" },
+      { dx: "肝胆火旺", type: "实火", rx: "小柴胡汤" }
+    ]
+  },
+  {
+    q: "舌苔白厚腻，还是黄厚腻？",
+    pairs: [
+      { dx: "白厚腻", type: "寒湿内盛", rx: "平胃散" },
+      { dx: "黄厚腻", type: "湿热内蕴", rx: "三仁汤" }
+    ]
+  },
+  {
+    q: "胃口差、食后腹胀，还是食欲亢进？",
+    pairs: [
+      { dx: "脾胃虚弱、消化不良", type: "脾虚", rx: "香砂六君子汤", single: true }
+    ]
+  },
+  {
+    q: "胃胀胃痛、反酸烧心？",
+    pairs: [
+      { dx: "胃寒腹痛", type: "脾胃虚寒", rx: "理中汤" },
+      { dx: "肝胃不和", type: "气滞", rx: "左金丸" }
+    ]
+  },
+  {
+    q: "胸闷、心慌、心悸？",
+    pairs: [
+      { dx: "心阳不足", type: "阳虚", rx: "桂枝甘草汤" },
+      { dx: "水饮内停", type: "水饮", rx: "苓桂术甘汤" }
+    ]
+  },
+  {
+    q: "两胁胀痛、易怒烦躁？",
+    pairs: [
+      { dx: "肝郁气滞", type: "气滞", rx: "逍遥散", single: true }
+    ]
+  },
+  {
+    q: "腹部怕冷、受凉则腹痛腹泻？",
+    pairs: [
+      { dx: "太阴脾虚寒", type: "虚寒", rx: "理中汤", single: true }
+    ]
+  },
+  {
+    q: "大便稀溏不成形，还是干结便秘？",
+    pairs: [
+      { dx: "大便稀溏", type: "脾虚湿盛", rx: "参苓白术散" },
+      { dx: "大便干结", type: "阳明腑实", rx: "麻子仁丸" }
+    ]
+  },
+  {
+    q: "大便粘马桶、排便不尽？",
+    pairs: [
+      { dx: "湿热下注", type: "湿热", rx: "葛根芩连汤", single: true }
+    ]
+  },
+  {
+    q: "小便清长、夜尿多，还是小便黄赤涩痛？",
+    pairs: [
+      { dx: "夜尿多", type: "肾阳虚", rx: "金匮肾气丸" },
+      { dx: "小便黄赤", type: "膀胱湿热", rx: "八正散" }
+    ]
+  },
+  {
+    q: "是否天亮前腹泻（五更泻）？",
+    pairs: [
+      { dx: "脾肾阳虚", type: "阳虚", rx: "四神丸", single: true }
+    ]
+  },
+  {
+    q: "入睡困难、易醒多梦？",
+    pairs: [
+      { dx: "心血不足/虚烦", type: "心虚", rx: "酸枣仁汤", single: true }
+    ]
+  },
+  {
+    q: "腰膝酸软、腰痛畏寒？",
+    pairs: [
+      { dx: "肾虚腰痛", type: "肾虚", rx: "右归丸 / 肾气丸", single: true }
+    ]
+  },
+  {
+    q: "颈椎腰椎僵硬、肢体麻木？",
+    pairs: [
+      { dx: "气血不和/痹证", type: "气血", rx: "黄芪桂枝五物汤", single: true }
+    ]
+  },
+  {
+    q: "情绪焦虑、容易发火？",
+    pairs: [
+      { dx: "肝郁化火", type: "肝火", rx: "丹栀逍遥散", single: true }
+    ]
+  },
+  {
+    q: "男科：阴囊潮湿/遗精；妇科：痛经/宫寒/月经不调？",
+    pairs: [
+      { dx: "男科下焦湿热/阳虚", type: "男科", rx: "龙胆泻肝汤 / 右归丸" },
+      { dx: "妇科宫寒血瘀", type: "妇科", rx: "温经汤 / 右归丸" }
+    ]
+  }
+];
+
+// ===================== 渲染表格 =====================
+function renderTable() {
+  const tbody = document.getElementById('tableBody');
+  tbody.innerHTML = '';
+  
+  CLINIC_DATA.forEach((item, idx) => {
+    const tr = document.createElement('tr');
+    
+    // 辨证单元格
+    let dxHtml = '';
+    let rxHtml = '';
+    
+    if (item.pairs.length === 1 && item.pairs[0].single) {
+      // 单一辨证
+      const p = item.pairs[0];
+      dxHtml = `<div class="diagnosis-option"><span class="label">【证】</span><span class="value">${p.dx}（${p.type}）</span></div>`;
+      rxHtml = `<div class="formula-row"><span class="name single">${p.rx}</span></div>`;
+    } else {
+      // 多选项辨证
+      item.pairs.forEach((p, i) => {
+        dxHtml += `<div class="diagnosis-option"><span class="label">${String.fromCharCode(65+i)}.</span><span class="value">${p.dx}（${p.type}）</span></div>`;
+        rxHtml += `<div class="formula-row"><span class="arrow">→</span><span class="name">${p.rx}</span></div>`;
+      });
+    }
+    
+    tr.innerHTML = `
+      <td class="seq">${idx + 1}</td>
+      <td class="question">${item.q}</td>
+      <td><div class="diagnosis-cell">${dxHtml}</div></td>
+      <td><div class="formula-cell">${rxHtml}</div></td>
+      <td class="check-cell"><input type="checkbox" data-idx="${idx}" onchange="updateCount()"></td>
+      <td class="note-cell"><input type="text" placeholder="记录..." data-note="${idx}"></td>
+    `;
+    
+    tbody.appendChild(tr);
+  });
+  
+  updateCount();
+}
+
+// ===================== 统计 =====================
+function updateCount() {
+  const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+  document.getElementById('checkedCount').textContent = checked;
+  
+  // 统计涉及经方数（去重）
+  const formulas = new Set();
+  document.querySelectorAll('input[type="checkbox"]:checked').forEach(cb => {
+    const idx = parseInt(cb.dataset.idx);
+    const item = CLINIC_DATA[idx];
+    item.pairs.forEach(p => {
+      p.rx.split(/[\/、]/).forEach(f => {
+        const clean = f.trim().replace(/汤|散|丸$/, '');
+        if (clean) formulas.add(clean);
+      });
+    });
+  });
+  document.getElementById('formulaCount').textContent = formulas.size;
+}
+
+// ===================== 清空 =====================
+function resetForm() {
+  document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.note-cell input').forEach(inp => inp.value = '');
+  document.querySelectorAll('.patient-info input').forEach(inp => inp.value = '');
+  updateCount();
+}
+
+// ===================== 自动填入日期 =====================
+function autoFillDate() {
+  const d = new Date();
+  const fmt = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+  document.getElementById('pDate').value = fmt;
+}
+
+// 初始化
+renderTable();
+autoFillDate();
+</script>
+
+</body>
+</html>

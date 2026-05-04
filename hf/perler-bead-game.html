@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>拼豆拼图挑战 - 进阶版</title>
+  <style>
+    :root {
+      --bg: #f5f0e8;
+      --card: #fffef8;
+      --ink: #2c2416;
+      --accent: #e74c3c;
+      --accent2: #6b8e6b;
+      --border: #d4c9b8;
+      --shadow: 0 4px 20px rgba(44,36,22,0.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: 1.6rem;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+    header p {
+      font-size: 0.85rem;
+      color: #8b7355;
+    }
+
+    /* 统计栏 */
+    .stats-bar {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+    }
+    .stat-box {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 10px 20px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      min-width: 100px;
+    }
+    .stat-label {
+      font-size: 0.75rem;
+      color: #8b7355;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    /* 难度选择 */
+    .diff-bar {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .diff-btn {
+      padding: 6px 16px;
+      border: 2px solid var(--border);
+      border-radius: 20px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+    .diff-btn.active {
+      background: var(--accent2);
+      color: #fff;
+      border-color: var(--accent2);
+    }
+
+    /* 关卡选择 */
+    .level-bar {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      max-height: 120px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .level-btn {
+      padding: 6px 14px;
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      background: #fff;
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all 0.2s;
+    }
+    .level-btn:hover { border-color: var(--accent2); }
+    .level-btn.active {
+      background: var(--accent2);
+      color: #fff;
+      border-color: var(--accent2);
+    }
+    .level-btn.locked {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+    .level-btn .diff-tag {
+      font-size: 0.65rem;
+      margin-left: 4px;
+      opacity: 0.8;
+    }
+
+    /* 游戏主区 */
+    .game-board {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .panel {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 12px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .panel-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--accent);
+    }
+    .grid {
+      display: grid;
+      gap: 2px;
+      margin: 0 auto;
+    }
+    .cell {
+      border-radius: 4px;
+      border: 1px solid #e8dfd0;
+      cursor: pointer;
+      transition: transform 0.1s;
+      position: relative;
+    }
+    .cell:hover { transform: scale(1.1); z-index: 2; }
+    .cell.wrong::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 60%; height: 3px;
+      background: var(--accent);
+      transform: translate(-50%, -50%) rotate(45deg);
+      border-radius: 2px;
+    }
+    .cell.wrong::before {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 60%; height: 3px;
+      background: var(--accent);
+      transform: translate(-50%, -50%) rotate(-45deg);
+      border-radius: 2px;
+    }
+    .cell.correct {
+      box-shadow: 0 0 0 2px var(--accent2);
+    }
+
+    /* 颜色盘 */
+    .palette-area {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 14px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .palette-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: #8b7355;
+    }
+    .palette {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .color-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 3px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .color-btn:hover { transform: scale(1.12); }
+    .color-btn.active {
+      border-color: var(--ink);
+      box-shadow: 0 0 0 3px rgba(44,36,22,0.15);
+    }
+    .color-btn .color-num {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      font-size: 0.6rem;
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      padding: 1px 3px;
+      border-radius: 3px;
+    }
+    .color-btn.eraser {
+      background: repeating-conic-gradient(#ddd 0% 25%, #fff 0% 50%) 50% / 10px 10px;
+      border: 2px solid #ccc;
+    }
+
+    /* 操作按钮 */
+    .actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .btn {
+      padding: 10px 22px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      min-height: 44px;
+    }
+    .btn-check { background: var(--accent2); color: #fff; }
+    .btn-reset { background: #e8dfd0; color: var(--ink); }
+    .btn-hint { background: #fff8e7; color: #b8860b; border: 2px solid #e8d5a0; }
+    .btn-undo { background: #e3f2fd; color: #1565c0; border: 2px solid #90caf9; }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* 结果面板 */
+    .result-panel {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+      margin-top: 16px;
+      text-align: center;
+      display: none;
+    }
+    .result-panel.show { display: block; }
+    .score { font-size: 2rem; font-weight: 700; color: var(--accent2); }
+    .score-detail { font-size: 0.9rem; color: #8b7355; margin-top: 6px; }
+    .stars { font-size: 1.6rem; margin: 8px 0; }
+    .time-rank {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f0ebe0;
+      border-radius: 10px;
+      font-size: 0.9rem;
+    }
+    .time-rank .rank-title {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    .hint-text {
+      font-size: 0.8rem;
+      color: #8b7355;
+      text-align: center;
+      margin-top: 6px;
+    }
+
+    @media (max-width: 640px) {
+      .game-board { gap: 10px; }
+      .panel { padding: 8px; }
+      .stat-box { padding: 8px 14px; min-width: 80px; }
+      .stat-value { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🧩 拼豆拼图挑战</h1>
+      <p>进阶版 — 更大网格 · 更多颜色 · 计时挑战</p>
+    </header>
+
+    <!-- 统计栏 -->
+    <div class="stats-bar">
+      <div class="stat-box">
+        <div class="stat-label">⏱️ 用时</div>
+        <div class="stat-value" id="timer">00:00</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">🖱️ 步数</div>
+        <div class="stat-value" id="stepCount">0</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">📊 进度</div>
+        <div class="stat-value" id="progress">0%</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">🏆 总星</div>
+        <div class="stat-value" id="totalStars">0⭐</div>
+      </div>
+    </div>
+
+    <!-- 难度选择 -->
+    <div class="diff-bar">
+      <button class="diff-btn active" onclick="setDifficulty('easy')">🟢 简单</button>
+      <button class="diff-btn" onclick="setDifficulty('medium')">🟡 中等</button>
+      <button class="diff-btn" onclick="setDifficulty('hard')">🔴 困难</button>
+      <button class="diff-btn" onclick="setDifficulty('expert')">⚫ 大师</button>
+    </div>
+
+    <!-- 关卡选择 -->
+    <div class="level-bar" id="levelBar"></div>
+
+    <!-- 游戏主区 -->
+    <div class="game-board">
+      <div class="panel">
+        <div class="panel-title">🎯 目标图案</div>
+        <div class="grid" id="targetGrid"></div>
+      </div>
+      <div class="panel">
+        <div class="panel-title">🎨 你的作品</div>
+        <div class="grid" id="playerGrid"></div>
+      </div>
+    </div>
+
+    <!-- 颜色盘 -->
+    <div class="palette-area">
+      <div class="palette-title">选择颜色后点击或拖动放置拼豆</div>
+      <div class="palette" id="palette"></div>
+      <div class="hint-text">💡 技巧：按住鼠标拖动连续填充 | 空白=橡皮擦</div>
+    </div>
+
+    <!-- 操作按钮 -->
+    <div class="actions">
+      <button class="btn btn-check" onclick="checkAnswer()">✅ 验证作品</button>
+      <button class="btn btn-undo" onclick="undoLast()">↩️ 撤销</button>
+      <button class="btn btn-reset" onclick="resetBoard()">🔄 重置</button>
+      <button class="btn btn-hint" onclick="showHint()">💡 提示</button>
+    </div>
+
+    <!-- 结果 -->
+    <div class="result-panel" id="resultPanel">
+      <div class="score" id="scoreText"></div>
+      <div class="stars" id="stars"></div>
+      <div class="score-detail" id="scoreDetail"></div>
+      <div class="time-rank" id="timeRank"></div>
+    </div>
+  </div>
+
+  <script>
+    // ========== 颜色定义（16色，更丰富） ==========
+    const COLORS = {
+      0:  { name: '空白', hex: '#f5f0e8' },
+      1:  { name: '红',   hex: '#e74c3c' },
+      2:  { name: '黄',   hex: '#f1c40f' },
+      3:  { name: '蓝',   hex: '#3498db' },
+      4:  { name: '绿',   hex: '#27ae60' },
+      5:  { name: '黑',   hex: '#2c2416' },
+      6:  { name: '白',   hex: '#ffffff' },
+      7:  { name: '橙',   hex: '#e67e22' },
+      8:  { name: '紫',   hex: '#9b59b6' },
+      9:  { name: '粉',   hex: '#ff9ff3' },
+      10: { name: '棕',   hex: '#8d6e63' },
+      11: { name: '青',   hex: '#00bcd4' },
+      12: { name: '灰',   hex: '#90a4ae' },
+      13: { name: '玫红', hex: '#e91e63' },
+      14: { name: '浅蓝', hex: '#81d4fa' },
+      15: { name: '深绿', hex: '#1b5e20' },
+    };
+
+    // ========== 关卡定义（18关，分4个难度） ==========
+    const LEVELS = [
+      // === 简单 (10x10) ===
+      {
+        name: '❤️ 爱心', diff: 'easy', size: 10,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0],
+          [0,1,1,0,0,0,1,1,0,0],
+          [1,1,1,1,0,1,1,1,1,0],
+          [1,1,1,1,1,1,1,1,1,0],
+          [1,1,1,1,1,1,1,1,1,0],
+          [0,1,1,1,1,1,1,1,0,0],
+          [0,0,1,1,1,1,1,0,0,0],
+          [0,0,0,1,1,1,0,0,0,0],
+          [0,0,0,0,1,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '😊 笑脸', diff: 'easy', size: 10,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0],
+          [0,0,2,2,0,0,2,2,0,0],
+          [0,0,2,2,0,0,2,2,0,0],
+          [0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0],
+          [0,5,0,0,0,0,0,0,5,0],
+          [0,5,0,0,0,0,0,0,5,0],
+          [0,0,5,5,5,5,5,5,0,0],
+          [0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '⭐ 星星', diff: 'easy', size: 9,
+        grid: [
+          [0,0,0,0,2,0,0,0,0],
+          [0,0,0,0,2,0,0,0,0],
+          [0,0,0,0,2,0,0,0,0],
+          [0,0,0,2,2,2,0,0,0],
+          [2,2,2,2,2,2,2,2,2],
+          [0,0,0,2,2,2,0,0,0],
+          [0,0,2,2,0,2,2,0,0],
+          [0,2,2,0,0,0,2,2,0],
+          [2,2,0,0,0,0,0,2,2],
+        ]
+      },
+      {
+        name: '🌸 花朵', diff: 'easy', size: 11,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,9,9,9,0,0,0,0],
+          [0,0,0,9,9,9,9,9,0,0,0],
+          [0,0,9,9,9,9,9,9,9,0,0],
+          [0,0,0,9,9,2,9,9,0,0,0],
+          [0,0,0,9,2,2,2,9,0,0,0],
+          [0,0,0,9,9,2,9,9,0,0,0],
+          [0,0,9,9,9,9,9,9,9,0,0],
+          [0,0,0,9,9,9,9,9,0,0,0],
+          [0,0,0,0,9,9,9,0,0,0,0],
+          [0,0,0,0,0,4,0,0,0,0,0],
+        ]
+      },
+      // === 中等 (12x12) ===
+      {
+        name: '🎵 音符', diff: 'medium', size: 12,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,3,0,0],
+          [0,0,0,0,0,0,0,0,0,3,0,0],
+          [0,0,0,0,0,0,0,0,0,3,0,0],
+          [0,0,0,0,0,0,0,0,0,3,0,0],
+          [0,0,0,0,0,0,0,0,0,3,0,0],
+          [0,0,0,0,0,0,0,0,0,3,0,0],
+          [0,0,0,0,0,0,7,7,0,3,0,0],
+          [0,0,0,0,7,7,7,7,0,3,0,0],
+          [0,0,0,7,7,7,7,7,0,3,0,0],
+          [0,0,0,7,7,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🍄 蘑菇', diff: 'medium', size: 12,
+        grid: [
+          [0,0,0,0,1,1,1,1,0,0,0,0],
+          [0,0,0,1,1,6,6,1,1,0,0,0],
+          [0,0,1,1,6,6,6,6,1,1,0,0],
+          [0,1,1,6,6,1,1,6,6,1,1,0],
+          [1,1,6,6,1,1,1,1,6,6,1,1],
+          [1,6,6,1,1,1,1,1,1,6,6,1],
+          [0,0,0,0,10,10,10,10,0,0,0,0],
+          [0,0,0,0,10,10,10,10,0,0,0,0],
+          [0,0,0,0,10,10,10,10,0,0,0,0],
+          [0,0,0,0,10,10,10,10,0,0,0,0],
+          [0,0,0,0,10,10,10,10,0,0,0,0],
+          [0,0,0,0,0,10,10,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🦋 蝴蝶', diff: 'medium', size: 13,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,3,3,0,0,0,3,3,0,0,0],
+          [0,0,3,3,3,3,0,3,3,3,3,0,0],
+          [0,3,3,14,14,3,3,3,14,14,3,3,0],
+          [0,3,14,14,14,14,3,14,14,14,14,3,0],
+          [0,3,14,14,14,14,14,14,14,14,14,3,0],
+          [0,0,3,14,14,14,14,14,14,14,3,0,0],
+          [0,0,0,3,3,14,14,14,3,3,0,0,0],
+          [0,0,0,0,3,3,14,3,3,0,0,0,0],
+          [0,0,0,0,0,3,3,3,0,0,0,0,0],
+          [0,0,0,0,0,0,3,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🐟 小鱼', diff: 'medium', size: 13,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,11,11,11,11,0,0,0,0,0],
+          [0,0,0,11,11,14,14,11,11,0,0,0,0],
+          [0,0,11,11,14,14,14,14,11,11,0,0,0],
+          [0,11,11,14,14,14,14,14,14,11,11,0,0],
+          [11,11,14,14,14,5,14,14,14,14,11,11,0],
+          [0,11,11,14,14,14,14,14,14,11,11,0,0],
+          [0,0,11,11,14,14,14,14,11,11,0,0,0],
+          [0,0,0,11,11,14,14,11,11,0,0,0,0],
+          [0,0,0,0,11,11,11,11,0,0,0,0,0],
+          [0,0,0,0,0,11,11,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      // === 困难 (15x15) ===
+      {
+        name: '👾 太空人', diff: 'hard', size: 15,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,12,12,12,12,12,0,0,0,0,0],
+          [0,0,0,0,12,12,14,14,14,12,12,0,0,0,0],
+          [0,0,0,12,14,14,14,14,14,14,14,12,0,0,0],
+          [0,0,0,12,14,14,5,14,5,14,14,12,0,0,0],
+          [0,0,0,12,14,14,14,14,14,14,14,12,0,0,0],
+          [0,0,0,0,12,12,14,14,14,12,12,0,0,0,0],
+          [0,0,0,0,0,11,11,11,11,11,0,0,0,0,0],
+          [0,0,0,0,11,11,11,11,11,11,11,0,0,0,0],
+          [0,0,0,11,11,11,11,11,11,11,11,11,0,0,0],
+          [0,0,11,11,11,11,11,11,11,11,11,11,11,0,0],
+          [0,0,11,11,11,11,11,11,11,11,11,11,11,0,0],
+          [0,0,0,11,11,11,0,0,0,11,11,11,0,0,0],
+          [0,0,0,11,11,11,0,0,0,11,11,11,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🍓 草莓', diff: 'hard', size: 15,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,4,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,4,4,4,0,0,0,0,0,0],
+          [0,0,0,0,0,4,4,4,4,4,0,0,0,0,0],
+          [0,0,0,0,1,1,1,1,1,1,1,0,0,0,0],
+          [0,0,0,1,1,1,6,1,6,1,1,1,0,0,0],
+          [0,0,1,1,1,1,1,1,1,1,1,1,1,0,0],
+          [0,0,1,1,1,1,1,1,1,1,1,1,1,0,0],
+          [0,0,0,1,1,1,1,1,1,1,1,1,0,0,0],
+          [0,0,0,0,1,1,1,1,1,1,1,0,0,0,0],
+          [0,0,0,0,0,1,1,1,1,1,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🌵 仙人掌', diff: 'hard', size: 15,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,4,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,4,4,4,0,0,0,0,0,0],
+          [0,0,0,0,0,0,4,4,4,0,0,0,0,0,0],
+          [0,0,0,0,0,4,4,4,4,4,0,0,0,0,0],
+          [0,0,0,0,0,4,4,4,4,4,0,0,0,0,0],
+          [0,0,0,0,4,4,4,4,4,4,4,0,0,0,0],
+          [0,0,0,4,4,4,4,4,4,4,4,4,0,0,0],
+          [0,0,4,4,4,4,4,4,4,4,4,4,4,0,0],
+          [0,0,0,4,4,4,4,4,4,4,4,4,0,0,0],
+          [0,0,0,0,4,10,10,10,10,10,4,0,0,0,0],
+          [0,0,0,0,0,10,10,10,10,10,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🐱 猫咪', diff: 'hard', size: 15,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,12,12,0,0,0,0,0,12,12,0,0,0],
+          [0,0,12,12,12,12,0,0,0,12,12,12,12,0,0],
+          [0,0,12,12,12,12,0,0,0,12,12,12,12,0,0],
+          [0,0,0,12,12,12,12,12,12,12,12,12,0,0,0],
+          [0,0,0,0,12,12,12,12,12,12,12,0,0,0,0],
+          [0,0,0,0,12,5,12,12,12,5,12,0,0,0,0],
+          [0,0,0,0,12,12,12,12,12,12,12,0,0,0,0],
+          [0,0,0,0,0,12,12,12,12,12,0,0,0,0,0],
+          [0,0,0,0,0,0,12,12,12,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,12,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      // === 大师 (20x20) ===
+      {
+        name: '🍕 披萨', diff: 'expert', size: 18,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,7,7,7,7,7,0,0,0,0,0,0,0],
+          [0,0,0,0,7,7,2,2,2,2,2,7,7,0,0,0,0,0],
+          [0,0,0,7,2,2,2,2,2,2,2,2,2,7,0,0,0,0],
+          [0,0,7,2,2,2,2,2,2,2,2,2,2,2,7,0,0,0],
+          [0,0,7,2,2,2,2,2,2,2,2,2,2,2,7,0,0,0],
+          [0,7,2,2,2,2,2,2,2,2,2,2,2,2,2,7,0,0],
+          [0,7,2,2,2,2,2,2,2,2,2,2,2,2,2,7,0,0],
+          [0,7,2,2,2,2,2,2,2,2,2,2,2,2,2,7,0,0],
+          [0,0,7,2,2,2,2,2,2,2,2,2,2,2,7,0,0,0],
+          [0,0,7,2,2,2,2,2,2,2,2,2,2,2,7,0,0,0],
+          [0,0,0,7,2,2,2,2,2,2,2,2,2,7,0,0,0,0],
+          [0,0,0,0,7,7,2,2,2,2,2,7,7,0,0,0,0,0],
+          [0,0,0,0,0,0,7,7,7,7,7,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🦊 狐狸', diff: 'expert', size: 18,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,7,7,0,0,7,7,0,0,0,0,0,0],
+          [0,0,0,0,0,7,7,7,7,7,7,7,7,0,0,0,0,0],
+          [0,0,0,0,0,7,7,7,7,7,7,7,7,0,0,0,0,0],
+          [0,0,0,0,0,7,7,7,7,7,7,7,7,0,0,0,0,0],
+          [0,0,0,0,7,7,6,7,7,7,7,6,7,7,0,0,0,0],
+          [0,0,0,0,7,7,6,7,7,7,7,6,7,7,0,0,0,0],
+          [0,0,0,0,7,7,7,7,7,7,7,7,7,7,0,0,0,0],
+          [0,0,0,0,7,7,7,7,5,5,7,7,7,7,0,0,0,0],
+          [0,0,0,0,0,7,7,7,7,7,7,7,7,0,0,0,0,0],
+          [0,0,0,0,0,7,7,7,7,7,7,7,7,0,0,0,0,0],
+          [0,0,0,0,0,0,7,7,7,7,7,7,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,7,7,7,7,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,7,7,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🎮 游戏机', diff: 'expert', size: 20,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,0,0,0,0,0],
+          [0,0,0,0,5,5,5,5,5,5,5,5,5,5,5,5,0,0,0,0],
+          [0,0,0,5,5,12,12,12,12,12,12,12,12,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,12,12,12,12,12,12,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,12,12,12,12,12,12,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,3,3,3,3,3,3,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,3,3,3,3,3,3,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,3,3,3,3,3,3,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,3,3,3,3,3,3,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,12,12,12,12,12,12,12,12,5,5,0,0,0],
+          [0,0,0,5,5,12,12,12,12,12,12,12,12,12,12,5,5,0,0,0],
+          [0,0,0,0,5,5,12,12,12,12,12,12,12,12,5,5,0,0,0,0],
+          [0,0,0,0,0,5,5,5,5,5,5,5,5,5,5,0,0,0,0,0],
+          [0,0,0,0,0,0,5,5,0,0,0,0,5,5,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '🎄 圣诞树', diff: 'expert', size: 20,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0],
+          [0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,9,9,9,9,9,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0],
+          [0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+          [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0],
+          [0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],
+          [0,0,0,0,0,0,0,9,9,9,9,9,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+          [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0],
+          [0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],
+          [0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0],
+          [0,0,0,0,0,0,0,10,10,10,10,10,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,10,10,10,10,10,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+      {
+        name: '👑 皇冠', diff: 'expert', size: 20,
+        grid: [
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,2,2,2,2,2,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,2,2,2,2,2,2,2,0,0,0,0,0,0,0],
+          [0,0,0,0,0,2,2,2,2,2,2,2,2,2,0,0,0,0,0,0],
+          [0,0,0,0,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0,0],
+          [0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,0],
+          [0,0,0,0,0,0,0,0,9,9,9,9,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,9,9,9,9,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,9,9,9,9,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,9,9,9,9,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,9,9,9,9,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+        ]
+      },
+    ];
+
+    let currentLevel = 0;
+    let currentDiff = 'easy';
+    let selectedColor = 1;
+    let playerGrid = [];
+    let isDrawing = false;
+    let timerInterval = null;
+    let seconds = 0;
+    let steps = 0;
+    let history = []; // 撤销栈
+    let totalStars = 0;
+    let completedLevels = new Set();
+
+    // ========== 初始化 ==========
+    function init() {
+      renderLevelBar();
+      loadLevel(0);
+      renderPalette();
+      startTimer();
+    }
+
+    function setDifficulty(diff) {
+      currentDiff = diff;
+      document.querySelectorAll('.diff-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      renderLevelBar();
+      // 加载该难度第一关
+      const firstIdx = LEVELS.findIndex(l => l.diff === diff);
+      if (firstIdx >= 0) {
+        currentLevel = firstIdx;
+        loadLevel(firstIdx);
+      }
+    }
+
+    function renderLevelBar() {
+      const bar = document.getElementById('levelBar');
+      bar.innerHTML = '';
+      LEVELS.forEach((lv, i) => {
+        if (lv.diff !== currentDiff) return;
+        const btn = document.createElement('button');
+        const isCompleted = completedLevels.has(i);
+        btn.className = 'level-btn' + (i === currentLevel ? ' active' : '') + (isCompleted ? '' : '');
+        btn.innerHTML = `${lv.name}${isCompleted ? ' ✅' : ''}`;
+        btn.onclick = () => { currentLevel = i; loadLevel(i); };
+        bar.appendChild(btn);
+      });
+    }
+
+    function loadLevel(idx) {
+      const level = LEVELS[idx];
+      playerGrid = Array(level.size).fill(null).map(() => Array(level.size).fill(0));
+      history = [];
+      steps = 0;
+      seconds = 0;
+      updateStats();
+
+      // 目标网格
+      const targetEl = document.getElementById('targetGrid');
+      targetEl.style.gridTemplateColumns = `repeat(${level.size}, 1fr)`;
+      targetEl.innerHTML = '';
+      for (let r = 0; r < level.size; r++) {
+        for (let c = 0; c < level.size; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          const size = Math.max(20, Math.min(36, Math.floor(500 / level.size)));
+          cell.style.width = size + 'px';
+          cell.style.height = size + 'px';
+          cell.style.backgroundColor = COLORS[level.grid[r][c]].hex;
+          targetEl.appendChild(cell);
+        }
+      }
+
+      renderPlayerGrid();
+      renderLevelBar();
+      document.getElementById('resultPanel').classList.remove('show');
+    }
+
+    function renderPlayerGrid() {
+      const level = LEVELS[currentLevel];
+      const gridEl = document.getElementById('playerGrid');
+      gridEl.style.gridTemplateColumns = `repeat(${level.size}, 1fr)`;
+      gridEl.innerHTML = '';
+      const size = Math.max(20, Math.min(36, Math.floor(500 / level.size)));
+      for (let r = 0; r < level.size; r++) {
+        for (let c = 0; c < level.size; c++) {
+          const cell = document.createElement('div');
+          cell.className = 'cell';
+          cell.dataset.r = r;
+          cell.dataset.c = c;
+          cell.style.width = size + 'px';
+          cell.style.height = size + 'px';
+          cell.style.backgroundColor = COLORS[playerGrid[r][c]].hex;
+
+          cell.addEventListener('mousedown', () => { isDrawing = true; paintCell(r, c); });
+          cell.addEventListener('mouseenter', () => { if (isDrawing) paintCell(r, c); });
+          cell.addEventListener('mouseup', () => { isDrawing = false; });
+          cell.addEventListener('touchstart', (e) => { e.preventDefault(); paintCell(r, c); });
+
+          gridEl.appendChild(cell);
+        }
+      }
+    }
+
+    function paintCell(r, c) {
+      const prevColor = playerGrid[r][c];
+      if (prevColor !== selectedColor) {
+        history.push({r, c, prev: prevColor});
+        playerGrid[r][c] = selectedColor;
+        steps++;
+        updateStats();
+
+        const level = LEVELS[currentLevel];
+        const gridEl = document.getElementById('playerGrid');
+        const idx = r * level.size + c;
+        const cell = gridEl.children[idx];
+        cell.style.backgroundColor = COLORS[selectedColor].hex;
+        cell.classList.remove('wrong', 'correct');
+      }
+    }
+
+    function undoLast() {
+      if (history.length === 0) return;
+      const last = history.pop();
+      playerGrid[last.r][last.c] = last.prev;
+      steps = Math.max(0, steps - 1);
+      updateStats();
+
+      const level = LEVELS[currentLevel];
+      const gridEl = document.getElementById('playerGrid');
+      const idx = last.r * level.size + last.c;
+      const cell = gridEl.children[idx];
+      cell.style.backgroundColor = COLORS[last.prev].hex;
+      cell.classList.remove('wrong', 'correct');
+    }
+
+    document.addEventListener('mouseup', () => { isDrawing = false; });
+
+    function renderPalette() {
+      const palette = document.getElementById('palette');
+      palette.innerHTML = '';
+      Object.entries(COLORS).forEach(([key, col]) => {
+        const btn = document.createElement('div');
+        btn.className = 'color-btn' + (key === '0' ? ' eraser' : '') + (parseInt(key) === selectedColor ? ' active' : '');
+        if (key !== '0') {
+          btn.style.backgroundColor = col.hex;
+          btn.innerHTML = `<span class="color-num">${key}</span>`;
+        }
+        btn.title = col.name;
+        btn.onclick = () => {
+          selectedColor = parseInt(key);
+          renderPalette();
+        };
+        palette.appendChild(btn);
+      });
+    }
+
+    // ========== 计时器 ==========
+    function startTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        seconds++;
+        updateStats();
+      }, 1000);
+    }
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      return `${m.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
+    }
+
+    function updateStats() {
+      document.getElementById('timer').textContent = formatTime(seconds);
+      document.getElementById('stepCount').textContent = steps;
+
+      // 计算进度
+      const level = LEVELS[currentLevel];
+      let filled = 0;
+      let total = 0;
+      for (let r = 0; r < level.size; r++) {
+        for (let c = 0; c < level.size; c++) {
+          if (level.grid[r][c] !== 0) total++;
+          if (playerGrid[r][c] === level.grid[r][c]) filled++;
+        }
+      }
+      const pct = total > 0 ? Math.round(filled / total * 100) : 0;
+      document.getElementById('progress').textContent = pct + '%';
+      document.getElementById('totalStars').textContent = totalStars + '⭐';
+    }
+
+    // ========== 验证 ==========
+    function checkAnswer() {
+      const level = LEVELS[currentLevel];
+      let correct = 0;
+      let total = 0;
+      const playerCells = document.getElementById('playerGrid').children;
+
+      for (let r = 0; r < level.size; r++) {
+        for (let c = 0; c < level.size; c++) {
+          const targetVal = level.grid[r][c];
+          const playerVal = playerGrid[r][c];
+          const idx = r * level.size + c;
+          const cell = playerCells[idx];
+
+          if (targetVal !== 0 || playerVal !== 0) {
+            total++;
+            if (targetVal === playerVal) {
+              correct++;
+              cell.classList.add('correct');
+              cell.classList.remove('wrong');
+            } else {
+              cell.classList.add('wrong');
+              cell.classList.remove('correct');
+            }
+          }
+        }
+      }
+
+      const pct = total > 0 ? Math.round(correct / total * 100) : 100;
+
+      // 星级计算（考虑时间和步数效率）
+      let stars = 0;
+      if (pct >= 98) {
+        // 完美
+        const timeLimit = level.size * 8; // 每格8秒
+        const stepLimit = total * 1.5;
+        if (seconds <= timeLimit && steps <= stepLimit) stars = 3;
+        else if (seconds <= timeLimit * 2 || steps <= stepLimit * 2) stars = 2;
+        else stars = 1;
+        completedLevels.add(currentLevel);
+        totalStars += stars;
+      } else if (pct >= 80) {
+        stars = 2;
+      } else if (pct >= 60) {
+        stars = 1;
+      }
+
+      showResult(pct, correct, total, stars);
+      updateStats();
+    }
+
+    function showResult(pct, correct, total, stars) {
+      const panel = document.getElementById('resultPanel');
+      const scoreText = document.getElementById('scoreText');
+      const starsEl = document.getElementById('stars');
+      const detail = document.getElementById('scoreDetail');
+      const timeRank = document.getElementById('timeRank');
+
+      scoreText.textContent = pct + '%';
+
+      let starStr = '';
+      if (stars >= 3) starStr = '⭐⭐⭐ 完美！';
+      else if (stars === 2) starStr = '⭐⭐ 不错！';
+      else if (stars === 1) starStr = '⭐ 继续加油！';
+      else starStr = '💪 还差一些，再试试！';
+      starsEl.textContent = starStr;
+
+      detail.textContent = `正确 ${correct} / ${total} 格 · 用时 ${formatTime(seconds)} · ${steps} 步`;
+
+      // 时间评价
+      const level = LEVELS[currentLevel];
+      const timeLimit = level.size * 8;
+      let rankText = '';
+      if (pct >= 98) {
+        if (seconds <= timeLimit * 0.5) rankText = '🏆 神速！你是拼豆大师！';
+        else if (seconds <= timeLimit) rankText = '⚡ 优秀！效率很高！';
+        else rankText = '✅ 完成！下次可以更快哦~';
+      } else {
+        rankText = '💡 提示：注意对照目标图案的颜色位置';
+      }
+      timeRank.innerHTML = `<div class="rank-title">${rankText}</div>`;
+
+      panel.classList.add('show');
+      panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function resetBoard() {
+      const level = LEVELS[currentLevel];
+      playerGrid = Array(level.size).fill(null).map(() => Array(level.size).fill(0));
+      history = [];
+      steps = 0;
+      renderPlayerGrid();
+      document.getElementById('resultPanel').classList.remove('show');
+      updateStats();
+    }
+
+    function showHint() {
+      const level = LEVELS[currentLevel];
+      const playerCells = document.getElementById('playerGrid').children;
+      for (let r = 0; r < level.size; r++) {
+        for (let c = 0; c < level.size; c++) {
+          const targetVal = level.grid[r][c];
+          const playerVal = playerGrid[r][c];
+          if (targetVal !== 0 && playerVal !== targetVal) {
+            const idx = r * level.size + c;
+            const cell = playerCells[idx];
+            cell.style.backgroundColor = COLORS[targetVal].hex;
+            playerGrid[r][c] = targetVal;
+            history.push({r, c, prev: playerVal});
+            steps++;
+            cell.classList.add('correct');
+            cell.animate([
+              { transform: 'scale(1)' },
+              { transform: 'scale(1.25)' },
+              { transform: 'scale(1)' }
+            ], { duration: 300 });
+            updateStats();
+            return;
+          }
+        }
+      }
+    }
+
+    // 启动
+    init();
+  </script>
+</body>
+</html>

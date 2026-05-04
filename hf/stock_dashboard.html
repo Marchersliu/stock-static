@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="refresh" content="120">
+<title>📊 投资组合实时监控中心</title>
+<style>
+:root {
+  --bg: #0a0e14; --bg-module: #111820; --bg-card: #161f2e; --bg-inner: #1a2436;
+  --border: #1e2d3d; --border-light: #2a3a4d;
+  --text: #c8d6e0; --text2: #7a8b9d; --text3: #4a5a6d;
+  --green: #00d084; --green-dim: #00a868; --red: #ff4757; --red-dim: #cc3645;
+  --gold: #fbbf24; --gold-dim: #c49000; --blue: #4a9eff; --purple: #a855f7;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.6;
+  padding: 16px; max-width: 1400px; margin: 0 auto;
+}
+.header { text-align:center; padding:20px 0; border-bottom:2px solid var(--border); margin-bottom:20px; }
+.header h1 { font-size:26px; color:var(--gold); }
+.header p { color:var(--text2); font-size:13px; margin-top:6px; }
+.card { background:var(--bg-module); border-radius:16px; padding:20px; border:1px solid var(--border); margin-bottom:20px; }
+.card-title { font-size:17px; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:8px; font-weight:700; }
+.hero-card { background:linear-gradient(135deg, var(--bg-module) 0%, #1a0f2e 50%, var(--bg-module) 100%); border:2px solid var(--purple); position:relative; overflow:hidden; }
+.hero-badge { display:inline-block; background:var(--purple); color:#fff; padding:3px 10px; border-radius:4px; font-size:12px; font-weight:700; margin-bottom:12px; }
+.hero-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:16px; }
+@media(min-width:768px){ .hero-grid { grid-template-columns:repeat(4,1fr); } }
+.hero-stat { background:rgba(15,23,42,0.7); padding:14px; border-radius:12px; text-align:center; border:1px solid var(--border); }
+.hero-stat .label { color:var(--text2); font-size:11px; margin-bottom:4px; }
+.hero-stat .value { font-size:22px; font-weight:700; }
+.hero-stat .sub { font-size:11px; color:var(--text3); margin-top:2px; }
+table { width:100%; border-collapse:collapse; font-size:13px; }
+th { text-align:left; padding:10px 8px; color:var(--text2); font-weight:600; border-bottom:1px solid var(--border); font-size:12px; }
+td { padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:top; }
+tr:last-child td { border-bottom:none; }
+.commodity-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+@media(min-width:768px){ .commodity-grid { grid-template-columns:repeat(4,1fr); } }
+.commodity-box { background:var(--bg-inner); padding:12px; border-radius:10px; }
+.commodity-box .name { color:var(--text2); font-size:11px; }
+.commodity-box .price { font-size:18px; font-weight:700; margin-top:2px; }
+.commodity-box .change { font-size:12px; margin-top:2px; }
+.commodity-box .note { color:var(--text3); font-size:10px; margin-top:2px; }
+.two-col { display:grid; grid-template-columns:1fr; gap:20px; }
+@media(min-width:900px){ .two-col { grid-template-columns:1fr 1fr; } }
+.up { color:var(--red); font-weight:700; }
+.down { color:var(--green); font-weight:700; }
+.neutral { color:var(--text2); }
+.highlight { color:var(--gold); font-weight:700; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.badge-red { background:rgba(255,71,87,0.15); color:var(--red); }
+.badge-green { background:rgba(0,208,132,0.15); color:var(--green); }
+.badge-blue { background:rgba(74,158,255,0.15); color:var(--blue); }
+.badge-gray { background:rgba(122,139,157,0.15); color:var(--text2); }
+.market-tag { display:inline-flex; align-items:center; gap:6px; padding:4px 12px; border-radius:20px; font-size:12px; font-weight:600; }
+.market-tag.online { background:rgba(0,208,132,0.15); color:var(--green); }
+.market-tag.offline { background:rgba(255,71,87,0.15); color:var(--red); }
+.sum-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; margin-bottom:20px; }
+@media(min-width:768px){ .sum-grid{ grid-template-columns:repeat(4,1fr); } }
+.sum-card { background:var(--bg-card); border-radius:12px; padding:16px; border:1px solid var(--border); }
+.sum-card.red { border-top:3px solid var(--red); }
+.sum-card.green { border-top:3px solid var(--green); }
+.sum-label { font-size:12px; color:var(--text2); margin-bottom:4px; }
+.sum-value { font-size:22px; font-weight:700; }
+.sum-sub { font-size:12px; color:var(--text3); margin-top:4px; }
+.footer { text-align:center; color:var(--text3); font-size:11px; padding:24px 0; margin-top:20px; border-top:1px solid var(--border); }
+.overflow-x { overflow-x:auto; }
+
+/* 确认机制 */
+.confirm-bar { position:fixed; top:0; left:0; right:0; background:var(--bg-card); border-bottom:2px solid var(--gold); padding:10px 20px; z-index:1000; display:flex; justify-content:space-between; align-items:center; transform:translateY(-100%); transition:transform 0.3s; }
+.confirm-bar.show { transform:translateY(0); }
+.confirm-bar .msg { color:var(--gold); font-size:14px; }
+.confirm-bar button { background:var(--gold); color:var(--bg); border:none; padding:6px 16px; border-radius:6px; font-size:13px; font-weight:700; cursor:pointer; }
+.confirm-panel { position:fixed; top:50px; right:20px; width:360px; max-height:400px; overflow-y:auto; background:var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:16px; z-index:999; display:none; }
+.confirm-panel.show { display:block; }
+.confirm-item { padding:10px; border-radius:8px; margin-bottom:8px; border-left:3px solid var(--gold); background:rgba(251,191,36,0.05); }
+.confirm-item.critical { border-left-color:var(--red); background:rgba(255,71,87,0.05); }
+.confirm-item button { margin-top:6px; background:var(--border); color:var(--text); border:none; padding:4px 12px; border-radius:4px; font-size:11px; cursor:pointer; }
+.confirm-item button:hover { background:var(--green); color:var(--bg); }
+.unread-dot { display:inline-block; width:8px; height:8px; background:var(--red); border-radius:50%; margin-left:6px; animation:pulse 1s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+.loading-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(10,14,20,0.8); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:2000; }
+.loading-overlay.hidden { display:none; }
+.spinner { width:40px; height:40px; border:3px solid var(--border); border-top-color:var(--gold); border-radius:50%; animation:spin 1s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.loading-text { color:var(--text2); margin-top:12px; font-size:14px; }
+
+.price-updated { animation:flash 1s; }
+@keyframes flash { 0%{background:rgba(0,208,132,0.3)} 100%{background:transparent} }
+.price-downdated { animation:flashRed 1s; }
+@keyframes flashRed { 0%{background:rgba(255,71,87,0.3)} 100%{background:transparent} }
+</style>
+</head>
+<body>
+
+<!-- Loading -->
+<div id="loading" class="loading-overlay">
+  <div class="spinner"></div>
+  <div class="loading-text">正在连接 Tushare Pro...</div>
+</div>
+
+<!-- 确认通知栏 -->
+<div id="confirm-bar" class="confirm-bar">
+  <div class="msg">🔔 <span id="confirm-count">0</span> 条数据变化待确认</div>
+  <div>
+    <button onclick="toggleConfirmPanel()">查看详情</button>
+    <button onclick="confirmAll()">全部确认</button>
+  </div>
+</div>
+
+<!-- 确认面板 -->
+<div id="confirm-panel" class="confirm-panel"></div>
+
+<div class="header">
+  <h1>📊 投资组合实时监控中心</h1>
+  <p>A股持仓追踪 | 原材料监控 | 技术面+资金面+消息面</p>
+  <div style="background:#0f172a;padding:10px 14px;border-radius:8px;margin:8px 0;border:1px solid var(--border);">
+    <span id="market-tag" class="market-tag offline">🔴 初始化中</span>
+    <span id="update-time" style="color:var(--text3);font-size:11px;margin-left:12px;">--</span>
+    <span id="unread-indicator" style="display:none;"><span class="unread-dot"></span></span>
+  </div>
+</div>
+
+<div class="sum-grid" id="summary-cards"></div>
+
+<div id="hero-section"></div>
+
+<div class="card">
+  <div class="card-title">📋 持仓总览 <span id="holding-badge"></span></div>
+  <div class="overflow-x">
+    <table id="holding-table">
+      <thead><tr>
+        <th>名称</th><th>代码</th><th>现价</th><th>日涨跌</th><th>持仓盈亏</th>
+        <th>目标价</th><th>止损</th><th>市值</th><th>主力净额</th><th>状态</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">🛢️ 原材料价格监控</div>
+  <div class="commodity-grid" id="commodity-grid"></div>
+</div>
+
+<div class="card">
+  <div class="card-title">📅 计划建仓标的</div>
+  <div class="overflow-x">
+    <table id="watchlist-table">
+      <thead><tr><th>名称</th><th>代码</th><th>当前价</th><th>日涨跌</th><th>距目标</th><th>建议</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">🔥 创业板抱团股资金监控</div>
+  <div class="overflow-x">
+    <table id="cyb-table">
+      <thead><tr><th>名称</th><th>代码</th><th>现价</th><th>日涨跌</th><th>主力净流入</th><th>方向</th></tr></thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-title">📈 大盘指数</div>
+  <div class="hero-grid" id="index-grid"></div>
+</div>
+
+<div class="footer">
+  <p>📊 投资组合实时监控中心 · <span id="footer-time">--</span></p>
+  <p style="margin-top:4px;">数据来源：Tushare Pro 🟢官方 | 每2分钟自动刷新 | 变化数据需手动确认 | 不构成投资建议</p>
+</div>
+
+<script>
+// ===================== 股票配置 =====================
+const HOLDINGS = [
+  {code:"688485.SH", name:"九州一轨", shares:23480, cost:46.70, target:"60/65", stop:49.0, hero:true},
+  {code:"600367.SH", name:"红星发展", shares:1600, cost:21.20, target:"22", stop:null, hero:false},
+  {code:"603063.SH", name:"禾望电气", shares:300, cost:44.31, target:"35", stop:37.0, hero:false},
+  {code:"000488.SZ", name:"ST晨鸣", shares:48200, cost:3.10, target:"3.5", stop:null, hero:false},
+  {code:"301317.SZ", name:"鑫磊股份", shares:500, cost:60.21, target:"25", stop:null, hero:false},
+];
+const WATCHLIST = [
+  {code:"600989.SH", name:"宝丰能源", target:"38", rec:28.00},
+  {code:"603799.SH", name:"华友钴业", target:"50", rec:58.00},
+  {code:"002422.SZ", name:"科伦药业", target:"28-30", rec:32.00},
+  {code:"600036.SH", name:"招商银行", target:"35-36", rec:35.00},
+  {code:"601985.SH", name:"中国核电", target:"7.5-8.0", stop:6.5, rec:8.50},
+  {code:"601600.SH", name:"中国铝业", target:"9.5-10.0", stop:7.8, rec:10.50},
+  {code:"600900.SH", name:"长江电力", target:"26-26.5", stop:22, rec:26.00},
+];
+const CYB_STOCKS = [
+  {code:"300750.SZ", name:"宁德时代"},
+  {code:"300308.SZ", name:"中际旭创"},
+  {code:"300502.SZ", name:"新易盛"},
+  {code:"300059.SZ", name:"东方财富"},
+  {code:"300274.SZ", name:"阳光电源"},
+  {code:"300476.SZ", name:"胜宏科技"},
+  {code:"300394.SZ", name:"天孚通信"},
+  {code:"300124.SZ", name:"汇川技术"},
+  {code:"300760.SZ", name:"迈瑞医疗"},
+  {code:"300014.SZ", name:"亿纬锂能"},
+];
+
+// ===================== 数据确认机制 =====================
+let lastConfirmedData = null;
+let pendingChanges = [];
+
+function isTradingTime() {
+  const now = new Date();
+  const day = now.getDay();
+  if (day === 0 || day === 6) return false;
+  const h = now.getHours(), m = now.getMinutes();
+  const t = h * 60 + m;
+  return (t >= 570 && t <= 690) || (t >= 780 && t <= 900);
+}
+
+function fmt(n, d=2) { return (n === null || n === undefined || isNaN(n)) ? '--' : Number(n).toFixed(d); }
+function fmtPct(n) { return (n === null || n === undefined || isNaN(n)) ? '--' : (n >= 0 ? '+' : '') + Number(n).toFixed(2) + '%'; }
+function fmtMoney(n) {
+  if (n === null || n === undefined || isNaN(n)) return '--';
+  const abs = Math.abs(n);
+  if (abs >= 10000) return (n > 0 ? '+' : '-') + (abs/10000).toFixed(1) + '亿';
+  return (n > 0 ? '+' : '') + abs.toFixed(0) + '万';
+}
+function clsUpDown(n) { return (n === null || n === undefined || isNaN(n)) ? 'neutral' : (n >= 0 ? 'up' : 'down'); }
+
+// ===================== 变化检测 =====================
+function detectChanges(prev, curr) {
+  const changes = [];
+  if (!prev || !curr) return changes;
+  
+  for (const s of HOLDINGS) {
+    const p = prev.stocks?.[s.code] || {};
+    const c = curr.stocks?.[s.code] || {};
+    const pPrice = p.price;
+    const cPrice = c.price;
+    
+    if (pPrice && cPrice && Math.abs(cPrice - pPrice) / pPrice >= 0.02) {
+      changes.push({
+        type: 'price', code: s.code, name: s.name,
+        old: pPrice, new: cPrice,
+        pct: c.pct_chg || 0,
+        critical: cPrice <= (s.stop || 0),
+        msg: `${s.name} 价格 ${fmt(pPrice)} → ${fmt(cPrice)} (${fmtPct(c.pct_chg || 0)})`
+      });
+    }
+    
+    const pMain = p.main_net;
+    const cMain = c.main_net;
+    if (pMain !== undefined && cMain !== undefined && Math.abs(cMain - pMain) >= 5000) {
+      changes.push({
+        type: 'money', code: s.code, name: s.name,
+        old: pMain, new: cMain,
+        critical: Math.abs(cMain) >= 10000,
+        msg: `${s.name} 主力净流入 ${fmtMoney(pMain)} → ${fmtMoney(cMain)}`
+      });
+    }
+    
+    if (s.stop && cPrice && cPrice <= s.stop) {
+      changes.push({
+        type: 'stop', code: s.code, name: s.name,
+        critical: true,
+        msg: `🔴 ${s.name} 跌破止损线 ${s.stop}！当前 ${fmt(cPrice)}`
+      });
+    }
+  }
+  
+  return changes;
+}
+
+// ===================== 确认UI =====================
+function renderConfirmPanel() {
+  const panel = document.getElementById('confirm-panel');
+  if (pendingChanges.length === 0) { panel.classList.remove('show'); return; }
+  
+  panel.innerHTML = '<div style="color:var(--gold);font-weight:700;margin-bottom:10px;">📋 待确认数据变化</div>' +
+    pendingChanges.map((c, i) => `
+      <div class="confirm-item ${c.critical ? 'critical' : ''}">
+        <div style="font-size:13px;">${c.msg}</div>
+        <button onclick="confirmOne(${i})">✓ 确认已阅</button>
+      </div>
+    `).join('');
+}
+
+function confirmOne(idx) {
+  pendingChanges.splice(idx, 1);
+  updateConfirmUI();
+}
+
+function confirmAll() {
+  pendingChanges = [];
+  updateConfirmUI();
+}
+
+function updateConfirmUI() {
+  const bar = document.getElementById('confirm-bar');
+  const count = document.getElementById('confirm-count');
+  const indicator = document.getElementById('unread-indicator');
+  
+  count.textContent = pendingChanges.length;
+  if (pendingChanges.length > 0) {
+    bar.classList.add('show');
+    indicator.style.display = 'inline';
+  } else {
+    bar.classList.remove('show');
+    document.getElementById('confirm-panel').classList.remove('show');
+    indicator.style.display = 'none';
+  }
+  renderConfirmPanel();
+}
+
+function toggleConfirmPanel() {
+  document.getElementById('confirm-panel').classList.toggle('show');
+}
+
+// ===================== 渲染函数 =====================
+function renderSummary(data) {
+  let totalMV = 0, totalCost = 0;
+  for (const s of HOLDINGS) {
+    const d = data.stocks?.[s.code] || {};
+    const price = d.price || 0;
+    if (price > 0) {
+      totalMV += price * s.shares;
+      totalCost += s.cost * s.shares;
+    }
+  }
+  const pnl = totalMV - totalCost;
+  const pnlPct = totalCost > 0 ? (pnl / totalCost * 100) : 0;
+
+  document.getElementById('summary-cards').innerHTML = [
+    {label:'总市值', value:`${(totalMV/10000).toFixed(1)}万`, cls:'red', sub:`权重 ${HOLDINGS.length} 只`},
+    {label:'总成本', value:`${(totalCost/10000).toFixed(1)}万`, cls:'', sub:'持仓成本合计'},
+    {label:'总盈亏', value:`${pnl >= 0 ? '+' : ''}${(pnl/10000).toFixed(1)}万`, cls: pnl >= 0 ? 'red' : 'green', sub:`${pnlPct >= 0 ? '+' : ''}${pnlPct.toFixed(2)}%`},
+    {label:'可用资金', value:'21万', cls:'', sub:'现金 + 理财'},
+  ].map(c => `
+    <div class="sum-card ${c.cls}">
+      <div class="sum-label">${c.label}</div>
+      <div class="sum-value" style="color:${c.cls==='red'?'var(--red)':c.cls==='green'?'var(--green)':'var(--text)'}">${c.value}</div>
+      <div class="sum-sub">${c.sub}</div>
+    </div>
+  `).join('');
+}
+
+function renderHero(data) {
+  const s = HOLDINGS[0];
+  const d = data.stocks?.[s.code] || {};
+  const price = d.price || 0;
+  const pct = d.pct_chg || 0;
+  const mv = price > 0 ? price * s.shares : 0;
+  const pnl = price > 0 ? (price - s.cost) / s.cost * 100 : 0;
+  const pnlAmt = price > 0 ? (price - s.cost) * s.shares : 0;
+  const mainNet = d.main_net;
+  const weight = 86.4;
+
+  const priceFlash = d._flash === 'up' ? 'price-updated' : d._flash === 'down' ? 'price-downdated' : '';
+
+  document.getElementById('hero-section').innerHTML = `
+  <div class="card hero-card">
+    <div class="hero-badge">⭐ 重点关注 · 第一仓位 ${weight}%</div>
+    <div class="card-title" style="color:#c4b5fd;">🚄 ${s.name}（${s.code.split('.')[0]}）— 轨交设备龙头</div>
+    <div class="hero-grid">
+      <div class="hero-stat ${priceFlash}">
+        <div class="label">现价</div>
+        <div class="value" style="color:var(--${price >= s.cost ? 'red' : 'green'});">${price > 0 ? price.toFixed(2) : '--'}</div>
+        <div class="sub">${fmtPct(pct)}</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">你的成本</div>
+        <div class="value">${s.cost}</div>
+        <div class="sub">已持有 ${s.shares.toLocaleString()}股</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">浮盈</div>
+        <div class="value" style="color:var(--${pnl >= 0 ? 'red' : 'green'});">${pnl >= 0 ? '+' : ''}${(pnlAmt/10000).toFixed(1)}万</div>
+        <div class="sub">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</div>
+      </div>
+      <div class="hero-stat">
+        <div class="label">止损线</div>
+        <div class="value" style="color:var(--red);">${s.stop || '--'}</div>
+        <div class="sub">跌破清仓</div>
+      </div>
+    </div>
+    <div class="hero-grid" style="margin-top:12px;">
+      <div class="hero-stat"><div class="label">第一目标</div><div class="value" style="color:var(--gold);">60</div><div class="sub">突破后加仓</div></div>
+      <div class="hero-stat"><div class="label">第二目标</div><div class="value" style="color:var(--gold);">65</div><div class="sub">全额止盈</div></div>
+      <div class="hero-stat"><div class="label">市值</div><div class="value">${mv > 0 ? (mv/10000).toFixed(1) + '万' : '--'}</div><div class="sub">占比 ${weight}%</div></div>
+      <div class="hero-stat"><div class="label">主力净流入</div><div class="value" style="color:var(--${mainNet > 0 ? 'red' : 'green'});">${fmtMoney(mainNet)}</div><div class="sub">Tushare实时</div></div>
+    </div>
+    ${s.stop && price > 0 && price <= s.stop ? `
+    <div style="margin-top:16px;"><div class="action-alert" style="background:#4a0d0d;border-left-color:var(--red);">
+      <h4 style="color:var(--red);">🔴 止损触发！${s.name} 已跌破 ${s.stop} 元</h4>
+      <p>当前价格 ${price.toFixed(2)} 元，建议立即评估是否清仓</p>
+    </div></div>` : ''}
+  </div>`;
+}
+
+function renderHoldings(data) {
+  const tbody = document.querySelector('#holding-table tbody');
+  let totalMV = 0;
+  const rows = HOLDINGS.map(s => {
+    const d = data.stocks?.[s.code] || {};
+    const price = d.price || 0;
+    const pct = d.pct_chg || 0;
+    const pnl = price > 0 ? (price - s.cost) / s.cost * 100 : 0;
+    const mv = price > 0 ? price * s.shares : 0;
+    totalMV += mv;
+    const mainNet = d.main_net;
+    const isStop = s.stop && price > 0 && price <= s.stop;
+    const status = isStop ? '<span class="badge badge-red">🔴 止损</span>' :
+                   s.code === '000488.SZ' ? '<span class="badge badge-red">ST风险</span>' :
+                   '<span class="badge badge-green">持有</span>';
+    const priceFlash = d._flash === 'up' ? 'price-updated' : d._flash === 'down' ? 'price-downdated' : '';
+    return `<tr>
+      <td><strong>${s.name}</strong></td>
+      <td>${s.code.split('.')[0]}</td>
+      <td class="highlight ${priceFlash}">${price > 0 ? price.toFixed(2) : '--'}</td>
+      <td class="${clsUpDown(pct)}">${fmtPct(pct)}</td>
+      <td class="${clsUpDown(pnl)}">${pnl >= 0 ? '+' : ''}${pnl.toFixed(1)}%</td>
+      <td>${s.target}</td>
+      <td class="${isStop ? 'down' : ''}">${s.stop || '--'}</td>
+      <td>${mv > 0 ? (mv/10000).toFixed(1) + '万' : '--'}</td>
+      <td class="${clsUpDown(mainNet)}">${fmtMoney(mainNet)}</td>
+      <td>${status}</td>
+    </tr>`;
+  }).join('');
+  tbody.innerHTML = rows;
+}
+
+function renderWatchlist(data) {
+  const tbody = document.querySelector('#watchlist-table tbody');
+  tbody.innerHTML = WATCHLIST.map(s => {
+    const d = data.stocks?.[s.code] || {};
+    const price = d.price || 0;
+    const pct = d.pct_chg || 0;
+    const dist = s.rec && price > 0 ? ((s.rec - price) / price * 100) : 0;
+    const priceFlash = d._flash === 'up' ? 'price-updated' : d._flash === 'down' ? 'price-downdated' : '';
+    return `<tr>
+      <td><strong>${s.name}</strong></td>
+      <td>${s.code.split('.')[0]}</td>
+      <td class="highlight ${priceFlash}">${price > 0 ? price.toFixed(2) : '--'}</td>
+      <td class="${clsUpDown(pct)}">${fmtPct(pct)}</td>
+      <td class="${clsUpDown(dist)}">${fmtPct(dist)}</td>
+      <td><span class="badge badge-blue">观察</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderCYB(data) {
+  const tbody = document.querySelector('#cyb-table tbody');
+  tbody.innerHTML = CYB_STOCKS.map(s => {
+    const d = data.stocks?.[s.code] || {};
+    const price = d.price || 0;
+    const pct = d.pct_chg || 0;
+    const main = d.main_net;
+    const dir = main > 0 ? '<span class="badge badge-green">流入</span>' : main < 0 ? '<span class="badge badge-red">流出</span>' : '<span class="badge badge-gray">--</span>';
+    return `<tr>
+      <td><strong>${s.name}</strong></td>
+      <td>${s.code.split('.')[0]}</td>
+      <td>${price > 0 ? price.toFixed(2) : '--'}</td>
+      <td class="${clsUpDown(pct)}">${fmtPct(pct)}</td>
+      <td class="${clsUpDown(main)}">${fmtMoney(main)}</td>
+      <td>${dir}</td>
+    </tr>`;
+  }).join('');
+}
+
+function renderIndices(data) {
+  const idxs = data.indices || {};
+  const map = {"上证指数":"🏛️","深证成指":"📊","创业板指":"🔥"};
+  document.getElementById('index-grid').innerHTML = Object.entries(idxs).map(([name, d]) => {
+    const pct = d.pct_chg || 0;
+    return `<div class="hero-stat">
+      <div class="label">${map[name] || ''} ${name}</div>
+      <div class="value" style="color:var(--${pct >= 0 ? 'red' : 'green'});">${d.close > 0 ? d.close.toFixed(2) : '--'}</div>
+      <div class="sub">${fmtPct(pct)}</div>
+    </div>`;
+  }).join('') || '<div style="color:var(--text2);text-align:center;">指数数据加载中...</div>';
+}
+
+function renderCommodities() {
+  const data = [
+    {name:"碳酸锂（电池级）", price:"15.3-15.8万", change:"区间震荡", note:"锂电上游"},
+    {name:"电解钴", price:"20.5万/吨", change:"企稳回升", note:"华友钴业原料"},
+    {name:"碳酸锶", price:"7,277元/吨", change:"-25.9% YoY", note:"红星发展核心"},
+    {name:"电解锰", price:"15,200元/吨", change:"+5.2% MoM", note:"红星发展"},
+    {name:"甲醇", price:"2,850元/吨", change:"+40% MoM", note:"宝丰能源原料"},
+    {name:"布伦特原油", price:"$114", change:"-3.4%", note:"化工成本锚"},
+    {name:"纸浆", price:"5,800元/吨", change:"+12% YoY", note:"ST晨鸣成本"},
+    {name:"铝锭", price:"19,800元/吨", change:"+8.5% YoY", note:"中国铝业"},
+  ];
+  document.getElementById('commodity-grid').innerHTML = data.map(c => `
+    <div class="commodity-box">
+      <div class="name">${c.name}</div>
+      <div class="price" style="color:var(--text);">${c.price}</div>
+      <div class="change ${c.change.includes('+') ? 'up' : c.change.includes('-') ? 'down' : 'neutral'}">${c.change}</div>
+      <div class="note">${c.note}</div>
+    </div>
+  `).join('');
+}
+
+function updateMarketStatus(data) {
+  const tag = document.getElementById('market-tag');
+  const time = document.getElementById('update-time');
+  const trading = isTradingTime();
+  tag.className = trading ? 'market-tag online' : 'market-tag offline';
+  tag.textContent = trading ? '🟢 交易中' : '🔴 休市';
+  const ts = data.timestamp ? new Date(data.timestamp) : new Date();
+  const td = data.trade_date ? data.trade_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : '';
+  time.textContent = `数据日期: ${td} | 更新: ${ts.toLocaleTimeString('zh-CN')} | ${trading ? '实时刷新中' : '休市，显示最新收盘数据'}`;
+  document.getElementById('footer-time').textContent = ts.toLocaleString('zh-CN');
+}
+
+// ===================== 主加载逻辑 =====================
+let lastData = null;
+
+async function loadData(force = false) {
+  const loading = document.getElementById('loading');
+  if (!lastData) loading.classList.remove('hidden');
+  
+  try {
+    const res = await fetch('/api/data');
+    const json = await res.json();
+    
+    // 标记flash动画
+    if (lastData) {
+      for (const code of Object.keys(json.stocks || {})) {
+        const p = lastData.stocks?.[code]?.price;
+        const c = json.stocks[code]?.price;
+        if (p && c && c > p) json.stocks[code]._flash = 'up';
+        else if (p && c && c < p) json.stocks[code]._flash = 'down';
+      }
+    }
+    
+    // 检测变化
+    const changes = detectChanges(lastData, json);
+    if (changes.length > 0) {
+      pendingChanges.push(...changes);
+      updateConfirmUI();
+    }
+    
+    lastData = json;
+    
+    renderSummary(json);
+    renderHero(json);
+    renderHoldings(json);
+    renderWatchlist(json);
+    renderCYB(json);
+    renderIndices(json);
+    renderCommodities();
+    updateMarketStatus(json);
+    
+    loading.classList.add('hidden');
+    console.log(`[${new Date().toLocaleTimeString()}] 数据已更新，${changes.length} 条变化`);
+    
+    // 3秒后清除flash标记
+    setTimeout(() => {
+      for (const code of Object.keys(json.stocks || {})) delete json.stocks[code]._flash;
+    }, 3000);
+    
+  } catch (e) {
+    console.error('数据加载失败:', e);
+    document.getElementById('update-time').textContent = '数据加载失败，2分钟后重试...';
+    loading.classList.add('hidden');
+  }
+}
+
+// 初始化
+loadData();
+
+// 每2分钟检查（交易时段才刷新）
+setInterval(() => {
+  if (isTradingTime()) {
+    loadData();
+  } else {
+    const now = new Date();
+    if (now.getMinutes() % 10 === 0) loadData(); // 非交易时段每10分钟
+  }
+}, 120000);
+
+// 页面可见时立即刷新
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) loadData();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>伤寒论 · 金匮要略 — 合方查询系统</title>
+  <style>
+    :root {
+      --bg: #f5f0e8;
+      --card: #fffef8;
+      --ink: #2c2416;
+      --accent: #8b0000;
+      --accent2: #6b8e6b;
+      --border: #d4c9b8;
+      --shadow: 0 4px 20px rgba(44,36,22,0.08);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+    .container { max-width: 900px; margin: 0 auto; padding: 24px 16px; }
+    header {
+      text-align: center;
+      padding: 32px 0 24px;
+      border-bottom: 2px solid var(--accent);
+      margin-bottom: 28px;
+    }
+    header h1 {
+      font-size: 1.9rem;
+      color: var(--accent);
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+    header p {
+      color: #7a6f5b;
+      font-size: 0.95rem;
+      margin-top: 6px;
+    }
+    .selector-panel {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+    }
+    .selector-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+      position: relative;
+    }
+    .field { flex: 1; min-width: 200px; position: relative; }
+    label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #8b7355;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 1rem;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      transition: border-color 0.2s;
+      -webkit-appearance: menulist-button;
+      appearance: menulist-button;
+      touch-action: manipulation;
+      min-height: 44px;
+      height: auto;
+      display: block;
+      position: relative;
+      z-index: 10;
+      pointer-events: auto;
+      -webkit-user-select: auto;
+      user-select: auto;
+    }
+    select:focus { border-color: var(--accent); outline: none; }
+    .btn {
+      padding: 12px 24px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 10px;
+      background: var(--accent);
+      color: #fff;
+      cursor: pointer;
+      transition: opacity 0.2s;
+      min-height: 44px;
+    }
+    .btn:hover { opacity: 0.85; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-add {
+      background: var(--accent2);
+      padding: 12px 20px;
+    }
+    .btn-remove {
+      background: #c0392b;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      border-radius: 6px;
+      margin-left: 6px;
+    }
+    .selected-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+      min-height: 36px;
+      position: relative;
+    }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      background: #f0ebe0;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+    .tag .tag-rx {
+      color: var(--accent);
+      font-weight: 600;
+      margin-left: 4px;
+    }
+    .tag-count {
+      font-size: 0.8rem;
+      color: #8b7355;
+      margin-top: 8px;
+    }
+    .result-area { display: none; }
+    .result-area.active { display: block; }
+    .result-card {
+      background: var(--card);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+      border-left: 5px solid var(--accent);
+    }
+    .result-card.green { border-left-color: var(--accent2); }
+    .section-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: auto;
+    }
+    .badge-red { background: #ffeaea; color: #b22222; }
+    .badge-green { background: #eaf5ea; color: #2d6a2d; }
+    .info-grid {
+      display: grid;
+      gap: 12px;
+    }
+    .info-row {
+      display: flex;
+      gap: 12px;
+      align-items: baseline;
+    }
+    .info-label {
+      min-width: 80px;
+      font-weight: 600;
+      color: #8b7355;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .info-value {
+      flex: 1;
+      font-size: 0.95rem;
+    }
+    .highlight {
+      background: #fff8e7;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-weight: 600;
+      color: #8b0000;
+    }
+    .ingredients-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      font-size: 0.92rem;
+    }
+    .ingredients-table th,
+    .ingredients-table td {
+      padding: 10px 12px;
+      text-align: left;
+      border-bottom: 1px solid #e8dfd0;
+    }
+    .ingredients-table th {
+      background: #faf5ed;
+      font-weight: 600;
+      color: #7a6f5b;
+      font-size: 0.85rem;
+    }
+    .ingredients-table td { background: #fff; }
+    .note-box {
+      background: #fff8e7;
+      border-left: 4px solid #c8941a;
+      padding: 14px 16px;
+      border-radius: 0 8px 8px 0;
+      margin-top: 14px;
+      font-size: 0.9rem;
+    }
+    .note-box strong { color: #8b6500; }
+    .note-list {
+      margin: 8px 0 0 0;
+      padding-left: 20px;
+    }
+    .note-list li {
+      margin-bottom: 6px;
+      line-height: 1.5;
+    }
+    .acu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .acu-card {
+      background: #faf8f3;
+      border-radius: 10px;
+      padding: 16px;
+      border: 1px solid var(--border);
+    }
+    .acu-card h4 {
+      font-size: 0.95rem;
+      color: var(--accent);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .acu-card p {
+      font-size: 0.88rem;
+      color: #5a5040;
+      line-height: 1.6;
+    }
+    .acu-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      background: #f0ebe0;
+      color: #6b5d4a;
+      margin-top: 6px;
+    }
+    .acu-tonify {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      background: #eaf5ea;
+      color: #2d6a2d;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+    .acu-drain {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      background: #ffeaea;
+      color: #b22222;
+      margin-top: 6px;
+      font-weight: 600;
+    }
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #9e9385;
+    }
+    .empty-state svg { width: 64px; height: 64px; margin-bottom: 16px; opacity: 0.4; }
+    .footer {
+      text-align: center;
+      padding: 24px;
+      color: #a89e8e;
+      font-size: 0.82rem;
+    }
+    .footer strong { color: var(--accent); }
+    @media (max-width: 600px) {
+      .selector-row { flex-direction: column; }
+      .field { min-width: 100%; }
+      .btn { width: 100%; }
+      .info-row { flex-direction: column; gap: 2px; }
+      .info-label { min-width: auto; }
+    }
+  /* ===== 自定义下拉列表（兼容 iOS Quick Look） ===== */
+  .custom-select-wrapper { position: relative; width: 100%; }
+  .custom-select-trigger {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px 12px;
+    font-size: 0.85rem;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 44px;
+    box-sizing: border-box;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    gap: 8px;
+  }
+  .custom-select-trigger::after {
+    content: '';
+    width: 0; height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid #8b7355;
+    margin-left: 8px;
+    flex-shrink: 0;
+  }
+  .custom-select-trigger.active::after {
+    border-top: none;
+    border-bottom: 5px solid #8b7355;
+  }
+  .custom-select-trigger.placeholder { color: #999; }
+  .custom-options {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0; right: 0;
+    min-width: 100%;
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    max-height: 320px;
+    overflow-y: auto;
+    z-index: 9999;
+    display: none;
+    list-style: none;
+    padding: 6px 0;
+    margin: 0;
+    -webkit-overflow-scrolling: touch;
+  }
+  .custom-options.open { display: block; }
+  .custom-option {
+    padding: 10px 14px;
+    font-size: 0.92rem;
+    cursor: pointer;
+    color: var(--ink);
+    border-bottom: 1px solid #f0ebe3;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
+    line-height: 1.5;
+    word-break: break-all;
+  }
+  .custom-option:last-child { border-bottom: none; }
+  .custom-option:hover,
+  .custom-option.selected {
+    background: #fdf8f0;
+    color: var(--accent);
+  }
+  .custom-option:active { background: #f5efe5; }
+  select[data-custom="true"] { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>伤寒论 · 金匮要略</h1>
+      <p>合方查询系统 — 多症合方 · 取大合并 · 针灸配穴</p>
+    </header>
+
+    <div class="selector-panel">
+      <div class="selector-row">
+        <div class="field">
+          <label for="symptomSelect">① 选择主症</label>
+          <div class="custom-select-wrapper" id="symptomWrapper">
+            <select id="symptomSelect" data-custom="true">
+              <option value="">请选择 …</option>
+            </select>
+            <div class="custom-select-trigger placeholder" data-target="symptomSelect">请选择 …</div>
+            <ul class="custom-options" data-target="symptomSelect"></ul>
+          </div>
+        </div>
+        <button class="btn btn-add" id="addBtn" onclick="addSymptom()">➕ 添加症状</button>
+      </div>
+
+      <div class="selected-tags" id="selectedTags"></div>
+      <div class="tag-count" id="tagCount">已选 0 / 6 个症状</div>
+
+      <div class="selector-row" style="margin-top:16px;">
+        <div class="field" style="flex:0.6;">
+          <label for="patientType">② 患者类型</label>
+          <div class="custom-select-wrapper" id="patientWrapper">
+            <select id="patientType" data-custom="true">
+              <option value="">请选择 …</option>
+              <option value="成人">👨 成人（剂量上浮 30%）</option>
+              <option value="儿童">👶 儿童（保持基准剂量）</option>
+            </select>
+            <div class="custom-select-trigger placeholder" data-target="patientType">请选择 …</div>
+            <ul class="custom-options" data-target="patientType"></ul>
+          </div>
+        </div>
+        <button class="btn" id="queryBtn" onclick="query()">🔍 查询合方</button>
+      </div>
+    </div>
+
+    <div class="empty-state" id="emptyState">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18z"/>
+        <path d="M12 8v4l3 3"/>
+      </svg>
+      <p>请选择主症（最多6个）和患者类型，点击「查询合方」</p>
+    </div>
+
+    <div class="result-area" id="resultArea">
+      <!-- 合方结果 -->
+      <div class="result-card">
+        <div class="section-title">
+          📖 合方信息
+          <span class="badge badge-red" id="sourceBadge">合方</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="info-label">合方名称</span>
+            <span class="info-value highlight" id="rxName">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">组成来源</span>
+            <span class="info-value" id="rxSources">—</span>
+          </div>
+          <div class="info-row">
+            <span class="info-label">患者类型</span>
+            <span class="info-value" id="rxPatient">—</span>
+          </div>
+        </div>
+
+        <div style="margin-top:18px;">
+          <div class="section-title" style="font-size:1rem; margin-bottom:10px;">🌿 药物组成（合并取大）</div>
+          <table class="ingredients-table">
+            <thead>
+              <tr>
+                <th>药材</th>
+                <th>基准剂量</th>
+                <th id="doseHeader">当前剂量</th>
+                <th>来源方剂</th>
+              </tr>
+            </thead>
+            <tbody id="ingredientsBody"></tbody>
+          </table>
+        </div>
+
+        <div class="info-grid" style="margin-top:18px;">
+          <div class="info-row">
+            <span class="info-label">煎服法</span>
+            <span class="info-value" id="rxDecoction">—</span>
+          </div>
+        </div>
+
+        <div class="note-box">
+          <strong>⚠️ 注意事项：</strong>
+          <ul class="note-list" id="rxNoteList"></ul>
+        </div>
+      </div>
+
+      <!-- 针灸配穴 -->
+      <div class="result-card green">
+        <div class="section-title">
+          🪡 针灸配穴（合并去重）
+          <span class="badge badge-green">天星十二穴 + 配穴</span>
+        </div>
+        <div class="info-grid">
+          <div class="info-row">
+            <span class="info-label">主治功效</span>
+            <span class="info-value" id="acuEffect">—</span>
+          </div>
+        </div>
+        <div class="acu-grid" id="acuGrid"></div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <strong>⚠️ 重要提示：</strong>本系统仅供中医学习参考，实际用药请在执业中医师指导下辨证论治。<br>
+      方剂来源：《伤寒论》汉·张仲景 ｜《金匮要略》汉·张仲景 ｜ 天星十二穴：金·马丹阳《马丹阳天星十二穴治杂病歌》
+    </div>
+  </div>
+
+<script>
+// ========== 方剂数据库 ==========
+const prescriptions = {
+  "风寒感冒-有汗": {
+    source: "伤寒论", category: "太阳病 · 表证",
+    name: "桂枝汤",
+    symptoms: "外感风寒表虚证。发热、汗出、恶风、脉浮缓。",
+    ingredients: [
+      { name: "桂枝", unit: "g", base: 9 },
+      { name: "芍药", unit: "g", base: 9 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 4 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水七升，微火煮取三升，去滓，适寒温，服一升。服已须臾，啜热稀粥一升余，以助药力。温覆令一时许，遍身漐漐微似有汗者益佳。",
+    note: "表实无汗者禁用。服药后需温覆取微汗，忌生冷油腻。",
+    complexity: 2
+  },
+  "风寒感冒-无汗": {
+    source: "伤寒论", category: "太阳病 · 表证",
+    name: "麻黄汤",
+    symptoms: "外感风寒表实证。恶寒发热、无汗而喘、头身疼痛、脉浮紧。",
+    ingredients: [
+      { name: "麻黄", unit: "g", base: 9 },
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "杏仁", unit: "g", base: 9 },
+      { name: "甘草", unit: "g", base: 3 }
+    ],
+    decoction: "以水九升，先煮麻黄减二升，去上沫，内诸药，煮取二升半，去滓，温服八合。覆取微似汗，不须啜粥。",
+    note: "体虚多汗者、心脏病患者慎用。汗出即停服，不可过量发汗，中病即止。",
+    complexity: 3
+  },
+  "风寒感冒-项背痛": {
+    source: "伤寒论", category: "太阳病 · 表证",
+    name: "葛根汤",
+    symptoms: "风寒表实兼项背强痛，或太阳阳明合病下利。无汗、项背强几几。",
+    ingredients: [
+      { name: "葛根", unit: "g", base: 12 },
+      { name: "麻黄", unit: "g", base: 9 },
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "芍药", unit: "g", base: 6 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 4 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水一斗，先煮葛根、麻黄减二升，去白沫，内诸药，煮取三升，去滓，温服一升。覆取微似汗。",
+    note: "项背强痛无汗者适用。夏季或体虚者麻黄用量酌减。",
+    complexity: 3
+  },
+  "感冒-项背强痛有汗": {
+    source: "伤寒论", category: "太阳病 · 表证",
+    name: "桂枝加葛根汤",
+    symptoms: "太阳病，项背强几几，反汗出恶风者。",
+    ingredients: [
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "芍药", unit: "g", base: 6 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 4 },
+      { name: "甘草", unit: "g", base: 6 },
+      { name: "葛根", unit: "g", base: 12 }
+    ],
+    decoction: "以水一斗，先煮葛根减二升，去上沫，内诸药，煮取三升，去滓，温服一升。覆取微似汗。",
+    note: "桂枝汤证兼项背强痛有汗者。",
+    complexity: 2
+  },
+  "感冒-高热烦躁无汗": {
+    source: "伤寒论", category: "太阳病 · 表里双解",
+    name: "大青龙汤",
+    symptoms: "外感风寒，内有郁热。恶寒发热、身疼痛、不汗出而烦躁、脉浮紧。",
+    ingredients: [
+      { name: "麻黄", unit: "g", base: 12 },
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "杏仁", unit: "g", base: 6 },
+      { name: "石膏", unit: "g", base: 24 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 4 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水九升，先煮麻黄减二升，去上沫，内诸药，煮取三升，去滓，温服一升。取微似汗。",
+    note: "不可过汗，汗出多者温粉粉之。一服汗者，停后服。体虚者慎用。",
+    complexity: 4
+  },
+  "咳喘-外寒内饮": {
+    source: "伤寒论", category: "太阳病 · 表里双解",
+    name: "小青龙汤",
+    symptoms: "外寒内饮证。恶寒发热、无汗、咳喘、痰白清稀、胸痞、干呕、苔白滑。",
+    ingredients: [
+      { name: "麻黄", unit: "g", base: 9 },
+      { name: "桂枝", unit: "g", base: 9 },
+      { name: "干姜", unit: "g", base: 9 },
+      { name: "细辛", unit: "g", base: 9 },
+      { name: "五味子", unit: "g", base: 9 },
+      { name: "芍药", unit: "g", base: 9 },
+      { name: "半夏", unit: "g", base: 9 },
+      { name: "甘草", unit: "g", base: 9 }
+    ],
+    decoction: "以水一斗，先煮麻黄减二升，去上沫，内诸药，煮取三升，去滓，温服一升。",
+    note: "外寒内饮咳喘首选方。阴虚火旺者慎用。细辛不过钱（3g），注意用量。",
+    complexity: 3
+  },
+  "咳喘-痰鸣": {
+    source: "金匮要略", category: "肺痿肺痈 · 咳嗽上气",
+    name: "射干麻黄汤",
+    symptoms: "咳而上气，喉中水鸡声。痰饮郁结、咳逆喘息、喉中痰鸣。",
+    ingredients: [
+      { name: "射干", unit: "g", base: 9 },
+      { name: "麻黄", unit: "g", base: 9 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "细辛", unit: "g", base: 9 },
+      { name: "紫菀", unit: "g", base: 9 },
+      { name: "款冬花", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 3 },
+      { name: "半夏", unit: "g", base: 9 },
+      { name: "五味子", unit: "g", base: 9 }
+    ],
+    decoction: "以水一斗二升，先煮麻黄两沸，去上沫，内诸药，煮取三升，分温三服。",
+    note: "宣肺祛痰、下气止咳。痰多咳喘者适用。",
+    complexity: 3
+  },
+  "咳喘-肺痈初期": {
+    source: "金匮要略", category: "肺痿肺痈",
+    name: "葶苈大枣泻肺汤",
+    symptoms: "肺痈初期、痰涎壅盛。喘不得卧、胸满胀、一身面目浮肿、鼻塞清涕出。",
+    ingredients: [
+      { name: "葶苈子", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 12 }
+    ],
+    decoction: "以水三升，煮枣取二升，去枣，内葶苈，煮取一升，顿服。",
+    note: "泻肺行水、下气平喘。力猛，体虚者慎用。",
+    complexity: 2
+  },
+  "往来寒热-少阳": {
+    source: "伤寒论", category: "少阳病",
+    name: "小柴胡汤",
+    symptoms: "少阳病。往来寒热、胸胁苦满、默默不欲饮食、心烦喜呕、口苦咽干目眩。",
+    ingredients: [
+      { name: "柴胡", unit: "g", base: 24 },
+      { name: "黄芩", unit: "g", base: 9 },
+      { name: "人参", unit: "g", base: 9 },
+      { name: "半夏", unit: "g", base: 9 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 4 },
+      { name: "甘草", unit: "g", base: 9 }
+    ],
+    decoction: "以水一斗二升，煮取六升，去滓，再煎取三升，温服一升，日三服。",
+    note: "和解少阳之主方。但见一证便是，不必悉具。热入血室、疟疾、黄疸等皆可加减应用。",
+    complexity: 3
+  },
+  "少阳阳明合病": {
+    source: "伤寒论", category: "少阳病 · 兼证",
+    name: "大柴胡汤",
+    symptoms: "少阳阳明合病。往来寒热、胸胁苦满、呕不止、心下痞硬、大便不通。",
+    ingredients: [
+      { name: "柴胡", unit: "g", base: 24 },
+      { name: "黄芩", unit: "g", base: 9 },
+      { name: "芍药", unit: "g", base: 9 },
+      { name: "半夏", unit: "g", base: 9 },
+      { name: "生姜", unit: "g", base: 15 },
+      { name: "枳实", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 4 },
+      { name: "大黄", unit: "g", base: 6 }
+    ],
+    decoction: "以水一斗二升，煮取六升，去滓再煎，温服一升，日三服。",
+    note: "和解少阳、内泻热结。里实热结者适用。",
+    complexity: 3
+  },
+  "高热大汗大渴": {
+    source: "伤寒论", category: "阳明病 · 气分热",
+    name: "白虎汤",
+    symptoms: "阳明气分大热。高热、大汗、大渴、脉洪大（四大症）。",
+    ingredients: [
+      { name: "石膏", unit: "g", base: 50 },
+      { name: "知母", unit: "g", base: 18 },
+      { name: "粳米", unit: "g", base: 9 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水一斗，煮米熟，汤成去米，温服一升，日三服。",
+    note: "表证未解、真寒假热者禁用。石膏先煎，用量宜大。",
+    complexity: 2
+  },
+  "阳明腑实-便秘": {
+    source: "伤寒论", category: "阳明病 · 腑实",
+    name: "大承气汤",
+    symptoms: "阳明腑实证。大便不通、脘腹痞满、腹痛拒按、潮热谵语、手足濈然汗出。",
+    ingredients: [
+      { name: "大黄", unit: "g", base: 12 },
+      { name: "厚朴", unit: "g", base: 24 },
+      { name: "枳实", unit: "g", base: 12 },
+      { name: "芒硝", unit: "g", base: 9 }
+    ],
+    decoction: "以水一斗，先煮二物取五升，去滓，内大黄更煮取二升，去滓，内芒硝，更上微火一二沸，分温再服。得下，余勿服。",
+    note: "峻下热结。孕妇、体虚者禁用。中病即止，不可过服。",
+    complexity: 5
+  },
+  "阳虚寒厥": {
+    source: "伤寒论", category: "少阴病 · 阳虚",
+    name: "四逆汤",
+    symptoms: "少阴病阳虚寒厥。四肢厥逆、恶寒蜷卧、呕吐不渴、腹痛下利、脉微细。",
+    ingredients: [
+      { name: "附子", unit: "g", base: 15 },
+      { name: "干姜", unit: "g", base: 9 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水三升，煮取一升二合，去滓，分温再服。强人可大附子一枚，干姜三两。",
+    note: "回阳救逆第一方。真寒假热、阴盛格阳者适用。附子需先煎30-60分钟。",
+    complexity: 3
+  },
+  "阳虚水泛": {
+    source: "伤寒论", category: "少阴病 · 水泛",
+    name: "真武汤",
+    symptoms: "阳虚水泛。小便不利、肢体浮肿、心悸头眩、身瞤动、振振欲擗地。",
+    ingredients: [
+      { name: "茯苓", unit: "g", base: 9 },
+      { name: "芍药", unit: "g", base: 9 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "白术", unit: "g", base: 6 },
+      { name: "附子", unit: "g", base: 9 }
+    ],
+    decoction: "以水八升，煮取三升，去滓，温服七合，日三服。",
+    note: "温阳利水代表方。附子需先煎30-60分钟。",
+    complexity: 2
+  },
+  "脾胃虚寒": {
+    source: "伤寒论", category: "太阴病",
+    name: "理中汤",
+    symptoms: "脾胃虚寒。脘腹冷痛、喜温喜按、呕吐下利、畏寒肢冷、脉沉迟。",
+    ingredients: [
+      { name: "人参", unit: "g", base: 9 },
+      { name: "干姜", unit: "g", base: 9 },
+      { name: "白术", unit: "g", base: 9 },
+      { name: "甘草", unit: "g", base: 9 }
+    ],
+    decoction: "以水八升，煮取三升，去滓，温服一升，日三服。",
+    note: "温中祛寒、补气健脾之主方。",
+    complexity: 1
+  },
+  "心下痞满": {
+    source: "伤寒论", category: "厥阴病 · 痞证",
+    name: "半夏泻心汤",
+    symptoms: "寒热错杂之痞证。心下痞满、但满不痛、呕吐肠鸣、下利。",
+    ingredients: [
+      { name: "半夏", unit: "g", base: 9 },
+      { name: "黄芩", unit: "g", base: 9 },
+      { name: "干姜", unit: "g", base: 9 },
+      { name: "人参", unit: "g", base: 9 },
+      { name: "黄连", unit: "g", base: 3 },
+      { name: "大枣", unit: "枚", base: 4 },
+      { name: "甘草", unit: "g", base: 9 }
+    ],
+    decoction: "以水一斗，煮取六升，去滓，再煎取三升，温服一升，日三服。",
+    note: "寒热平调、消痞散结。中焦痞满寒热错杂者适用。",
+    complexity: 2
+  },
+  "下焦蓄血": {
+    source: "伤寒论", category: "太阳病 · 蓄血",
+    name: "桃核承气汤",
+    symptoms: "下焦蓄血证。少腹急结、小便自利、其人如狂、至夜发热。",
+    ingredients: [
+      { name: "桃仁", unit: "g", base: 12 },
+      { name: "大黄", unit: "g", base: 12 },
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "芒硝", unit: "g", base: 6 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水七升，煮取二升半，去滓，内芒硝，更上火微沸，下火，先食温服五合，日三服。",
+    note: "破血下瘀。孕妇禁用。血自下者愈，不下者再服。",
+    complexity: 4
+  },
+  "蓄水证-小便不利": {
+    source: "伤寒论", category: "太阳病 · 蓄水",
+    name: "五苓散",
+    symptoms: "太阳蓄水证。小便不利、微热消渴、水入即吐、脉浮。",
+    ingredients: [
+      { name: "猪苓", unit: "g", base: 9 },
+      { name: "茯苓", unit: "g", base: 9 },
+      { name: "白术", unit: "g", base: 9 },
+      { name: "泽泻", unit: "g", base: 15 },
+      { name: "桂枝", unit: "g", base: 6 }
+    ],
+    decoction: "捣为散，以白饮和服方寸匕，日三服。多饮暖水，汗出愈。",
+    note: "利水渗湿、温阳化气。水湿内停、气化不利者适用。",
+    complexity: 1
+  },
+  "痰饮-目眩心悸": {
+    source: "金匮要略", category: "痰饮 · 阳虚饮停",
+    name: "苓桂术甘汤",
+    symptoms: "中阳不足之痰饮。胸胁支满、目眩心悸、短气而咳、舌苔白滑。",
+    ingredients: [
+      { name: "茯苓", unit: "g", base: 12 },
+      { name: "桂枝", unit: "g", base: 9 },
+      { name: "白术", unit: "g", base: 6 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水六升，煮取三升，去滓，分温三服。",
+    note: "温阳化饮、健脾利湿。痰饮病基础方。",
+    complexity: 1
+  },
+  "妇人脏躁": {
+    source: "金匮要略", category: "妇人病 · 脏躁",
+    name: "甘麦大枣汤",
+    symptoms: "妇人脏躁。精神恍惚、悲伤欲哭、不能自主、心中烦乱、睡眠不安。",
+    ingredients: [
+      { name: "甘草", unit: "g", base: 9 },
+      { name: "小麦", unit: "g", base: 15 },
+      { name: "大枣", unit: "枚", base: 5 }
+    ],
+    decoction: "以水六升，煮取三升，温分三服。",
+    note: "养心安神、和中缓急。情志不畅、心神不宁者适用。",
+    complexity: 1
+  },
+  "虚烦失眠": {
+    source: "金匮要略", category: "血痹虚劳",
+    name: "酸枣仁汤",
+    symptoms: "虚劳虚烦不得眠。心悸盗汗、头目眩晕、咽干口燥、脉弦细。",
+    ingredients: [
+      { name: "酸枣仁", unit: "g", base: 15 },
+      { name: "知母", unit: "g", base: 6 },
+      { name: "茯苓", unit: "g", base: 6 },
+      { name: "川芎", unit: "g", base: 6 },
+      { name: "甘草", unit: "g", base: 3 }
+    ],
+    decoction: "以水八升，煮酸枣仁得六升，内诸药，煮取三升，分温三服。",
+    note: "养血安神、清热除烦。失眠属肝血不足者适用。",
+    complexity: 2
+  },
+  "肾阳不足": {
+    source: "金匮要略", category: "虚劳 · 肾虚",
+    name: "肾气丸（八味肾气丸）",
+    symptoms: "肾阳不足。腰痛脚软、下半身常冷、少腹拘急、小便不利或频数、阳痿早泄。",
+    ingredients: [
+      { name: "干地黄", unit: "g", base: 24 },
+      { name: "山药", unit: "g", base: 12 },
+      { name: "山茱萸", unit: "g", base: 12 },
+      { name: "泽泻", unit: "g", base: 9 },
+      { name: "茯苓", unit: "g", base: 9 },
+      { name: "牡丹皮", unit: "g", base: 9 },
+      { name: "桂枝", unit: "g", base: 3 },
+      { name: "附子", unit: "g", base: 3 }
+    ],
+    decoction: "炼蜜和丸，如梧桐子大，每服15丸，日再服。",
+    note: "补肾助阳。本方是温补肾阳的基础方，后世地黄丸系列皆由此化裁。",
+    complexity: 1
+  },
+  "阳虚便血": {
+    source: "金匮要略", category: "惊悸吐衄下血",
+    name: "黄土汤",
+    symptoms: "阳虚便血（远血）。先便后血、血色暗淡、四肢不温、面色萎黄。",
+    ingredients: [
+      { name: "甘草", unit: "g", base: 9 },
+      { name: "干地黄", unit: "g", base: 9 },
+      { name: "白术", unit: "g", base: 9 },
+      { name: "附子", unit: "g", base: 9 },
+      { name: "阿胶", unit: "g", base: 9 },
+      { name: "黄芩", unit: "g", base: 9 },
+      { name: "灶心土", unit: "g", base: 30 }
+    ],
+    decoction: "以水八升，煮取三升，分温二服。",
+    note: "温阳健脾、养血止血。灶心土需布包煎或煎汤代水。",
+    complexity: 2
+  },
+  "崩漏下血": {
+    source: "金匮要略", category: "妇人病 · 崩漏",
+    name: "胶艾汤（芎归胶艾汤）",
+    symptoms: "妇人冲任虚损、崩漏下血。月经过多、淋漓不止、产后下血、腹中疼痛。",
+    ingredients: [
+      { name: "川芎", unit: "g", base: 6 },
+      { name: "阿胶", unit: "g", base: 6 },
+      { name: "甘草", unit: "g", base: 6 },
+      { name: "艾叶", unit: "g", base: 9 },
+      { name: "当归", unit: "g", base: 9 },
+      { name: "芍药", unit: "g", base: 12 },
+      { name: "干地黄", unit: "g", base: 12 }
+    ],
+    decoction: "以水五升、清酒三升，合煮取三升，去滓，内胶令消尽，温服一升，日三服。",
+    note: "养血止血、调经安胎。阿胶烊化兑入。",
+    complexity: 4
+  },
+  "冲任虚寒": {
+    source: "金匮要略", category: "妇人病 · 虚寒",
+    name: "温经汤",
+    symptoms: "冲任虚寒、瘀血内阻。月经不调、小腹冷痛、手掌烦热、唇口干燥。",
+    ingredients: [
+      { name: "吴茱萸", unit: "g", base: 9 },
+      { name: "当归", unit: "g", base: 6 },
+      { name: "芍药", unit: "g", base: 6 },
+      { name: "川芎", unit: "g", base: 6 },
+      { name: "人参", unit: "g", base: 6 },
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "阿胶", unit: "g", base: 6 },
+      { name: "生姜", unit: "g", base: 6 },
+      { name: "牡丹皮", unit: "g", base: 6 },
+      { name: "甘草", unit: "g", base: 6 },
+      { name: "半夏", unit: "g", base: 9 },
+      { name: "麦冬", unit: "g", base: 9 }
+    ],
+    decoction: "以水一斗，煮取三升，分温三服。",
+    note: "温经散寒、养血祛瘀。妇科调经名方。",
+    complexity: 2
+  },
+  "大寒痛": {
+    source: "金匮要略", category: "腹满寒疝 · 虚寒",
+    name: "大建中汤",
+    symptoms: "中阳衰弱、阴寒内盛。心胸中大寒痛、呕不能食、腹中寒、上冲皮起、出见有头足。",
+    ingredients: [
+      { name: "蜀椒", unit: "g", base: 6 },
+      { name: "干姜", unit: "g", base: 12 },
+      { name: "人参", unit: "g", base: 6 }
+    ],
+    decoction: "以水四升，煮取二升，去滓，内胶饴一升，微火煮取一升半，分温再服。",
+    note: "温中补虚、降逆止痛。胶饴即饴糖，不可缺。",
+    complexity: 3
+  },
+  "历节疼痛": {
+    source: "金匮要略", category: "中风历节",
+    name: "桂枝芍药知母汤",
+    symptoms: "历节疼痛、关节肿大、身体尪羸、脚肿如脱、头眩短气、温温欲吐。",
+    ingredients: [
+      { name: "桂枝", unit: "g", base: 12 },
+      { name: "芍药", unit: "g", base: 9 },
+      { name: "甘草", unit: "g", base: 6 },
+      { name: "麻黄", unit: "g", base: 6 },
+      { name: "生姜", unit: "g", base: 15 },
+      { name: "白术", unit: "g", base: 15 },
+      { name: "知母", unit: "g", base: 12 },
+      { name: "防风", unit: "g", base: 12 },
+      { name: "附子", unit: "g", base: 6 }
+    ],
+    decoction: "以水七升，煮取二升，温服七合，日三服。",
+    note: "祛风除湿、温经散寒、滋阴清热。风湿关节病常用方。",
+    complexity: 2
+  },
+  "风水浮肿": {
+    source: "金匮要略", category: "水气病",
+    name: "越婢汤",
+    symptoms: "风水夹热。一身悉肿、脉浮不渴、续自汗出、无大热。",
+    ingredients: [
+      { name: "麻黄", unit: "g", base: 12 },
+      { name: "石膏", unit: "g", base: 25 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 5 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水六升，先煮麻黄，去上沫，内诸药，煮取三升，分温三服。",
+    note: "发汗利水、兼清里热。风水浮肿属热者适用。",
+    complexity: 2
+  },
+  "胸痹心痛": {
+    source: "金匮要略", category: "胸痹心痛",
+    name: "瓜蒌薤白白酒汤",
+    symptoms: "胸痹。胸中闷痛、喘息咳唾、短气、寸口脉沉而迟。",
+    ingredients: [
+      { name: "瓜蒌实", unit: "g", base: 15 },
+      { name: "薤白", unit: "g", base: 12 },
+      { name: "白酒", unit: "ml", base: 150 }
+    ],
+    decoction: "以水三升，煮取一升，去滓，分温三服。",
+    note: "通阳散结、行气祛痰。白酒可用黄酒替代。",
+    complexity: 1
+  },
+  // ========== 倪海厦常用经方（伤寒论/金匮要略原文） ==========
+  "血虚寒凝-手足厥冷": {
+    source: "伤寒论", category: "厥阴病 · 血虚寒凝",
+    name: "当归四逆汤",
+    symptoms: "手足厥寒，脉细欲绝。血虚寒凝，四肢冰冷，或腰股腿足疼痛，冻疮。",
+    ingredients: [
+      { name: "当归", unit: "g", base: 9 },
+      { name: "桂枝", unit: "g", base: 9 },
+      { name: "芍药", unit: "g", base: 9 },
+      { name: "细辛", unit: "g", base: 9 },
+      { name: "通草", unit: "g", base: 6 },
+      { name: "大枣", unit: "枚", base: 8 },
+      { name: "甘草", unit: "g", base: 6 }
+    ],
+    decoction: "以水八升，煮取三升，去滓，温服一升，日三服。",
+    note: "血虚寒凝首选方。倪海厦常用治手脚冰凉、雷诺氏症、冻疮。细辛久煎可增量。",
+    complexity: 2
+  },
+  "少阴热化-失眠心烦": {
+    source: "伤寒论", category: "少阴病 · 热化",
+    name: "黄连阿胶汤",
+    symptoms: "少阴热化证。心中烦，不得卧。失眠焦虑，舌红少苔，脉细数。",
+    ingredients: [
+      { name: "黄连", unit: "g", base: 12 },
+      { name: "黄芩", unit: "g", base: 6 },
+      { name: "阿胶", unit: "g", base: 9 },
+      { name: "鸡子黄", unit: "枚", base: 2 },
+      { name: "芍药", unit: "g", base: 6 }
+    ],
+    decoction: "以水五升，先煮三物取二升，去滓，内胶烊尽，小冷，内鸡子黄，搅令相得，温服七合，日三服。",
+    note: "滋阴降火、交通心肾。失眠焦虑属阴虚火旺者首选。阿胶烊化兑入，鸡子黄生用。",
+    complexity: 4
+  },
+  "惊烦谵语-抑郁症": {
+    source: "伤寒论", category: "少阳病 · 烦惊",
+    name: "柴胡加龙骨牡蛎汤",
+    symptoms: "伤寒八九日，胸满烦惊，小便不利，谵语，一身尽重。惊悸失眠，精神恍惚，抑郁症。",
+    ingredients: [
+      { name: "柴胡", unit: "g", base: 12 },
+      { name: "龙骨", unit: "g", base: 12 },
+      { name: "黄芩", unit: "g", base: 6 },
+      { name: "生姜", unit: "g", base: 6 },
+      { name: "人参", unit: "g", base: 6 },
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "茯苓", unit: "g", base: 9 },
+      { name: "半夏", unit: "g", base: 9 },
+      { name: "大黄", unit: "g", base: 6 },
+      { name: "牡蛎", unit: "g", base: 12 },
+      { name: "大枣", unit: "枚", base: 4 }
+    ],
+    decoction: "以水八升，煮取四升，内大黄切如棋子，更煮一二沸，去滓，温服一升。",
+    note: "重镇安神、和解少阳。惊悸谵语、抑郁症、精神分裂症适用。铅丹可用代赭石替代。龙骨牡蛎先煎。",
+    complexity: 4
+  },
+  "太少两感-少阴外感": {
+    source: "伤寒论", category: "少阴病 · 太少两感",
+    name: "麻黄附子细辛汤",
+    symptoms: "少阴病始得之，反发热，脉沉者。太少两感，发热恶寒，无汗，脉沉。",
+    ingredients: [
+      { name: "麻黄", unit: "g", base: 6 },
+      { name: "附子", unit: "g", base: 9 },
+      { name: "细辛", unit: "g", base: 6 }
+    ],
+    decoction: "以水一斗，先煮麻黄减二升，去上沫，内诸药，煮取三升，去滓，温服一升，日三服。",
+    note: "温经发汗、助阳解表。少阴外感第一方。附子需先煎30-60分钟。麻黄用量宜轻（3-6g）。",
+    complexity: 3
+  },
+  "厥阴寒热错杂": {
+    source: "伤寒论", category: "厥阴病",
+    name: "乌梅丸",
+    symptoms: "厥阴病。消渴，气上撞心，心中疼热，饥而不欲食，食则吐蛔。寒热错杂，上热下寒。",
+    ingredients: [
+      { name: "乌梅", unit: "g", base: 30 },
+      { name: "细辛", unit: "g", base: 9 },
+      { name: "干姜", unit: "g", base: 15 },
+      { name: "黄连", unit: "g", base: 18 },
+      { name: "当归", unit: "g", base: 9 },
+      { name: "附子", unit: "g", base: 9 },
+      { name: "蜀椒", unit: "g", base: 6 },
+      { name: "桂枝", unit: "g", base: 6 },
+      { name: "人参", unit: "g", base: 6 },
+      { name: "黄柏", unit: "g", base: 6 }
+    ],
+    decoction: "异捣筛，合治之，以苦酒渍乌梅一宿，去核，蒸之五斗米下，饭熟捣成泥，和药令相得，内臼中，与蜜杵二千下，丸如梧桐子大，先食饮服十丸，日三服，稍加至二十丸。",
+    note: "寒热平调、安蛔止痛。厥阴病主方。蛔厥、久利、寒热错杂者适用。制丸服用。",
+    complexity: 5
+  },
+  "心阳虚烦躁": {
+    source: "伤寒论", category: "太阳病 · 火逆",
+    name: "桂枝甘草龙骨牡蛎汤",
+    symptoms: "火逆，下之，因烧针烦躁者。心阳不足，心悸烦躁，失眠多梦，脉弱。",
+    ingredients: [
+      { name: "桂枝", unit: "g", base: 9 },
+      { name: "甘草", unit: "g", base: 6 },
+      { name: "龙骨", unit: "g", base: 12 },
+      { name: "牡蛎", unit: "g", base: 12 }
+    ],
+    decoction: "以水五升，煮取二升半，去滓，温服八合，日三服。",
+    note: "温补心阳、重镇安神。心阳虚烦躁者适用。龙骨牡蛎先煎30分钟。",
+    complexity: 2
+  },
+  "心动悸脉结代": {
+    source: "伤寒论", category: "太阳病 · 心动悸",
+    name: "炙甘草汤",
+    symptoms: "伤寒脉结代，心动悸。心阴阳两虚，心悸气短，脉律不齐。",
+    ingredients: [
+      { name: "炙甘草", unit: "g", base: 12 },
+      { name: "生姜", unit: "g", base: 9 },
+      { name: "人参", unit: "g", base: 6 },
+      { name: "生地黄", unit: "g", base: 30 },
+      { name: "桂枝", unit: "g", base: 9 },
+      { name: "阿胶", unit: "g", base: 6 },
+      { name: "麦冬", unit: "g", base: 9 },
+      { name: "麻仁", unit: "g", base: 9 },
+      { name: "大枣", unit: "枚", base: 10 }
+    ],
+    decoction: "以清酒七升，水八升，先煮八味取三升，去滓，内胶烊化，温服一升，日三服。",
+    note: "滋阴养血、益气温阳、复脉定悸。心动悸脉结代第一方。阿胶烊化兑入。清酒可用黄酒替代。",
+    complexity: 4
+  },
+  "妇人血水不调": {
+    source: "金匮要略", category: "妇人病 · 血水不调",
+    name: "当归芍药散",
+    symptoms: "妇人怀娠，腹中㽲痛。血水不调，腹痛，浮肿，眩晕，月经不调。",
+    ingredients: [
+      { name: "当归", unit: "g", base: 9 },
+      { name: "芍药", unit: "g", base: 48 },
+      { name: "茯苓", unit: "g", base: 12 },
+      { name: "白术", unit: "g", base: 12 },
+      { name: "泽泻", unit: "g", base: 12 },
+      { name: "川芎", unit: "g", base: 9 }
+    ],
+    decoction: "杵为散，取方寸匕，酒和，日三服。",
+    note: "养血调肝、健脾利湿。妇人血水不调、腹痛浮肿首选。倪海厦常用治妇科腹痛。",
+    complexity: 1
+  },
+  "梅核气": {
+    source: "金匮要略", category: "妇人病 · 梅核气",
+    name: "半夏厚朴汤",
+    symptoms: "妇人咽中如有炙脔。梅核气，咽喉异物感，胸闷，嗳气，情志不畅。",
+    ingredients: [
+      { name: "半夏", unit: "g", base: 12 },
+      { name: "厚朴", unit: "g", base: 9 },
+      { name: "茯苓", unit: "g", base: 12 },
+      { name: "生姜", unit: "g", base: 15 },
+      { name: "苏叶", unit: "g", base: 6 }
+    ],
+    decoction: "以水七升，煮取四升，分温四服，日三夜一服。",
+    note: "行气散结、降逆化痰。梅核气、咽喉异物感首选。情志不畅者适用。",
+    complexity: 2
+  }
+};
+
+// ========== 辨治要点症状列表（扁平化，直接选） ==========
+const symptomList = [
+  { label: "发热恶寒，无汗而喘，头身疼痛（表实·麻黄汤）", key: "风寒感冒-无汗" },
+  { label: "发热恶风，汗出脉缓（表虚·桂枝汤）", key: "风寒感冒-有汗" },
+  { label: "发热恶寒，项背强几几无汗（葛根汤）", key: "风寒感冒-项背痛" },
+  { label: "发热恶风，项背强几几有汗（桂枝加葛根汤）", key: "感冒-项背强痛有汗" },
+  { label: "发热恶寒，烦躁无汗，身疼痛（大青龙汤）", key: "感冒-高热烦躁无汗" },
+  { label: "往来寒热，胸胁苦满，默默不欲食（小柴胡汤）", key: "往来寒热-少阳" },
+  { label: "往来寒热，心下痞硬，呕不止，便秘（大柴胡汤）", key: "少阳阳明合病" },
+  { label: "但热不寒，大汗大渴，脉洪大（白虎汤）", key: "高热大汗大渴" },
+  { label: "腹满硬痛，便秘拒按，潮热谵语（大承气汤）", key: "阳明腑实-便秘" },
+  { label: "咳喘，痰白清稀，外寒内饮（小青龙汤）", key: "咳喘-外寒内饮" },
+  { label: "咳喘，喉中水鸡声，痰饮郁结（射干麻黄汤）", key: "咳喘-痰鸣" },
+  { label: "咳喘，胸满，喘不得卧（葶苈大枣泻肺汤）", key: "咳喘-肺痈初期" },
+  { label: "心下痞满，呕而肠鸣，下利（半夏泻心汤）", key: "心下痞满" },
+  { label: "胸满，喘息咳唾，短气（瓜蒌薤白白酒汤）", key: "胸痹心痛" },
+  { label: "四肢厥逆，恶寒蜷卧，下利脉微（四逆汤）", key: "阳虚寒厥" },
+  { label: "肢体浮肿，小便不利，头眩身瞤（真武汤）", key: "阳虚水泛" },
+  { label: "腹满冷痛，喜温喜按，呕吐下利（理中汤）", key: "脾胃虚寒" },
+  { label: "少腹急结，小便自利，其人如狂（桃核承气汤）", key: "下焦蓄血" },
+  { label: "小便不利，微热消渴，水入即吐（五苓散）", key: "蓄水证-小便不利" },
+  { label: "目眩心悸，胸胁支满，短气而咳（苓桂术甘汤）", key: "痰饮-目眩心悸" },
+  { label: "虚烦不得眠，心悸盗汗，头目眩晕（酸枣仁汤）", key: "虚烦失眠" },
+  { label: "精神恍惚，悲伤欲哭，心烦乱（甘麦大枣汤）", key: "妇人脏躁" },
+  { label: "腰痛脚软，小便不利或频数，下半身常冷（肾气丸）", key: "肾阳不足" },
+  { label: "先便后血，血色暗淡，四肢不温（黄土汤）", key: "阳虚便血" },
+  { label: "崩漏下血，月经过多，淋漓不止（胶艾汤）", key: "崩漏下血" },
+  { label: "月经不调，小腹冷痛，手掌烦热（温经汤）", key: "冲任虚寒" },
+  { label: "心胸大寒痛，呕不能食，腹中寒（大建中汤）", key: "大寒痛" },
+  { label: "历节疼痛，关节肿大，身体尪羸（桂枝芍药知母汤）", key: "历节疼痛" },
+  { label: "一身悉肿，脉浮不渴，续自汗出（越婢汤）", key: "风水浮肿" },
+  // ========== 倪海厦常用经方辨治要点 ==========
+  { label: "手足厥寒，脉细欲绝，四肢冰冷（当归四逆汤）", key: "血虚寒凝-手足厥冷" },
+  { label: "心中烦，不得卧，失眠焦虑，舌红少苔（黄连阿胶汤）", key: "少阴热化-失眠心烦" },
+  { label: "胸满烦惊，谵语，一身尽重，精神恍惚（柴胡加龙骨牡蛎汤）", key: "惊烦谵语-抑郁症" },
+  { label: "少阴外感，发热恶寒，无汗，脉沉（麻黄附子细辛汤）", key: "太少两感-少阴外感" },
+  { label: "消渴，心中疼热，饥而不欲食，寒热错杂（乌梅丸）", key: "厥阴寒热错杂" },
+  { label: "心悸烦躁，失眠多梦，心阳不足，脉弱（桂枝甘草龙骨牡蛎汤）", key: "心阳虚烦躁" },
+  { label: "心动悸，脉结代，心悸气短，脉律不齐（炙甘草汤）", key: "心动悸脉结代" },
+  { label: "妇人腹中㽲痛，浮肿，眩晕，月经不调（当归芍药散）", key: "妇人血水不调" },
+  { label: "咽中如有炙脔，咽喉异物感，胸闷嗳气（半夏厚朴汤）", key: "梅核气" }
+];
+
+// ========== 天星十二穴数据库 ==========
+const tianxing12 = {
+  "足三里": {
+    pair: "足三里 + 内庭", channel: "足阳明胃经",
+    location: "犊鼻（外膝眼）下 3 寸，胫骨前嵴外 1 横指",
+    effect: "调理脾胃、补中益气、通经活络",
+    mainFor: "胃痛、腹胀、泄泻、便秘、下肢痿痹、虚劳"
+  },
+  "内庭": {
+    pair: "足三里 + 内庭", channel: "足阳明胃经",
+    location: "足背第 2、3 趾间，趾蹼缘后方赤白肉际处",
+    effect: "清胃泻火、理气止痛",
+    mainFor: "牙痛、咽喉肿痛、热病、足背肿痛"
+  },
+  "曲池": {
+    pair: "曲池 + 合谷", channel: "手阳明大肠经",
+    location: "肘横纹外侧端，屈肘时尺泽与肱骨外上髁连线中点",
+    effect: "疏风清热、调和气血、通络止痛",
+    mainFor: "发热、咽喉肿痛、上肢不遂、瘾疹"
+  },
+  "合谷": {
+    pair: "曲池 + 合谷", channel: "手阳明大肠经",
+    location: "手背第 2 掌骨桡侧中点处（虎口）",
+    effect: "疏风解表、通络止痛、清热开窍",
+    mainFor: "头痛、牙痛、面瘫、感冒、难产"
+  },
+  "委中": {
+    pair: "委中 + 承山", channel: "足太阳膀胱经",
+    location: "腘横纹中点，股二头肌腱与半腱肌腱之间",
+    effect: "舒筋活络、凉血解毒、泻热止痛",
+    mainFor: "腰背疼痛、下肢痿痹、腹痛吐泻、丹毒"
+  },
+  "承山": {
+    pair: "委中 + 承山", channel: "足太阳膀胱经",
+    location: "小腿后区，腓肠肌两肌腹与肌腱交角处（绷足时人字纹顶点）",
+    effect: "舒筋活络、调理肠腑、消痔止痛",
+    mainFor: "腰腿拘急疼痛、痔疾、便秘、脚气"
+  },
+  "太冲": {
+    pair: "太冲 + 昆仑", channel: "足厥阴肝经",
+    location: "足背第 1、2 跖骨间，跖骨底结合部前方凹陷中",
+    effect: "平肝息风、清热利湿、通络止痛",
+    mainFor: "头痛眩晕、月经不调、癫痫、胁痛、足跗肿痛"
+  },
+  "昆仑": {
+    pair: "太冲 + 昆仑", channel: "足太阳膀胱经",
+    location: "踝区，外踝尖与跟腱之间的凹陷中",
+    effect: "疏通经络、消肿止痛、强健腰膝",
+    mainFor: "头痛项强、腰背疼痛、踝关节疼痛、难产"
+  },
+  "环跳": {
+    pair: "环跳 + 阳陵泉", channel: "足少阳胆经",
+    location: "臀部，股骨大转子最凸点与骶管裂孔连线的外 1/3 与内 2/3 交点",
+    effect: "祛风除湿、通经活络、强健腰膝",
+    mainFor: "半身不遂、腰腿疼痛、痿痹"
+  },
+  "阳陵泉": {
+    pair: "环跳 + 阳陵泉", channel: "足少阳胆经",
+    location: "小腿外侧，腓骨头前下方凹陷中",
+    effect: "疏肝利胆、清热利湿、舒筋活络",
+    mainFor: "胁痛、口苦、下肢痿痹、小儿惊风"
+  },
+  "通里": {
+    pair: "通里 + 列缺", channel: "手少阴心经",
+    location: "前臂前区，腕掌侧远端横纹上 1 寸，尺侧腕屈肌腱桡侧缘",
+    effect: "宁心安神、沟通心肾、通利舌咽",
+    mainFor: "心悸失眠、舌强不语、腕臂痛"
+  },
+  "列缺": {
+    pair: "通里 + 列缺", channel: "手太阴肺经",
+    location: "前臂，腕掌侧远端横纹上 1.5 寸，拇短伸肌腱与拇长展肌腱之间",
+    effect: "宣肺解表、通经活络、通利头项",
+    mainFor: "咳嗽气喘、偏正头痛、咽喉肿痛、手腕痛"
+  }
+};
+
+// ========== 穴位补泻手法 ==========
+const acupointTonification = {
+  "足三里": { type: "补", method: "拇指向前捻转，重插轻提，以补气健脾" },
+  "内庭": { type: "泻", method: "拇指向后捻转，轻插重提，以清胃泻火" },
+  "曲池": { type: "泻", method: "拇指向后捻转，轻插重提，以清热疏风" },
+  "合谷": { type: "泻", method: "拇指向后捻转，轻插重提，以清热解表" },
+  "委中": { type: "泻", method: "浅刺或点刺出血，以泻热解毒" },
+  "承山": { type: "补", method: "拇指向前捻转，重插轻提，以舒筋活络" },
+  "太冲": { type: "泻", method: "拇指向后捻转，轻插重提，以平肝息风" },
+  "昆仑": { type: "泻", method: "拇指向后捻转，轻插重提，以疏通经络" },
+  "环跳": { type: "泻", method: "拇指向后捻转，轻插重提，以祛风通络" },
+  "阳陵泉": { type: "泻", method: "拇指向后捻转，轻插重提，以疏肝利胆" },
+  "通里": { type: "补", method: "拇指向前捻转，重插轻提，以宁心安神" },
+  "列缺": { type: "泻", method: "拇指向后捻转，轻插重提，以宣肺解表" },
+  "大椎": { type: "泻", method: "毫针刺，捻转泻法，或点刺出血，以清热解表" },
+  "风池": { type: "泻", method: "向鼻尖方向斜刺，捻转泻法，以祛风解表" },
+  "后溪": { type: "补", method: "拇指向前捻转，重插轻提，以通督脉" },
+  "外关": { type: "泻", method: "拇指向后捻转，轻插重提，以清热通络" },
+  "期门": { type: "泻", method: "平刺或斜刺，捻转泻法，以疏肝理气" },
+  "支沟": { type: "泻", method: "拇指向后捻转，轻插重提，以通腑泄热" },
+  "天枢": { type: "泻", method: "拇指向后捻转，轻插重提，以通腑导滞" },
+  "上巨虚": { type: "泻", method: "拇指向后捻转，轻插重提，以通肠导滞" },
+  "关元": { type: "补", method: "重灸或拇指向前捻转补法，以温补元气" },
+  "气海": { type: "补", method: "重灸或拇指向前捻转补法，以益气培元" },
+  "神阙": { type: "灸", method: "隔盐灸或隔姜灸，禁针，以回阳固脱" },
+  "中脘": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以温中健脾" },
+  "三阴交": { type: "补", method: "拇指向前捻转，重插轻提，以健脾养血" },
+  "阴陵泉": { type: "泻", method: "拇指向后捻转，轻插重提，以健脾利湿" },
+  "丰隆": { type: "泻", method: "拇指向后捻转，轻插重提，以化痰降浊" },
+  "神门": { type: "补", method: "拇指向前捻转，重插轻提，以养心安神" },
+  "内关": { type: "平", method: "平补平泻，以宽胸理气、宁心安神" },
+  "膻中": { type: "平", method: "平补平泻，或沿皮刺，以宽胸理气" },
+  "血海": { type: "补", method: "拇指向前捻转，重插轻提，以养血活血" },
+  "膈俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以养血活血" },
+  "肝俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以疏肝养血" },
+  "脾俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以健脾益气" },
+  "胃俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以和胃健脾" },
+  "肾俞": { type: "补", method: "拇指向前捻转，重插轻提，或重灸，以温补肾阳" },
+  "命门": { type: "灸", method: "重灸，禁深刺，以温肾壮阳" },
+  "太溪": { type: "补", method: "拇指向前捻转，重插轻提，以滋补肾阴" },
+  "隐白": { type: "灸", method: "艾条灸或麦粒灸，以温经止血" },
+  "归来": { type: "补", method: "拇指向前捻转，重插轻提，以调经养血" },
+  "梁丘": { type: "泻", method: "拇指向后捻转，轻插重提，以和胃止痛" },
+  "公孙": { type: "补", method: "拇指向前捻转，重插轻提，以健脾和胃" },
+  "中极": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以通利膀胱" },
+  "膀胱俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以通调膀胱" },
+  "水分": { type: "泻", method: "拇指向后捻转，轻插重提，或灸，以利水消肿" },
+  "水道": { type: "泻", method: "拇指向后捻转，轻插重提，以利水通淋" },
+  "复溜": { type: "补", method: "拇指向前捻转，重插轻提，以补肾利水" },
+  "安眠": { type: "平", method: "平补平泻，以安神助眠" },
+  "百会": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以升提阳气" },
+  "阿是穴": { type: "泻", method: "随证补泻，痛处直刺或斜刺，以通经止痛" },
+  // ========== 倪海厦常用穴位补泻 ==========
+  "天突": { type: "平", method: "平补平泻，向下斜刺0.5寸，以利咽化痰" },
+  "劳宫": { type: "泻", method: "拇指向后捻转，轻插重提，以清心泻火" },
+  "少府": { type: "补", method: "拇指向前捻转，重插轻提，以养心安神" },
+  "地机": { type: "补", method: "拇指向前捻转，重插轻提，以健脾统血" },
+  "大陵": { type: "泻", method: "拇指向后捻转，轻插重提，以清心宁神" },
+  "廉泉": { type: "平", method: "向舌根方向斜刺，平补平泻，以利咽开音" },
+  "厥阴俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以温通心阳" },
+  "心俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以养血安神" },
+  "肺俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以宣肺益气" },
+  "定喘": { type: "平", method: "平补平泻，或灸，以止咳平喘" },
+  "风门": { type: "泻", method: "拇指向后捻转，轻插重提，以祛风解表" },
+  "天柱": { type: "泻", method: "拇指向后捻转，轻插重提，以祛风舒筋" },
+  "尺泽": { type: "泻", method: "拇指向后捻转，轻插重提，以泻肺清热" },
+  "外关": { type: "泻", method: "拇指向后捻转，轻插重提，以清热通络" },
+  "期门": { type: "泻", method: "平刺或斜刺，捻转泻法，以疏肝理气" },
+  "支沟": { type: "泻", method: "拇指向后捻转，轻插重提，以通腑泄热" },
+  "天枢": { type: "泻", method: "拇指向后捻转，轻插重提，以通腑导滞" },
+  "上巨虚": { type: "泻", method: "拇指向后捻转，轻插重提，以通肠导滞" },
+  "脾俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以健脾益气" },
+  "胃俞": { type: "补", method: "拇指向前捻转，重插轻提，或灸，以和胃健脾" },
+  "梁丘": { type: "泻", method: "拇指向后捻转，轻插重提，以和胃止痛" },
+  "委阳": { type: "泻", method: "拇指向后捻转，轻插重提，以通调水道" },
+  "风市": { type: "泻", method: "拇指向后捻转，轻插重提，以祛风通络" }
+};
+
+// ========== 病症 → 针灸配穴映射（穴位列表） ==========
+const acupointMapping = {
+  "风寒感冒-有汗": {
+    effect: "解表散寒、调和营卫",
+    points: ["曲池", "合谷", "列缺", "大椎", "风池"]
+  },
+  "风寒感冒-无汗": {
+    effect: "发汗解表、宣肺散寒",
+    points: ["曲池", "合谷", "列缺", "大椎", "风门"]
+  },
+  "风寒感冒-项背痛": {
+    effect: "解肌舒筋、发汗解表",
+    points: ["曲池", "合谷", "列缺", "大椎", "风池", "后溪"]
+  },
+  "感冒-项背强痛有汗": {
+    effect: "解肌发表、调和营卫",
+    points: ["曲池", "合谷", "列缺", "大椎", "天柱"]
+  },
+  "感冒-高热烦躁无汗": {
+    effect: "清热解表、除烦安神",
+    points: ["曲池", "合谷", "太冲", "大椎", "外关"]
+  },
+  "咳喘-外寒内饮": {
+    effect: "宣肺平喘、温阳化饮",
+    points: ["列缺", "足三里", "合谷", "膻中", "肺俞", "定喘"]
+  },
+  "咳喘-痰鸣": {
+    effect: "宣肺祛痰、下气止咳",
+    points: ["列缺", "足三里", "合谷", "膻中", "丰隆"]
+  },
+  "咳喘-肺痈初期": {
+    effect: "泻肺清热、排脓解毒",
+    points: ["列缺", "合谷", "曲池", "尺泽", "肺俞", "膈俞"]
+  },
+  "往来寒热-少阳": {
+    effect: "和解少阳、疏利气机",
+    points: ["阳陵泉", "太冲", "合谷", "外关", "期门", "支沟"]
+  },
+  "少阳阳明合病": {
+    effect: "和解少阳、通腑泄热",
+    points: ["阳陵泉", "太冲", "足三里", "外关", "支沟", "天枢"]
+  },
+  "高热大汗大渴": {
+    effect: "清热生津、益气养阴",
+    points: ["曲池", "合谷", "足三里", "大椎", "内庭", "三阴交"]
+  },
+  "阳明腑实-便秘": {
+    effect: "通腑导滞、清热泻火",
+    points: ["足三里", "内庭", "合谷", "天枢", "上巨虚", "支沟"]
+  },
+  "阳虚寒厥": {
+    effect: "回阳救逆、温通经脉",
+    points: ["足三里", "关元", "气海", "神阙", "命门"]
+  },
+  "阳虚水泛": {
+    effect: "温阳利水、健脾化湿",
+    points: ["足三里", "阴陵泉", "三阴交", "关元", "气海", "水分"]
+  },
+  "脾胃虚寒": {
+    effect: "温中散寒、健脾和胃",
+    points: ["足三里", "内庭", "中脘", "神阙", "脾俞", "胃俞"]
+  },
+  "心下痞满": {
+    effect: "消痞散结、和胃降逆",
+    points: ["足三里", "内庭", "阳陵泉", "中脘", "上脘", "公孙"]
+  },
+  "下焦蓄血": {
+    effect: "破血下瘀、通经止痛",
+    points: ["太冲", "三阴交", "血海", "膈俞", "肝俞"]
+  },
+  "蓄水证-小便不利": {
+    effect: "利水渗湿、通调水道",
+    points: ["足三里", "阴陵泉", "三阴交", "中极", "膀胱俞", "委阳"]
+  },
+  "痰饮-目眩心悸": {
+    effect: "温阳化饮、宁心安神",
+    points: ["足三里", "内庭", "通里", "中脘", "丰隆", "神门"]
+  },
+  "妇人脏躁": {
+    effect: "养心安神、疏肝理气",
+    points: ["通里", "神门", "太冲", "内关", "三阴交", "百会"]
+  },
+  "虚烦失眠": {
+    effect: "养血安神、清热除烦",
+    points: ["通里", "神门", "三阴交", "内关", "安眠", "百会"]
+  },
+  "肾阳不足": {
+    effect: "温补肾阳、固本培元",
+    points: ["足三里", "太溪", "关元", "命门", "肾俞", "气海"]
+  },
+  "阳虚便血": {
+    effect: "温阳止血、健脾统血",
+    points: ["足三里", "内庭", "三阴交", "关元", "脾俞", "血海"]
+  },
+  "崩漏下血": {
+    effect: "调经止血、固冲摄血",
+    points: ["太冲", "三阴交", "隐白", "关元", "血海", "膈俞"]
+  },
+  "冲任虚寒": {
+    effect: "温经散寒、养血调经",
+    points: ["太冲", "三阴交", "关元", "气海", "归来", "血海"]
+  },
+  "大寒痛": {
+    effect: "温中散寒、通络止痛",
+    points: ["足三里", "内庭", "中脘", "神阙", "梁丘", "公孙"]
+  },
+  "历节疼痛": {
+    effect: "祛风除湿、通络止痛",
+    points: ["阳陵泉", "环跳", "曲池", "合谷", "血海", "膈俞", "阿是穴"]
+  },
+  "风水浮肿": {
+    effect: "发汗利水、消肿除胀",
+    points: ["足三里", "阴陵泉", "三阴交", "水分", "水道", "复溜"]
+  },
+  "胸痹心痛": {
+    effect: "通阳宣痹、行气活血",
+    points: ["通里", "内关", "膻中", "心俞", "厥阴俞", "巨阙"]
+  },
+  // ========== 倪海厦常用经方针灸配穴 ==========
+  "血虚寒凝-手足厥冷": {
+    effect: "温经散寒、养血通络（倪海厦：命门+涌泉引火归元）",
+    points: ["命门", "涌泉", "后溪", "足三里", "三阴交", "关元"]
+  },
+  "少阴热化-失眠心烦": {
+    effect: "滋阴降火、交通心肾（倪海厦：神门+安眠+百会安神）",
+    points: ["神门", "安眠", "百会", "太溪", "内关", "三阴交"]
+  },
+  "惊烦谵语-抑郁症": {
+    effect: "重镇安神、解郁开窍（倪海厦：百会+神门调神）",
+    points: ["百会", "神门", "内关", "太冲", "丰隆", "大陵"]
+  },
+  "太少两感-少阴外感": {
+    effect: "温阳解表、助阳散寒（倪海厦：大椎+合谷开表）",
+    points: ["大椎", "曲池", "合谷", "足三里", "关元", "后溪"]
+  },
+  "厥阴寒热错杂": {
+    effect: "寒热平调、安蛔止痛（倪海厦：中脘+足三里调中）",
+    points: ["中脘", "足三里", "内关", "公孙", "太冲", "阳陵泉"]
+  },
+  "心阳虚烦躁": {
+    effect: "温补心阳、重镇安神（倪海厦：巨阙+神门定悸）",
+    points: ["巨阙", "神门", "内关", "劳宫", "关元", "膻中"]
+  },
+  "心动悸脉结代": {
+    effect: "滋阴养血、益气温阳、复脉定悸（倪海厦：巨阙+少府养心）",
+    points: ["巨阙", "少府", "神门", "劳宫", "关元", "内关"]
+  },
+  "妇人血水不调": {
+    effect: "养血调肝、健脾利湿（倪海厦：血海+地机+三阴交调血）",
+    points: ["血海", "三阴交", "地机", "隐白", "归来", "气海"]
+  },
+  "梅核气": {
+    effect: "行气散结、降逆化痰（倪海厦：天突+膻中利咽）",
+    points: ["天突", "膻中", "丰隆", "内关", "太冲", "廉泉"]
+  }
+};
+
+// ========== 全局状态 ==========
+let selectedSymptoms = [];
+const MAX_SYMPTOMS = 6;
+
+const symptomSelect = document.getElementById('symptomSelect');
+const patientSelect = document.getElementById('patientType');
+const emptyState = document.getElementById('emptyState');
+const resultArea = document.getElementById('resultArea');
+
+// ===== 自定义下拉列表初始化 =====
+function initCustomSelect(selectEl) {
+  const wrapper = selectEl.closest('.custom-select-wrapper');
+  if (!wrapper) return;
+  const trigger = wrapper.querySelector('.custom-select-trigger');
+  const optionsList = wrapper.querySelector('.custom-options');
+  if (!trigger || !optionsList) return;
+
+  function rebuildOptions() {
+    optionsList.innerHTML = '';
+    Array.from(selectEl.options).forEach((opt, idx) => {
+      if (idx === 0 && opt.value === '') return;
+      const li = document.createElement('li');
+      li.className = 'custom-option';
+      li.textContent = opt.textContent;
+      li.dataset.value = opt.value;
+      if (selectEl.value === opt.value) li.classList.add('selected');
+      li.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectEl.value = opt.value;
+        trigger.textContent = opt.textContent;
+        trigger.classList.remove('placeholder');
+        trigger.title = opt.textContent;
+        optionsList.querySelectorAll('.custom-option').forEach(o => o.classList.remove('selected'));
+        li.classList.add('selected');
+        trigger.classList.remove('active');
+        optionsList.classList.remove('open');
+        wrapper.style.zIndex = '';
+        selectEl.dispatchEvent(new Event('change', { bubbles: true }));
+      });
+      optionsList.appendChild(li);
+    });
+  }
+
+  rebuildOptions();
+
+    trigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpening = !optionsList.classList.contains('open');
+    document.querySelectorAll('.custom-options.open').forEach(list => {
+      if (list !== optionsList) {
+        list.classList.remove('open');
+        const otherWrapper = list.closest('.custom-select-wrapper');
+        otherWrapper.querySelector('.custom-select-trigger').classList.remove('active');
+        otherWrapper.style.zIndex = '';
+        const otherRow = otherWrapper.closest('.selector-row');
+        if (otherRow) otherRow.style.zIndex = '';
+      }
+    });
+    trigger.classList.toggle('active');
+    optionsList.classList.toggle('open');
+    wrapper.style.zIndex = isOpening ? '100' : '';
+    const row = wrapper.closest('.selector-row');
+    if (row) row.style.zIndex = isOpening ? '10' : '';
+  });
+
+  selectEl.addEventListener('change', () => {
+    const selectedOpt = Array.from(selectEl.options).find(o => o.value === selectEl.value);
+    if (selectedOpt) {
+      trigger.textContent = selectedOpt.textContent;
+      trigger.title = selectedOpt.textContent;
+      trigger.classList.toggle('placeholder', !selectEl.value);
+    }
+    optionsList.querySelectorAll('.custom-option').forEach(o => {
+      o.classList.toggle('selected', o.dataset.value === selectEl.value);
+    });
+  });
+
+  selectEl._rebuildCustom = rebuildOptions;
+}
+
+// 初始化所有 select
+document.querySelectorAll('select[data-custom="true"]').forEach(initCustomSelect);
+
+// 填充症状选项（扁平列表，辨治要点主症）
+symptomList.forEach(item => {
+  const opt = document.createElement('option');
+  opt.value = item.key;
+  opt.textContent = item.label;
+  symptomSelect.appendChild(opt);
+});
+if (symptomSelect._rebuildCustom) symptomSelect._rebuildCustom();
+
+// 添加症状
+function addSymptom() {
+  const symptomKey = symptomSelect.value;
+  if (!symptomKey) {
+    alert('请先选择一个主症');
+    return;
+  }
+  if (selectedSymptoms.length >= MAX_SYMPTOMS) {
+    alert('最多选择6个症状');
+    return;
+  }
+  if (selectedSymptoms.includes(symptomKey)) {
+    alert('该症状已添加');
+    return;
+  }
+
+  selectedSymptoms.push(symptomKey);
+  renderSelectedTags();
+
+  // 清空当前选择
+  symptomSelect.value = '';
+  const wrapper = symptomSelect.closest('.custom-select-wrapper');
+  const trigger = wrapper.querySelector('.custom-select-trigger');
+  trigger.textContent = '请选择 …';
+  trigger.classList.add('placeholder');
+}
+
+// 删除症状
+function removeSymptom(index) {
+  selectedSymptoms.splice(index, 1);
+  renderSelectedTags();
+}
+
+// 渲染已选标签
+function renderSelectedTags() {
+  const container = document.getElementById('selectedTags');
+  const countEl = document.getElementById('tagCount');
+  container.innerHTML = '';
+
+  selectedSymptoms.forEach((key, idx) => {
+    const item = symptomList.find(s => s.key === key);
+    const label = item ? item.label.split('（')[0] : key;
+    const tag = document.createElement('div');
+    tag.className = 'tag';
+    tag.innerHTML = `${label}<button class="btn btn-remove" onclick="removeSymptom(${idx})">✕</button>`;
+    container.appendChild(tag);
+  });
+
+  countEl.textContent = `已选 ${selectedSymptoms.length} / ${MAX_SYMPTOMS} 个症状`;
+}
+
+// 计算剂量
+function calcDose(base, unit, type) {
+  if (unit === '枚' || unit === 'ml') return base;
+  if (type === '成人') return Math.round(base * 1.3 * 10) / 10;
+  return base;
+}
+
+// 合方算法
+function mergePrescriptions(keys, patientType) {
+  if (keys.length === 0) return null;
+  if (keys.length === 1) {
+    const rx = prescriptions[keys[0]];
+    return {
+      name: rx.name,
+      sources: [rx.source],
+      categories: [rx.category],
+      ingredients: rx.ingredients.map(ing => ({
+        name: ing.name,
+        unit: ing.unit,
+        base: ing.base,
+        dose: calcDose(ing.base, ing.unit, patientType),
+        from: [rx.name]
+      })),
+      decoction: rx.decoction,
+      notes: [rx.note],
+      complexity: rx.complexity,
+      acuEffects: [acupointMapping[keys[0]].effect],
+      acuPoints: [...acupointMapping[keys[0]].points]
+    };
+  }
+
+  // 多症合方
+  const mergedIngredients = {};
+  let maxComplexity = 0;
+  let mainDecoction = '';
+  const allNotes = [];
+  const sources = [];
+  const categories = [];
+  const acuEffects = [];
+  const allAcuPoints = [];
+
+  keys.forEach(key => {
+    const rx = prescriptions[key];
+    const acu = acupointMapping[key];
+
+    sources.push(rx.source);
+    categories.push(rx.category);
+    allNotes.push(`${rx.name}：${rx.note}`);
+    acuEffects.push(acu.effect);
+    allAcuPoints.push(...acu.points);
+
+    // 取最复杂的煎服法
+    if (rx.complexity > maxComplexity) {
+      maxComplexity = rx.complexity;
+      mainDecoction = rx.decoction;
+    }
+
+    // 合并药材（取最大值）
+    rx.ingredients.forEach(ing => {
+      if (!mergedIngredients[ing.name]) {
+        mergedIngredients[ing.name] = {
+          name: ing.name,
+          unit: ing.unit,
+          base: ing.base,
+          from: [rx.name]
+        };
+      } else {
+        // 取最大值
+        if (ing.base > mergedIngredients[ing.name].base) {
+          mergedIngredients[ing.name].base = ing.base;
+        }
+        mergedIngredients[ing.name].from.push(rx.name);
+      }
+    });
+  });
+
+  // 转为数组并计算剂量
+  const ingredients = Object.values(mergedIngredients).map(ing => ({
+    name: ing.name,
+    unit: ing.unit,
+    base: ing.base,
+    dose: calcDose(ing.base, ing.unit, patientType),
+    from: [...new Set(ing.from)]
+  }));
+
+  // 穴位去重
+  const uniquePoints = [...new Set(allAcuPoints)];
+
+  // 合方名称
+  const rxNames = keys.map(k => prescriptions[k].name);
+  const mergedName = rxNames.join(' + ') + ' 合方';
+
+  return {
+    name: mergedName,
+    sources: [...new Set(sources)],
+    categories: [...new Set(categories)],
+    ingredients: ingredients,
+    decoction: mainDecoction,
+    notes: allNotes,
+    complexity: maxComplexity,
+    acuEffects: acuEffects,
+    acuPoints: uniquePoints
+  };
+}
+
+// 查询合方
+function query() {
+  const patient = patientSelect.value;
+
+  if (selectedSymptoms.length === 0) {
+    alert('请先添加至少一个症状');
+    return;
+  }
+  if (!patient) {
+    alert('请选择患者类型');
+    return;
+  }
+
+  const merged = mergePrescriptions(selectedSymptoms, patient);
+  if (!merged) {
+    alert('合方失败，请重试');
+    return;
+  }
+
+  // 显示结果区
+  emptyState.style.display = 'none';
+  resultArea.classList.add('active');
+
+  // 填充合方信息
+  document.getElementById('sourceBadge').textContent = merged.sources.join(' · ');
+  document.getElementById('rxName').textContent = merged.name;
+  document.getElementById('rxSources').textContent = merged.categories.join('；');
+  document.getElementById('rxPatient').innerHTML = `<strong>${patient}</strong> ${patient === '成人' ? '（剂量上浮 30%）' : '（保持基准剂量）'}`;
+  document.getElementById('doseHeader').textContent = patient + '剂量';
+
+  // 填充药材表格
+  const tbody = document.getElementById('ingredientsBody');
+  tbody.innerHTML = '';
+  merged.ingredients.forEach(ing => {
+    const fromStr = ing.from.join('、');
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><strong>${ing.name}</strong></td>
+      <td>${ing.base} ${ing.unit}</td>
+      <td><strong style="color:var(--accent);">${ing.dose} ${ing.unit}</strong></td>
+      <td>${fromStr}</td>
+    `;
+    tbody.appendChild(row);
+  });
+
+  // 煎服法
+  document.getElementById('rxDecoction').textContent = merged.decoction;
+
+  // 注意事项
+  const noteList = document.getElementById('rxNoteList');
+  noteList.innerHTML = '';
+  merged.notes.forEach(note => {
+    const li = document.createElement('li');
+    li.textContent = note;
+    noteList.appendChild(li);
+  });
+
+  // 针灸配穴
+  document.getElementById('acuEffect').textContent = merged.acuEffects.join('；');
+
+  const acuGrid = document.getElementById('acuGrid');
+  acuGrid.innerHTML = '';
+
+  merged.acuPoints.forEach(name => {
+    const info = tianxing12[name] || {
+      pair: name, channel: '常用配穴',
+      location: '按针灸学标准取穴',
+      effect: '辨证取穴',
+      mainFor: '对症治疗'
+    };
+    const tonify = acupointTonification[name] || { type: '平', method: '平补平泻，辨证施治' };
+
+    const card = document.createElement('div');
+    card.className = 'acu-card';
+
+    const tonifyClass = tonify.type === '补' ? 'acu-tonify' : (tonify.type === '泻' ? 'acu-drain' : 'acu-tag');
+    const tonifyLabel = tonify.type === '补' ? '补法' : (tonify.type === '泻' ? '泻法' : (tonify.type === '灸' ? '灸法' : '平补平泻'));
+
+    card.innerHTML = `
+      <h4>🪡 ${name}</h4>
+      <p><strong>所属经络：</strong>${info.channel}</p>
+      <p><strong>定位：</strong>${info.location}</p>
+      <p><strong>功效：</strong>${info.effect}</p>
+      <p><strong>主治：</strong>${info.mainFor}</p>
+      <p style="margin-top:6px;"><strong>手法：</strong>${tonifyLabel} — ${tonify.method}</p>
+      <span class="acu-tag">${info.pair}</span>
+      <span class="${tonifyClass}">${tonifyLabel}</span>
+    `;
+    acuGrid.appendChild(card);
+  });
+
+  // 滚动到结果
+  resultArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// 点击空白处关闭下拉
+document.addEventListener('click', () => {
+  document.querySelectorAll('.custom-options.open').forEach(list => {
+    list.classList.remove('open');
+    const wrapper = list.closest('.custom-select-wrapper');
+    wrapper.querySelector('.custom-select-trigger').classList.remove('active');
+    wrapper.style.zIndex = '';
+    const row = wrapper.closest('.selector-row');
+    if (row) row.style.zIndex = '';
+  });
+});
+</script>
+</body>
+</html>

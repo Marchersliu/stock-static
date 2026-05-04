@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>投资组合配置策略</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f5f7fa; color: #333; padding: 16px; line-height: 1.6; }
+  .container { max-width: 480px; margin: 0 auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; }
+  .header { background: #1a5276; color: #fff; padding: 24px 20px; text-align: center; }
+  .header h1 { font-size: 22px; margin-bottom: 6px; }
+  .header .subtitle { font-size: 14px; opacity: 0.85; }
+  .section { padding: 16px 20px; border-bottom: 1px solid #f0f0f0; }
+  .section:last-child { border-bottom: none; }
+  .section-title { font-size: 16px; font-weight: 700; color: #1a5276; margin-bottom: 12px; display: flex; align-items: center; }
+  .section-title .icon { font-size: 18px; margin-right: 8px; }
+
+  .fund-card { background: #eaf2f8; border-radius: 12px; padding: 16px; margin-bottom: 10px; }
+  .fund-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px dashed #d0dce8; }
+  .fund-row:last-child { border-bottom: none; }
+  .fund-name { font-weight: 600; }
+  .fund-pct { font-weight: 700; color: #1a5276; }
+  .highlight-row { background: #fff3cd; border-radius: 6px; padding: 8px 12px; margin: 4px -4px; }
+  .highlight-row .fund-name { color: #856404; }
+  .highlight-row .fund-pct { color: #d35400; }
+
+  .stock-card { background: #f8f9fa; border-radius: 12px; padding: 16px; margin-bottom: 12px; border-left: 4px solid #3498db; }
+  .stock-card.new { border-left-color: #e74c3c; }
+  .stock-card.core { border-left-color: #27ae60; }
+  .stock-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .stock-name { font-size: 17px; font-weight: 700; }
+  .stock-tag { font-size: 11px; padding: 3px 8px; border-radius: 10px; font-weight: 600; }
+  .tag-core { background: #d4edda; color: #155724; }
+  .tag-new { background: #f8d7da; color: #721c24; }
+  .tag-theme { background: #e2e3f3; color: #2c3e50; }
+  .tag-reversal { background: #fff3cd; color: #856404; }
+  .stock-detail { font-size: 14px; color: #555; }
+  .stock-detail li { margin: 5px 0; list-style: none; padding-left: 16px; position: relative; }
+  .stock-detail li::before { content: "→"; position: absolute; left: 0; color: #3498db; font-weight: bold; }
+  .stock-detail .key { color: #c0392b; font-weight: 700; }
+  .stock-detail .good { color: #27ae60; font-weight: 700; }
+
+  .hyou-card { background: #fdf2f2; border: 2px solid #e74c3c; border-radius: 12px; padding: 16px; margin-bottom: 12px; }
+  .hyou-title { font-size: 16px; font-weight: 700; color: #c0392b; margin-bottom: 10px; display: flex; align-items: center; }
+  .hyou-title::before { content: "🔥"; margin-right: 6px; }
+  .price-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+  .price-cell { background: #fff; border-radius: 8px; padding: 10px; text-align: center; border: 1px solid #f5c6cb; }
+  .price-label { font-size: 12px; color: #666; margin-bottom: 4px; }
+  .price-val { font-size: 16px; font-weight: 700; }
+  .price-buy { color: #27ae60; }
+  .price-sell { color: #c0392b; }
+  .price-stop { color: #e67e22; }
+
+  .step-card { display: flex; align-items: flex-start; margin-bottom: 12px; padding: 12px; background: #f8f9fa; border-radius: 10px; }
+  .step-num { width: 28px; height: 28px; background: #1a5276; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; margin-right: 12px; margin-top: 2px; }
+  .step-content { font-size: 14px; }
+  .step-content strong { color: #1a5276; }
+
+  .risk-box { background: #f8d7da; border-radius: 10px; padding: 14px; color: #721c24; font-size: 13px; }
+
+  .footer { text-align: center; color: #999; font-size: 12px; padding: 16px; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>🎯 投资组合配置策略</h1>
+    <div class="subtitle">参考比例与操作策略 | 更新日期：2026.04.30</div>
+  </div>
+
+  <!-- 配置比例 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">💰</span>建议配置比例</div>
+    <div class="fund-card">
+      <div class="fund-row highlight-row">
+        <span class="fund-name">🥇 宝丰能源 (600989)</span>
+        <span class="fund-pct">32%</span>
+      </div>
+      <div class="fund-row highlight-row">
+        <span class="fund-name">🔥 华友钴业 (603799)</span>
+        <span class="fund-pct">12%</span>
+      </div>
+      <div class="fund-row">
+        <span class="fund-name">⚡ 红星发展 (600367)</span>
+        <span class="fund-pct">15%</span>
+      </div>
+      <div class="fund-row">
+        <span class="fund-name">💻 禾望电气 (603063)</span>
+        <span class="fund-pct">10%</span>
+      </div>
+      <div class="fund-row">
+        <span class="fund-name">📜 ST晨鸣 (000488)</span>
+        <span class="fund-pct">5%</span>
+      </div>
+      <div class="fund-row">
+        <span class="fund-name">🔩 鑫磊股份 (301317)</span>
+        <span class="fund-pct">3%</span>
+      </div>
+      <div class="fund-row" style="border-top:2px solid #ddd; margin-top:6px; padding-top:10px;">
+        <span class="fund-name">💵 现金/机动</span>
+        <span class="fund-pct">23%</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 核心仓位 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🥇</span>核心仓位（确定性最高）</div>
+
+    <div class="stock-card core">
+      <div class="stock-header">
+        <span class="stock-name">宝丰能源 600989</span>
+        <span class="stock-tag tag-core">核心锚定</span>
+      </div>
+      <ul class="stock-detail">
+        <li>建议仓位 <span class="key">32%</span></li>
+        <li>Q1净利 <span class="good">36.6亿，同比+50%</span></li>
+        <li>内蒙古项目投产，Q2继续向好</li>
+        <li>买入：回调到 <span class="key">33元附近</span> 建仓</li>
+        <li>持有：业绩增长确定性最高</li>
+      </ul>
+    </div>
+
+    <div class="stock-card new">
+      <div class="stock-header">
+        <span class="stock-name">华友钴业 603799</span>
+        <span class="stock-tag tag-new">新增</span>
+      </div>
+      <ul class="stock-detail">
+        <li>建议仓位 <span class="key">12%</span></li>
+        <li>Q1净利 <span class="good">25亿，同比+99%</span>，毛利率+5.8pct</li>
+        <li>镍钴锂三金属齐涨，印尼产能释放</li>
+        <li>PE仅13倍，机构目标价 <span class="good">85-91元</span></li>
+      </ul>
+
+      <div class="hyou-card">
+        <div class="hyou-title">华友钴业 操作区间</div>
+        <div class="price-grid">
+          <div class="price-cell">
+            <div class="price-label">买入区间</div>
+            <div class="price-val price-buy">62-64元</div>
+          </div>
+          <div class="price-cell">
+            <div class="price-label">止损线</div>
+            <div class="price-val price-stop">58元</div>
+          </div>
+          <div class="price-cell">
+            <div class="price-label">目标1 (卖1/3)</div>
+            <div class="price-val price-sell">75元</div>
+          </div>
+          <div class="price-cell">
+            <div class="price-label">目标2 (卖1/3)</div>
+            <div class="price-val price-sell">80元</div>
+          </div>
+          <div class="price-cell">
+            <div class="price-label">目标3 (清仓)</div>
+            <div class="price-val price-sell">85元+</div>
+          </div>
+          <div class="price-cell">
+            <div class="price-label">持有周期</div>
+            <div class="price-val">3-6个月</div>
+          </div>
+        </div>
+        <div style="font-size:13px;color:#555;margin-top:8px;">
+          <strong>买入节奏：</strong>节后第一周若开在66附近先观察，等回调到63附近进第一批；直接冲70+不追，等回落。
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 弹性仓位 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚡</span>弹性仓位（题材+业绩）</div>
+
+    <div class="stock-card">
+      <div class="stock-header">
+        <span class="stock-name">红星发展 600367</span>
+        <span class="stock-tag tag-theme">涨价+产能</span>
+      </div>
+      <ul class="stock-detail">
+        <li>建议仓位 <span class="key">15%</span></li>
+        <li>碳酸锶涨价+新厂6万吨产能释放，Q2业绩可期</li>
+        <li>买入：现价附近即可建仓</li>
+      </ul>
+    </div>
+
+    <div class="stock-card">
+      <div class="stock-header">
+        <span class="stock-name">禾望电气 603063</span>
+        <span class="stock-tag tag-theme">AI算力电力</span>
+      </div>
+      <ul class="stock-detail">
+        <li>建议仓位 <span class="key">10%</span></li>
+        <li>维谛→英伟达800V HVDC间接供货</li>
+        <li>买入：回调到 <span class="key">37元附近</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 小仓位 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">🎲</span>小仓位博弈</div>
+
+    <div class="stock-card">
+      <div class="stock-header">
+        <span class="stock-name">ST晨鸣 000488</span>
+        <span class="stock-tag tag-reversal">困境反转</span>
+      </div>
+      <ul class="stock-detail">
+        <li>建议仓位 <span class="key">5%</span></li>
+        <li>维持现有仓位，等摘帽消息</li>
+        <li>赢了锦上添花，输了不伤筋骨</li>
+      </ul>
+    </div>
+
+    <div class="stock-card">
+      <div class="stock-header">
+        <span class="stock-name">鑫磊股份 301317</span>
+        <span class="stock-tag tag-reversal">等验证</span>
+      </div>
+      <ul class="stock-detail">
+        <li>建议仓位 <span class="key">3%</span></li>
+        <li>极小仓位等Q2扭亏验证，不提前加仓</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 操作顺序 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">📋</span>建仓节奏建议</div>
+
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-content">
+        <strong>宝丰能源优先建仓</strong><br>
+        33元附近开始建仓，核心仓位控制在32%以内<br>
+        <small style="color:#888">（如果高开太多，等回踩5日线）</small>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-content">
+        <strong>华友钴业择机建仓</strong><br>
+        回调到 <strong>62-64元</strong> 开始建仓，仓位控制在12%<br>
+        <small style="color:#e74c3c">⚠️ 不追高！70元以上不建仓</small>
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-content">
+        <strong>红星发展建仓</strong><br>
+        现价附近买入，仓位控制在15%
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">4</div>
+      <div class="step-content">
+        <strong>禾望电气建仓</strong><br>
+        37元附近买入，仓位控制在10%
+      </div>
+    </div>
+
+    <div class="step-card">
+      <div class="step-num">5</div>
+      <div class="step-content">
+        <strong>晨鸣/鑫磊</strong><br>
+        晨鸣维持不动，鑫磊等Q2再决定
+      </div>
+    </div>
+  </div>
+
+  <!-- 现金用途 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">💵</span>现金23% 用途</div>
+    <ul style="font-size:14px;color:#555;padding-left:18px;">
+      <li style="margin:6px 0;">华友回调到62补仓（如果第一次没买够）</li>
+      <li style="margin:6px 0;">宝丰回踩5日线加仓</li>
+      <li style="margin:6px 0;">节后大盘高开低走捡便宜</li>
+      <li style="margin:6px 0;">鑫磊Q2扭亏确认后追加</li>
+    </ul>
+  </div>
+
+  <!-- 风险 -->
+  <div class="section">
+    <div class="section-title"><span class="icon">⚠️</span>关键风险提醒</div>
+    <div class="risk-box">
+      <strong>华友钴业：</strong>强周期股，镍钴价格若回调股价会跟跌，58元是硬止损。<br><br>
+      <strong>宝丰能源：</strong>煤化工弱周期，但油价煤价波动仍会影响利润。<br><br>
+      <strong>红星发展：</strong>小盘股流动性差，大涨大跌都要谨慎。<br><br>
+      <strong>禾望电气：</strong>AI电力概念偏主题，业绩兑现需要时间。<br><br>
+      <strong>总仓位：</strong>不要在单只股票上超过35%，当前宝丰32%已接近上限。
+    </div>
+  </div>
+
+  <div class="footer">
+    策略更新于 2026.04.30 | 仅供参考，不构成投资建议
+  </div>
+
+</div>
+
+</body>
+</html>

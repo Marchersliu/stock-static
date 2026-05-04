@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广州五一行程</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; background: #fff; color: #333; line-height: 1.6; }
+  .card { max-width: 480px; margin: 0 auto; padding: 16px; }
+  .header { text-align: center; padding: 12px 0 16px; border-bottom: 3px solid #1a5276; margin-bottom: 12px; }
+  .header h1 { font-size: 22px; color: #1a5276; }
+  .header p { font-size: 12px; color: #888; margin-top: 4px; }
+
+  .day-block { margin-bottom: 14px; background: #f8f9fa; border-radius: 12px; overflow: hidden; }
+  .day-header { background: #1a5276; color: #fff; padding: 10px 14px; font-size: 16px; font-weight: 700; display: flex; align-items: center; }
+  .day-header .tag { background: rgba(255,255,255,0.25); font-size: 11px; padding: 2px 8px; border-radius: 8px; margin-left: auto; }
+  .day-body { padding: 12px 14px; }
+
+  .item { display: flex; margin-bottom: 10px; }
+  .item:last-child { margin-bottom: 0; }
+  .time { width: 66px; flex-shrink: 0; font-size: 13px; font-weight: 700; color: #1a5276; line-height: 1.4; }
+  .content { flex: 1; font-size: 13px; color: #444; }
+  .content strong { color: #222; font-size: 14px; }
+  .content .note { color: #888; font-size: 12px; margin-top: 2px; }
+  .content .highlight { background: #fff3cd; padding: 1px 4px; border-radius: 4px; color: #856404; font-weight: 600; }
+
+  .divider { border-top: 1px dashed #ddd; margin: 8px 0; }
+
+  .tips-box { background: #e8f4fd; border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
+  .tips-box h3 { font-size: 14px; color: #1a5276; margin-bottom: 8px; }
+  .tips-box ul { list-style: none; font-size: 12px; color: #555; }
+  .tips-box li { margin-bottom: 5px; padding-left: 14px; position: relative; }
+  .tips-box li::before { content: "•"; position: absolute; left: 0; color: #1a5276; font-weight: bold; }
+
+  .pack-box { background: #fdf2f2; border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
+  .pack-box h3 { font-size: 14px; color: #c0392b; margin-bottom: 8px; }
+  .pack-box ul { list-style: none; font-size: 12px; color: #555; }
+  .pack-box li { margin-bottom: 5px; padding-left: 14px; position: relative; }
+  .pack-box li::before { content: "✓"; position: absolute; left: 0; color: #27ae60; font-weight: bold; }
+
+  .footer { text-align: center; color: #bbb; font-size: 11px; padding: 16px 0; }
+</style>
+</head>
+<body>
+<div class="card">
+
+  <div class="header">
+    <h1>🗺️ 广州五一三日行程</h1>
+    <p>5.2-5.4 | 威斯汀→长隆 | 带10岁女儿</p>
+  </div>
+
+  <!-- Day 1 -->
+  <div class="day-block">
+    <div class="day-header">
+      📅 5月2日（周六）天河CBD
+      <span class="tag">入住威斯汀</span>
+    </div>
+    <div class="day-body">
+      <div class="item">
+        <div class="time">10:00-12:00</div>
+        <div class="content"><strong>抵达入住</strong><div class="note">海航威斯汀，天河区林和中路6号</div></div>
+      </div>
+      <div class="item">
+        <div class="time">12:00-14:00</div>
+        <div class="content"><strong>午餐：陶陶居</strong><div class="note">正佳广场店，必点：菠萝包、虾饺、凤爪、艇仔粥</div></div>
+      </div>
+      <div class="item">
+        <div class="time">14:30-17:00</div>
+        <div class="content"><strong>广东省博物馆</strong><div class="note"><span class="highlight">⚠️ 提前1天公众号预约</span> 看恐龙化石、海洋馆、科威特皇室展</div></div>
+      </div>
+      <div class="item">
+        <div class="time">17:00-18:00</div>
+        <div class="content"><strong>花城广场+海心桥</strong><div class="note">免费，看广州塔全景，拍照</div></div>
+      </div>
+      <div class="item">
+        <div class="time">18:00-19:30</div>
+        <div class="content"><strong>晚餐：点都德</strong><div class="note">红米肠、流沙包、蛋挞、蒸排骨，孩子爱吃</div></div>
+      </div>
+      <div class="item">
+        <div class="time">19:30-21:00</div>
+        <div class="content"><strong>广州塔夜景</strong><div class="note">433米观光厅150元，18:30-19:30最佳</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 2 -->
+  <div class="day-block">
+    <div class="day-header">
+      📅 5月3日（周日）长隆欢乐世界
+      <span class="tag">换住长隆</span>
+    </div>
+    <div class="day-body">
+      <div class="item">
+        <div class="time">08:00-09:00</div>
+        <div class="content"><strong>退房+换酒店</strong><div class="note">威斯汀退房，打车去长隆酒店/熊猫酒店，存行李</div></div>
+      </div>
+      <div class="item">
+        <div class="time">09:30-11:30</div>
+        <div class="content"><strong>欢乐世界南门进</strong><div class="note">哈比儿童王国：梦幻转马→奇妙车队→弹跳塔→<span class="highlight">飞马家庭过山车</span>（她能坐的最刺激）</div></div>
+      </div>
+      <div class="item">
+        <div class="time">11:30-12:00</div>
+        <div class="content"><strong>4D影院</strong><div class="note">坐着看，歇脚避暑</div></div>
+      </div>
+      <div class="item">
+        <div class="time">12:00-13:30</div>
+        <div class="content"><strong>园区内午餐</strong><div class="note">欢乐小镇餐厅，有儿童套餐</div></div>
+      </div>
+      <div class="item">
+        <div class="time">13:30-14:30</div>
+        <div class="content"><strong>急流勇进+飓风飞椅</strong><div class="note">急流勇进会湿身，<span class="highlight">自带雨衣</span></div></div>
+      </div>
+      <div class="item">
+        <div class="time">14:30-15:30</div>
+        <div class="content"><strong>机甲大巡游</strong><div class="note"><span class="highlight">15:00 必看！</span> 占第一排，演员会互动</div></div>
+      </div>
+      <div class="item">
+        <div class="time">15:30-17:00</div>
+        <div class="content"><strong>欢乐摩天轮+二刷</strong><div class="note">看日落，拍照好看。喜欢的项目再玩一遍</div></div>
+      </div>
+      <div class="item">
+        <div class="time">18:30</div>
+        <div class="content"><strong>大马戏占座</strong><div class="note"><span class="highlight">提前1小时占座！</span> 选CD区第一排靠栏杆</div></div>
+      </div>
+      <div class="item">
+        <div class="time">19:30-21:00</div>
+        <div class="content"><strong>长隆国际大马戏</strong><div class="note">必看招牌，10岁女孩全程惊叹</div></div>
+      </div>
+
+      <div class="tips-box">
+        <h3>🎢 她能玩 vs 不能玩</h3>
+        <ul>
+          <li>✅ 能玩：梦幻转马、飞马家庭过山车、急流勇进、飓风飞椅、摩天轮、4D影院</li>
+          <li>❌ 别排：垂直过山车、十环过山车、火箭过山车、U型滑板、超级大摆锤、跳楼机</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Day 3 -->
+  <div class="day-block">
+    <div class="day-header">
+      📅 5月4日（周一）轻松返程
+      <span class="tag">下午飞机</span>
+    </div>
+    <div class="day-body">
+      <div class="item">
+        <div class="time">09:00-11:00</div>
+        <div class="content"><strong>自然醒+酒店早餐</strong><div class="note">Lazy morning，回血</div></div>
+      </div>
+      <div class="item">
+        <div class="time">11:00-13:00</div>
+        <div class="content"><strong>飞鸟乐园 / 休息</strong><div class="note">二选一：看百鸟飞歌(11:30)、喂火烈鸟、喂河马，或酒店游泳</div></div>
+      </div>
+      <div class="item">
+        <div class="time">13:00-14:00</div>
+        <div class="content"><strong>午餐：滋粥楼/大鸽饭</div>
+      </div>
+      <div class="item">
+        <div class="time">14:30</div>
+        <div class="content"><strong>出发去白云机场</strong><div class="note">长隆→机场约50-60分钟，五一预留充分</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="pack-box">
+    <h3>🎒 带女儿必带装备</h3>
+    <ul>
+      <li>加厚雨衣+鞋套×2（急流勇进用，园区卖50元）</li>
+      <li>小风扇/便携扇子（排队救命）</li>
+      <li>防晒霜（广州5月已经很热）</li>
+      <li>小零食+水（园区饮料30元/瓶）</li>
+      <li>舒适运动鞋（全天走路）</li>
+      <li>防丢绳（人多防走散）</li>
+    </ul>
+  </div>
+
+  <div class="footer">祝你和女儿玩得开心！🎉</div>
+
+</div>
+</body>
+</html>

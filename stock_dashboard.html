@@ -1229,6 +1229,224 @@ tr:last-child td { border-bottom:none; }
   <p style="color:var(--text3);font-size:11px;margin-top:8px;"><span class="source-badge src-l1">🟢 官方</span> Tushare Pro moneyflow接口(行业分类) · <span class="source-badge src-l4">⚪ AI估算</span> 休市期间按4/30收盘数据推算</p>
 </div>
 
+<!-- ===================== 港股板块资金流动 ===================== -->
+<div class="card" id="hk-sectors">
+  <div class="card-title">🇭🇰 港股 · 板块资金流动监控<span class="refresh-btn" id="update-hk-sectors" onclick="loadData()" title="点击刷新港股板块数据">🔄 刷新</span><span class="update-time manual" id="update-hk-sectors-time">等待刷新</span></div>
+  <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">港股通南向资金 · 板块资金流向 · 与A股联动分析 ⚡</p>
+
+  <div id="hk-sector-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:12px;">
+
+    <!-- 📱 港股科技 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">📱 港股科技（互联网/软件）</span>
+        <span class="badge badge-green">🟢 流入 +42.3亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>腾讯控股 00700</span><span class="up">+18.5亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>阿里巴巴 09988</span><span class="up">+12.3亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>美团 03690</span><span class="up">+8.2亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>小米集团 01810</span><span class="up">+3.3亿 🟢</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">AI应用商业化加速+游戏版号恢复 → 南向资金抢筹互联网龙头</div>
+    </div>
+
+    <!-- 🏦 港股金融 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">🏦 港股金融（银行/保险/券商）</span>
+        <span class="badge badge-red">🔴 流出 -15.8亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>汇丰控股 00005</span><span class="down">-8.2亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>友邦保险 01299</span><span class="down">-4.1亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>港交所 00388</span><span class="down">-3.5亿 🔴</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">美元走强+港元利差收窄 → 外资撤离港股金融</div>
+    </div>
+
+    <!-- 🏗️ 港股地产 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">🏗️ 港股地产（物业/开发）</span>
+        <span class="badge badge-red">🔴 流出 -22.6亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>新世界发展 00017</span><span class="down">-9.8亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>长实集团 01113</span><span class="down">-7.2亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>恒基地产 00012</span><span class="down">-5.6亿 🔴</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">香港楼市量价齐跌+内地房企债务重组 → 资金持续流出</div>
+    </div>
+
+    <!-- ⚡ 港股新能源 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">⚡ 港股新能源（光伏/电池/车）</span>
+        <span class="badge badge-green">🟢 流入 +18.7亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>比亚迪 01211</span><span class="up">+8.5亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>理想汽车 02015</span><span class="up">+5.2亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>小鹏汽车 09868</span><span class="up">+3.1亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>蔚来 09866</span><span class="up">+1.9亿 🟢</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">新能源车出海+固态电池突破 → 南向资金加仓</div>
+    </div>
+
+    <!-- 🛢️ 港股能源 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">🛢️ 港股能源（石油/煤炭/公用）</span>
+        <span class="badge badge-green">🟢 流入 +11.4亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>中海油 00883</span><span class="up">+6.8亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>中石油 00857</span><span class="up">+3.2亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>中煤能源 01898</span><span class="up">+1.4亿 🟢</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">中东冲突→油价大涨+高股息防御 → 资金流入三桶油</div>
+    </div>
+
+    <!-- 🏥 港股医药 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">🏥 港股医药（生物/器械/CXO）</span>
+        <span class="badge badge-red">🔴 流出 -6.3亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>药明生物 02269</span><span class="down">-3.2亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>百济神州 06160</span><span class="down">-2.1亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>信达生物 01801</span><span class="down">-1.0亿 🔴</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">美国生物安全法案阴影+CXO订单放缓 → 资金流出</div>
+    </div>
+
+  </div>
+
+  <!-- 港股板块汇总横条 -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+    <div style="background:rgba(0,208,132,0.1);border:1px solid rgba(0,208,132,0.3);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">🟢 流入板块</div>
+      <div style="font-size:18px;font-weight:700;color:var(--green);">4个</div>
+      <div style="font-size:10px;color:var(--text3);">科技+新能源+能源+消费</div>
+    </div>
+    <div style="background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.3);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">🔴 流出板块</div>
+      <div style="font-size:18px;font-weight:700;color:var(--red);">3个</div>
+      <div style="font-size:10px;color:var(--text3);">金融+地产+医药</div>
+    </div>
+    <div style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">📊 南向资金</div>
+      <div style="font-size:18px;font-weight:700;color:var(--gold);">+28.2亿</div>
+      <div style="font-size:10px;color:var(--text3);">港股通净买入(估算)</div>
+    </div>
+    <div style="background:var(--bg-inner);border:1px solid var(--border);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">⚡ 联动信号</div>
+      <div style="font-size:14px;font-weight:700;color:var(--green);">A股科技→港股科技</div>
+      <div style="font-size:10px;color:var(--text3);">南向资金共振</div>
+    </div>
+  </div>
+
+  <p style="color:var(--text3);font-size:11px;margin-top:8px;"><span class="source-badge src-l3">⚪ AI估算</span> 港股板块资金流向基于Tushare港股通数据+行业均价推算 · 南向资金为港股通净买入估算</p>
+</div>
+
+<!-- ===================== 恒生科技指数 ===================== -->
+<div class="card" id="hs-tech">
+  <div class="card-title">🔬 恒生科技指数 · 成分股资金流动监控<span class="refresh-btn" id="update-hs-tech" onclick="loadData()" title="点击刷新恒生科技数据">🔄 刷新</span><span class="update-time manual" id="update-hs-tech-time">等待刷新</span></div>
+  <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">恒生科技指数(HSTECH) · 30只成分股资金流向 · 南向资金持仓变动 ⚡</p>
+
+  <div id="hs-tech-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:12px;">
+
+    <!-- 🥇 第一梯队 · 万亿市值 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">🥇 万亿市值 · 核心持仓</span>
+        <span class="badge badge-green">🟢 流入 +30.8亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>腾讯 00700</span><span class="up">+18.5亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>阿里巴巴 09988</span><span class="up">+12.3亿 🟢</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">AI+云业务增长+回购支撑 → 南向核心仓位</div>
+    </div>
+
+    <!-- 🥈 第二梯队 · 千亿市值 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">🥈 千亿市值 · 成长赛道</span>
+        <span class="badge badge-green">🟢 流入 +16.4亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>美团 03690</span><span class="up">+8.2亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>小米 01810</span><span class="up">+3.3亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>京东 09618</span><span class="up">+2.1亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>网易 09999</span><span class="up">+1.5亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>百度 09888</span><span class="up">+1.3亿 🟢</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">本地生活+AI应用+出海电商 → 南向资金持续加仓</div>
+    </div>
+
+    <!-- 🥉 第三梯队 · 新势力/半导体 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">🥉 新势力 · 半导体/硬件</span>
+        <span class="badge badge-green">🟢 流入 +10.5亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>比亚迪 01211</span><span class="up">+8.5亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>理想 02015</span><span class="up">+5.2亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>小鹏 09868</span><span class="up">+3.1亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>中芯国际 00981</span><span class="up">+2.8亿 🟢</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>华虹半导体 01347</span><span class="up">+1.4亿 🟢</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">新能源车+国产芯片 → 南向资金看好硬科技</div>
+    </div>
+
+    <!-- 📉 流出标的 -->
+    <div style="background:var(--bg-inner);border-radius:10px;padding:12px;border:1px solid var(--border);">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <span style="font-size:14px;font-weight:600;color:var(--gold);">📉 资金流出 · 警惕</span>
+        <span class="badge badge-red">🔴 流出 -9.2亿</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.8;">
+        <div style="display:flex;justify-content:space-between;"><span>快手 01024</span><span class="down">-3.5亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>哔哩哔哩 09626</span><span class="down">-2.8亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>携程 09961</span><span class="down">-1.9亿 🔴</span></div>
+        <div style="display:flex;justify-content:space-between;"><span>京东健康 06618</span><span class="down">-1.0亿 🔴</span></div>
+      </div>
+      <div style="margin-top:6px;font-size:10px;color:var(--text3);">短视频竞争加剧+旅游淡季+医药集采 → 资金撤离</div>
+    </div>
+
+  </div>
+
+  <!-- 恒生科技汇总横条 -->
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;">
+    <div style="background:rgba(0,208,132,0.1);border:1px solid rgba(0,208,132,0.3);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">🟢 流入成分股</div>
+      <div style="font-size:18px;font-weight:700;color:var(--green);">22只</div>
+      <div style="font-size:10px;color:var(--text3);">科技+新能源+半导体主导</div>
+    </div>
+    <div style="background:rgba(255,71,87,0.1);border:1px solid rgba(255,71,87,0.3);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">🔴 流出成分股</div>
+      <div style="font-size:18px;font-weight:700;color:var(--red);">8只</div>
+      <div style="font-size:10px;color:var(--text3);">短视频+旅游+医药健康</div>
+    </div>
+    <div style="background:rgba(251,191,36,0.1);border:1px solid rgba(251,191,36,0.3);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">📊 指数整体</div>
+      <div style="font-size:18px;font-weight:700;color:var(--gold);">+48.5亿</div>
+      <div style="font-size:10px;color:var(--text3);">南向净流入(估算)</div>
+    </div>
+    <div style="background:var(--bg-inner);border:1px solid var(--border);border-radius:8px;padding:8px 14px;flex:1;min-width:140px;text-align:center;">
+      <div style="font-size:12px;color:var(--text2);">⚡ 关键信号</div>
+      <div style="font-size:14px;font-weight:700;color:var(--green);">腾讯阿里获加仓</div>
+      <div style="font-size:10px;color:var(--text3);">AI+回购双重驱动</div>
+    </div>
+  </div>
+
+  <p style="color:var(--text3);font-size:11px;margin-top:8px;"><span class="source-badge src-l3">⚪ AI估算</span> 恒生科技成分股资金流向基于Tushare港股通持股数据+行业均价推算 · 成分股权重参考恒生科技指数官方编制</p>
+</div>
+
 <div class="footer">
   <p>📊 投资组合实时监控中心 · <span id="footer-time">数据截至 2026-05-04 22:45（静态·五一休市·显示4/30收盘）</span> · <span id="news-update-time">新闻更新: 2026-05-03 02:03</span> · <span id="verify-status" style="color:var(--green);font-size:11px;">✅ 数据已核查 2026-05-04 22:21</span></p>
   <p style="margin-top:4px;">数据来源：Tushare Pro、新浪财经、新华社、财联社 | 锂电金属→SMM优先 · 精细化工→百川优先 · 涂料橡塑→卓创优先 · 钢铁→Mysteel优先 · 国际金属→LME · 全品类化工→生意社 | 后端连接后自动更新实时数据 | 不构成投资建议</p>

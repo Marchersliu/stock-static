@@ -1,0 +1,68 @@
+# === macOS ===
+.DS_Store
+*.DS_Store
+
+# === Logs ===
+logs/
+*.log
+
+# === Node.js ===
+node_modules/
+npm-debug.log*
+
+# === Personal Data ===
+.openclaw/
+openclaw/
+diary/
+memory/
+kimi-group-chat/
+hf/
+skills/
+stock_monitor/
+.imessage_config.json
+
+# === Build / Cache ===
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+
+# === IDE ===
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# === Temporary / Backup ===
+*.tmp
+*.bak
+*.old
+*.orig
+
+# === Defense data (temporary CSVs) ===
+defense_stocks_batch*.csv
+
+# === Work documents (unrelated) ===
+PPG张家港*
+
+# === Auto-push scripts (local only) ===
+auto_push_github.sh
+com.openclaw.*.plist
+send_imessage_alerts.py
+price_alert_*.json
+
+# === Downloaded media ===
+downloads/
+media/
+*.mp4
+*.mov
+*.avi
+
+# === Environment / Secrets ===
+.env
+.env.local
+*.key
+*.pem

@@ -2421,8 +2421,8 @@ function fetchNewsCandidates() {
         
         // 更新卡片标题日期+时间
         const newsDateTitle = document.getElementById('news-date-title');
-        if (newsDateTitle && latest.date && latest.time) {
-          newsDateTitle.textContent = `${latest.date} ${latest.time}`;
+        if (newsDateTitle) {
+          newsDateTitle.textContent = `${latest.date} 盘前`;
         }
       }
       

@@ -1277,7 +1277,7 @@ const GLOBAL_MARKETS = {
 };
 
 // ===================== 盘前新闻数据 =====================
-let LAST_NEWS_UPDATE = '2026-05-05 01:50'; // 新闻最后更新时间
+let LAST_NEWS_UPDATE = new Date().toISOString().slice(0,10); // 新闻最后更新时间（仅日期，盘前新闻不显示具体时间）
 const PAGE_BUILD = 'v0505-0150'; // 页面版本，用于检测缓存
 
 const PREMARKET_NEWS = [
@@ -2410,10 +2410,10 @@ function fetchNewsCandidates() {
         
         console.log('[Debug] DYNAMIC_NEWS set, length:', DYNAMIC_NEWS.length, 'first catTags:', DYNAMIC_NEWS[0]?.catTags);
         
-        // 更新 LAST_NEWS_UPDATE 为最新新闻的时间
+        // 更新 LAST_NEWS_UPDATE 为最新新闻的日期（不显示具体时间）
         const latest = candidates[0];
-        if (latest.date && latest.time) {
-          LAST_NEWS_UPDATE = `${latest.date} ${latest.time}`;
+        if (latest.date) {
+          LAST_NEWS_UPDATE = latest.date;
         }
         
         // 重新渲染新闻区域

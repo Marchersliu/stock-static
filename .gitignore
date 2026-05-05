@@ -9,6 +9,8 @@ logs/
 # === Node.js ===
 node_modules/
 npm-debug.log*
+package.json
+package-lock.json
 
 # === Personal Data ===
 .openclaw/
@@ -42,14 +44,49 @@ build/
 *.old
 *.orig
 
-# === Defense data (temporary CSVs) ===
+# === Temporary data files ===
+extracted_data.txt
+extracted_recipes.json
+merge_data.json
+new_prescriptions_data.js
+original_data.json
+portfolio_data.pkl
+stock-dashboard.zip
+
+# === Stock CSV dumps (temporary) ===
 defense_stocks_batch*.csv
+stock_batch*.csv
+stock_fix*.csv
+stock_jiuzhou_verify.csv
+stock_open_*.csv
+stock_rt_*.csv
+chalco_analysis.csv
+luoyang_moly_technical.csv
 
 # === Work documents (unrelated) ===
 PPG张家港*
+喷涂厂项目*
+协作总结_喷涂厂*
+广州五一行程*
+
+# === Reports / Analysis (generated, large) ===
+九州一轨深度评估报告*.html
+九州一轨_持仓策略卡.html
+五一节后_调仓策略卡*.html
+洛阳钼业深度分析报告.md
+洛阳钼业_实时价格.csv
+融合报告_倪海厦30问方剂.md
+证券行业分析报告*
+新闻数据源端口清单.md
+伤寒论金匮要略方剂大全.xlsx
+伤寒论金匮要略方剂查询系统.html
+
+# === Games / Projects (unrelated) ===
+perler-bead-game.html
 
 # === Auto-push scripts (local only) ===
 auto_push_github.sh
+push_github.sh
 com.openclaw.*.plist
 send_imessage_alerts.py
 price_alert_*.json
@@ -60,6 +97,13 @@ media/
 *.mp4
 *.mov
 *.avi
+
+# === Test files ===
+test.txt
+test_git.txt
+
+# === Skill files ===
+*.skill
 
 # === Environment / Secrets ===
 .env

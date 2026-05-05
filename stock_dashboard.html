@@ -184,7 +184,7 @@ tr:last-child td { border-bottom:none; }
 .cat-tag.policy { background:rgba(74,158,255,0.15); color:var(--blue); border:1px solid rgba(74,158,255,0.3); }
 .cat-tag.geo { background:rgba(168,85,247,0.15); color:var(--purple); border:1px solid rgba(168,85,247,0.3); }
 .cat-tag.market { background:rgba(251,191,36,0.15); color:var(--gold); border:1px solid rgba(251,191,36,0.3); }
-.news-title { font-size:13px; font-weight:600; color:var(--text); line-height:1.5; margin-bottom:4px; }
+.news-title { font-size:14px; font-weight:600; color:var(--text); line-height:1.5; margin-bottom:4px; }
 .news-summary { font-size:11px; color:var(--text2); line-height:1.6; }
 .news-time { font-size:10px; color:var(--text3); margin-top:6px; }
 .news-tag { display:inline-block; padding:1px 6px; border-radius:3px; font-size:10px; margin-left:6px; }
@@ -2477,15 +2477,15 @@ function fetchNewsCandidates() {
           if (item.url) {
             searchUrl = item.url;
             linkText = '查看原文';
-            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:15px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
+            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
           } else if (item.source && item.source.includes('Tushare')) {
             searchUrl = '#';
             linkText = 'Tushare来源';
-            titleHtml = `<span style="color:var(--text);font-size:15px;font-weight:600;line-height:1.5;cursor:default;">${item.title}</span>`;
+            titleHtml = `<span style="color:var(--text);font-size:12px;font-weight:600;line-height:1.5;cursor:default;">${item.title}</span>`;
           } else {
             searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`;
             linkText = '搜索查看';
-            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:15px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
+            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
           }
           
           html += `<div style="background:var(--bg-inner);border-radius:12px;padding:14px 16px;border-left:3px solid ${cat.color};margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='var(--bg-card)'" onmouseout="this.style.background='var(--bg-inner)'">

@@ -347,7 +347,7 @@ tr:last-child td { border-bottom:none; }
 </div>
 <!-- 重大事件监控 -->
 <div class="card">
-  <div class="card-title">📰 重大事件监控（5日内·直接相关）<span class="refresh-btn" id="update-events" onclick="fetchAndRenderEvents()" title="点击抓取最新重大事件">🔄 刷新</span><span class="update-time manual" id="update-events-time">等待刷新</span></div>
+  <div class="card-title">📰 重大事件监控（5日内·直接相关）<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-events" onclick="fetchAndRenderEvents()" title="点击抓取最新重大事件">🔄 刷新</span><span class="update-time manual" id="update-events-time">等待刷新</span></div>
   <div class="events-grid" id="events-grid">
     <div class="event-card company">
       <div class="event-header"><span class="event-type">🏢 公司</span><span class="event-date">4/7-5/1</span></div>
@@ -370,7 +370,7 @@ tr:last-child td { border-bottom:none; }
   </div>
 </div>
 <div class="card">
-  <div class="card-title">🏭 持仓+关注股 · 产业链成本透视 <span id="commodity-refresh-btn" style="cursor:pointer;font-size:12px;color:var(--accent);margin-left:10px;" onclick="refreshCommodities()">🔄 刷新</span> <span id="commodity-update-time" style="font-size:11px;color:var(--text3);margin-left:6px;"></span></div>
+  <div class="card-title">🏭 持仓+关注股 · 产业链成本透视<span class="update-time manual">截至 2026-05-05</span><span id="commodity-refresh-btn" style="cursor:pointer;font-size:12px;color:var(--accent);margin-left:10px;" onclick="refreshCommodities()">🔄 刷新</span> <span id="commodity-update-time" style="font-size:11px;color:var(--text3);margin-left:6px;"></span></div>
   <div class="commodity-board" id="commodity-board" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:15px;">
     <!-- 原料价格实时看板由JS动态填充 -->
     <div style="grid-column:1/-1;color:var(--text3);font-size:13px;text-align:center;padding:12px;background:var(--bg-inner);border-radius:8px;">⏳ 加载中...</div>
@@ -649,7 +649,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 持仓总览 -->
 <div class="card">
-  <div class="card-title">📋 持仓总览<span class="refresh-btn" id="update-holdings" onclick="loadData()" title="点击刷新持仓数据">🔄 刷新</span><span class="update-time manual" id="update-holdings-time">等待刷新</span></div>
+  <div class="card-title">📋 持仓总览<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-holdings" onclick="loadData()" title="点击刷新持仓数据">🔄 刷新</span><span class="update-time manual" id="update-holdings-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr>
@@ -699,7 +699,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 原材料价格监控 -->
 <div class="card">
-  <div class="card-title">🛢️ 原材料价格监控<span class="refresh-btn" id="update-materials" onclick="loadData()" title="点击刷新原材料价格">🔄 刷新</span><span class="update-time manual" id="update-materials-time">等待刷新</span></div>
+  <div class="card-title">🛢️ 原材料价格监控<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-materials" onclick="loadData()" title="点击刷新原材料价格">🔄 刷新</span><span class="update-time manual" id="update-materials-time">等待刷新</span></div>
   <div class="commodity-grid">
     <div class="commodity-box">
       <div class="name">碳酸锂（电池级）</div>
@@ -850,7 +850,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 计划建仓标的 -->
 <div class="card">
-  <div class="card-title">📅 计划建仓标的<span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
+  <div class="card-title">📅 计划建仓标的<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr><th>名称</th><th>代码</th><th>当前价</th><th>目标价</th><th>日涨跌</th><th>3日涨跌</th><th>5日涨跌</th><th>7日涨跌</th><th>距目标</th><th>消息面</th><th>资金面</th><th>技术面</th><th>说明</th><th>建议</th></tr></thead>
@@ -907,7 +907,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 融资融券数据 -->
 <div class="card">
-  <div class="card-title">💳 融资融券数据（Tushare Pro）<span class="refresh-btn" id="update-margin" onclick="refreshMargin()" title="点击刷新融资融券">🔄 刷新</span><span class="update-time manual" id="update-margin-time">等待刷新</span></div>
+  <div class="card-title">💳 融资融券数据（Tushare Pro）<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-margin" onclick="refreshMargin()" title="点击刷新融资融券">🔄 刷新</span><span class="update-time manual" id="update-margin-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:12px;margin-bottom:10px;">融资余额 = 借钱买股票余额 · 融券余额 = 借券做空余额 · 融资净买入 = 当日新增融资</p>
   <div class="overflow-x">
     <table id="margin-table">
@@ -929,7 +929,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 公司行为与特殊状态监控 -->
 <div class="card">
-  <div class="card-title">⚡ 公司行为与特殊状态监控<span class="refresh-btn" id="update-corp" onclick="refreshCorpEvents()" title="点击刷新公司公告">🔄 刷新</span><span class="update-time manual" id="update-corp-time">等待刷新</span></div>
+  <div class="card-title">⚡ 公司行为与特殊状态监控<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-corp" onclick="refreshCorpEvents()" title="点击刷新公司公告">🔄 刷新</span><span class="update-time manual" id="update-corp-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr>

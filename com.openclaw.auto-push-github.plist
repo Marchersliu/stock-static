@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.openclaw.auto-push-github</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>/Users/hf/.kimi_openclaw/workspace/auto_push_github.sh</string>
+    </array>
+    <key>StartInterval</key>
+    <integer>1800</integer>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/hf/.kimi_openclaw/workspace/logs/auto-push.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/hf/.kimi_openclaw/workspace/logs/auto-push-error.log</string>
+    <key>WorkingDirectory</key>
+    <string>/Users/hf/.kimi_openclaw/workspace</string>
+</dict>
+</plist>

@@ -1527,17 +1527,14 @@ function renderNewsItem(item) {
     return `<span class="cat-tag ${ct.cls || 'market'}">${ct.text || ct}</span>`;
   }).join('');
   const catTagsHtml = catTags ? `<div class="cat-tags">${catTags}</div>` : '';
-  // 没有原始链接时：Tushare来源不跳转，其他来源用百度搜索
+  // 没有原始链接时：统一用百度新闻搜索
   let titleHtml;
-  if (item.url) {
+  if (item.url && item.url !== '#' && !item.url.includes('tushare')) {
     // 有原始链接
     titleHtml = `<a href="${item.url}" target="_blank" style="color:inherit;text-decoration:none;cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${item.title}</a>`;
-  } else if (item.source && item.source.includes('Tushare')) {
-    // Tushare来源但没有原始链接 → 不跳转，纯文本显示
-    titleHtml = `<span style="color:inherit;cursor:default;">${item.title}</span>`;
   } else {
-    // 其他来源没有链接 → 百度搜索
-    const searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`;
+    // 无原始链接 → 百度新闻搜索
+    const searchUrl = `https://news.baidu.com/ns?word=${encodeURIComponent(item.title)}&tn=news`;
     titleHtml = `<a href="${searchUrl}" target="_blank" style="color:inherit;text-decoration:none;cursor:pointer;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">${item.title}</a>`;
   }
   return `
@@ -2476,19 +2473,15 @@ function fetchNewsCandidates() {
           
           // 标题（可点击跳转）
           let titleHtml, searchUrl, linkText;
-          if (item.url) {
+          if (item.url && item.url !== '#' && !item.url.includes('tushare')) {
             searchUrl = item.url;
             linkText = '查看原文';
-            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
-          } else if (item.source && item.source.includes('Tushare')) {
-            searchUrl = '#';
-            linkText = 'Tushare来源';
-            titleHtml = `<span style="color:var(--text);font-size:12px;font-weight:600;line-height:1.5;cursor:default;">${item.title}</span>`;
           } else {
-            searchUrl = `https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}`;
+            // 所有新闻统一用百度新闻搜索
+            searchUrl = `https://news.baidu.com/ns?word=${encodeURIComponent(item.title)}&tn=news`;
             linkText = '搜索查看';
-            titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
           }
+          titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
           
           html += `<div style="background:var(--bg-inner);border-radius:12px;padding:14px 16px;border-left:3px solid ${cat.color};margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='var(--bg-card)'" onmouseout="this.style.background='var(--bg-inner)'">
             <!-- 顶部行：分类标签 + 来源/时间 -->

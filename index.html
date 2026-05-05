@@ -1496,358 +1496,358 @@ const GLOBAL_MARKETS = {
 
 // ===================== 盘前新闻数据 =====================
 let LAST_NEWS_UPDATE = new Date().toISOString().slice(0,10); // 新闻最后更新时间（仅日期，盘前新闻不显示具体时间）
-const PAGE_BUILD = 'v0505-1156'; // 页面版本，用于检测缓存
+const PAGE_BUILD = 'v0505-1213'; // 页面版本，用于检测缓存
 
 const PREMARKET_NEWS = [
   {
-    id: 'auto_0', catTags: ["market"], category: 'ths', level: 'none',
+    id: 'auto_0', catTags: ["market"], category: 'eastmoney', level: 'none',
+    source: "Tushare·东方财富", sourceClass: 'eastmoney',
+    title: "特朗普：我以前常买中国货",
+    summary: "",
+    time: "05-05 12:03", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_1', catTags: ["market"], category: 'eastmoney', level: 'industry',
+    source: "Tushare·东方财富", sourceClass: 'eastmoney',
+    title: "【数说财报】一季度342家公司实打实扭亏 四大行业拐点显现",
+    summary: "",
+    time: "05-05 11:57", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_2', catTags: ["market"], category: 'ths', level: 'none',
     source: "Tushare·同花顺", sourceClass: 'ths',
     title: "韩国通报该国霍尔木兹海峡起火船只最新情况",
     summary: "",
     time: "05-05 11:47", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_1', catTags: ["policy"], category: 'ths', level: 'none',
+    id: 'auto_3', catTags: ["policy"], category: 'ths', level: 'none',
     source: "Tushare·同花顺 / Tushare·金融界", sourceClass: 'ths',
     title: "印度尼西亚央行表示，将优化外汇市场干预措施",
     summary: "",
     time: "05-05 11:33", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
-    id: 'auto_2', catTags: ["policy"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "印尼央行：采取持续审慎的措施以维护印尼卢比汇率稳定",
-    summary: "",
-    time: "05-05 11:30", tags: [{text:"⚠️", cls:"policy"}]
-  },
-  {
-    id: 'auto_3', catTags: ["policy"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "印度尼西亚央行将优化外汇市场干预措施",
-    summary: "",
-    time: "05-05 11:26", tags: [{text:"⚠️", cls:"policy"}]
-  },
-  {
-    id: 'auto_4', catTags: ["market"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "2026年4月标普全球澳大利亚综合PMI回升至50.4点",
-    summary: "",
-    time: "05-05 11:25", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_5', catTags: ["market"], category: 'yicai', level: 'none',
+    id: 'auto_4', catTags: ["market"], category: 'yicai', level: 'none',
     source: "Tushare·第一财经", sourceClass: 'yicai',
     title: "韩国通报霍尔木兹海峡起火韩船只最新情况",
     summary: "",
     time: "05-05 10:47", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_6', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_5', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经 / Tushare·新浪财经", sourceClass: 'sina',
     title: "营收、归母净利润创四年最低，科伦药业“节流”难解“断流”之困",
     summary: "",
     time: "05-05 10:28", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_7', catTags: ["market"], category: 'sina', level: 'industry',
+    id: 'auto_6', catTags: ["market"], category: 'sina', level: 'industry',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "光伏一季报交卷：通威、隆基连亏10个季度，“反内卷”复杂性超预期",
     summary: "",
     time: "05-05 10:24", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_8', catTags: ["company"], category: 'cls', level: 'none',
+    id: 'auto_7', catTags: ["company"], category: 'cls', level: 'none',
     source: "Tushare·财联社", sourceClass: 'cls',
     title: "中东战火改写货币政策剧本？美联储“三把手”：短期内无加息必要",
     summary: "",
     time: "05-05 10:13", tags: [{text:"⚠️", cls:"company"}]
   },
   {
-    id: 'auto_9', catTags: ["market"], category: 'cls', level: 'industry',
+    id: 'auto_8', catTags: ["market"], category: 'cls', level: 'industry',
     source: "Tushare·财联社", sourceClass: 'cls',
     title: "港股芯片概念股今日继续走强 芯成科技大涨超90%",
     summary: "",
     time: "05-05 10:11", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_10', catTags: ["company"], category: 'sina', level: 'industry',
+    id: 'auto_9', catTags: ["company"], category: 'sina', level: 'industry',
     source: "新浪财经", sourceClass: 'sina',
     title: "息差筑底分化加剧，银行业正在重塑下一周期估值逻辑丨2025年报专题",
     summary: "",
     time: "05-05 10:01", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_11', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_10', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电(601985)：机制电价有望重塑中长期盈利稳定性",
     summary: "",
     time: "05-05 10:00", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_12', catTags: ["market"], category: 'yicai', level: 'none',
+    id: 'auto_11', catTags: ["market"], category: 'yicai', level: 'none',
     source: "Tushare·第一财经", sourceClass: 'yicai',
     title: "长三角铁路今日迎来返程客流最高峰 预计发送旅客428万人次",
     summary: "",
     time: "05-05 09:59", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_13', catTags: ["market"], category: 'cls', level: 'none',
+    id: 'auto_12', catTags: ["market"], category: 'cls', level: 'none',
     source: "Tushare·财联社", sourceClass: 'cls',
     title: "港股IPO早播报：剂泰科技和英派药业开始招股",
     summary: "",
     time: "05-05 09:50", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_14', catTags: ["policy"], category: 'wscn', level: 'none',
+    id: 'auto_13', catTags: ["policy"], category: 'wscn', level: 'none',
     source: "Tushare·华尔街见闻", sourceClass: 'wscn',
     title: "油价助推，30年美债收益率突破5%，美财政部上调季度发债预期，周三将迎“美债重磅”",
     summary: "",
     time: "05-05 09:36", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
-    id: 'auto_15', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_14', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "招商银行(600036)2026一季报：业绩改善 财富管理持续发力",
     summary: "",
     time: "05-05 09:30", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_16', catTags: ["market"], category: 'yicai', level: 'none',
+    id: 'auto_15', catTags: ["market"], category: 'yicai', level: 'none',
     source: "Tushare·第一财经", sourceClass: 'yicai',
     title: "今天全国铁路预计发送旅客2300万人次",
     summary: "",
     time: "05-05 09:21", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_17', catTags: ["market"], category: 'yicai', level: 'none',
-    source: "Tushare·第一财经", sourceClass: 'yicai',
-    title: "俄罗斯与埃及外长通话讨论中东局势",
-    summary: "",
-    time: "05-05 09:18", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_18', catTags: ["market"], category: 'wscn', level: 'none',
+    id: 'auto_16', catTags: ["market"], category: 'wscn', level: 'none',
     source: "Tushare·华尔街见闻", sourceClass: 'wscn',
     title: "新华社：美方“自由计划”能给霍尔木兹海峡带来自由吗",
     summary: "",
     time: "05-05 08:42", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_19', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_17', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "招商银行(600036)：如何理解业绩的预期与分歧？",
     summary: "",
     time: "05-05 07:45", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_20', catTags: ["market"], category: 'wscn', level: 'none',
+    id: 'auto_18', catTags: ["market"], category: 'wscn', level: 'none',
     source: "Tushare·华尔街见闻", sourceClass: 'wscn',
     title: "白宫因附近发生枪击短暂封锁，事发时特朗普在白宫",
     summary: "",
     time: "05-05 07:10", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_21', catTags: ["market"], category: 'wscn', level: 'industry',
+    id: 'auto_19', catTags: ["market"], category: 'wscn', level: 'industry',
     source: "Tushare·华尔街见闻", sourceClass: 'wscn',
     title: "中东局势再吃紧，标普盘中转跌，道指跌超1%，存储芯片股逆市走高，布油一度涨超6%",
     summary: "",
     time: "05-05 06:50", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_22', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_20', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国铝业2026年一季度净利增56.35% 主力资金现连续流出",
     summary: "",
     time: "05-05 05:02", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_23', catTags: ["policy"], category: 'cctv', level: 'none',
+    id: 'auto_21', catTags: ["policy"], category: 'cctv', level: 'none',
     source: "Tushare·新闻联播", sourceClass: 'cctv',
     title: "[新闻联播] 伊朗称现阶段谈判不涉及核问题 美称将在霍尔木兹海峡开始疏导行动",
     summary: "",
     time: "05-04 19:00", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
-    id: 'auto_24', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_22', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "招商银行(600036)2026年一季报点评：如何看待招行投资收益负增长？",
     summary: "",
     time: "05-04 17:35", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_25', catTags: ["company"], category: 'sina', level: 'industry',
+    id: 'auto_23', catTags: ["company"], category: 'sina', level: 'industry',
     source: "新浪财经", sourceClass: 'sina',
     title: "楼市“回暖”暂未惠及银行，多家上市银行一季末房贷余额继续下滑",
     summary: "",
     time: "05-04 14:48", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_26', catTags: ["company"], category: 'sina', level: 'industry',
+    id: 'auto_24', catTags: ["company"], category: 'sina', level: 'industry',
     source: "新浪财经", sourceClass: 'sina',
     title: "透视仿制药行业2025年年报：化学仿制药企业业绩普跌 战火从“以价换量”烧到“以质求生”",
     summary: "",
     time: "05-04 13:11", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_27', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_25', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "长江电力(600900)：2025年3.74%股息率凸显配置价值",
     summary: "",
     time: "05-04 10:55", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_28', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_26', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电(601985)：核电主业经营稳健 机制电价护航行业可持续发展",
     summary: "",
     time: "05-03 21:05", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_29', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_27', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "长江电力(600900)：利润增速持续亮眼表现 高分红彰显大水电价值",
     summary: "",
     time: "05-03 18:25", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_30', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_28', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "长江电力(600900)2025年报&2026一季报点评：电量增长费用优化 红利价值彰显",
     summary: "",
     time: "05-03 08:35", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_31', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_29', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电(601985)2025年报&2026一季报点评：一季度归母业绩阶段性承压 核电进入加速投产期",
     summary: "",
     time: "05-03 08:35", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_32', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_30', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "长江电力一季报炸裂！净利润暴增30%，这只现金奶牛底气到底在哪",
     summary: "",
     time: "05-03 05:55", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_33', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_31', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "华友钴业这次是真把自己逼急了",
     summary: "",
     time: "05-01 08:32", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_34', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_32', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "禾望电气获得实用新型专利授权：“应用于储能变流器的过流保护电路和储能变流器”",
     summary: "",
     time: "05-01 03:10", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_35', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_33', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "宝丰能源(600989)：合成树脂内蒙基地强化成本优势 煤制烯烃迎来景气周期",
     summary: "",
     time: "04-30 19:50", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_36', catTags: ["company"], category: 'sina', level: 'none',
+    id: 'auto_34', catTags: ["company"], category: 'sina', level: 'none',
     source: "新浪财经", sourceClass: 'sina',
     title: "4月30日晚间沪深上市公司重大事项公告最新快递",
     summary: "",
     time: "04-30 19:32", tags: [{text:"⚠️", cls:"company"}]
   },
   {
-    id: 'auto_37', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_35', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "ST晨鸣2026年一季度营收29.81亿元，同比增长273.97%",
     summary: "",
     time: "04-30 19:03", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_38', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_36', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电2026年一季度营收189.25亿元，同比下降6.65%",
     summary: "",
     time: "04-30 18:57", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_39', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_37', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电高管平均年薪157.11万：董事长及董事卢铁忠51岁年薪179.14万最高，董事会秘书张红军46岁年薪142.49万最低",
     summary: "",
     time: "04-30 18:20", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_40', catTags: ["company"], category: 'sina', level: 'none',
+    id: 'auto_38', catTags: ["company"], category: 'sina', level: 'none',
     source: "新浪财经", sourceClass: 'sina',
     title: "一季度业绩大反转，游族网络领涨网游板块，外资、牛散纷纷进场",
     summary: "",
     time: "04-30 18:06", tags: [{text:"⚠️", cls:"company"}]
   },
   {
-    id: 'auto_41', catTags: ["chain"], category: 'sina', level: 'industry',
+    id: 'auto_39', catTags: ["chain"], category: 'sina', level: 'industry',
     source: "新浪财经", sourceClass: 'sina',
     title: "04月30日铝24403.33元/吨 60天上涨4.26%",
     summary: "",
     time: "04-30 17:30", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_42', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_40', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "全面复工复产见效 晨鸣纸业一季度营收增长近274%",
     summary: "",
     time: "04-30 14:08", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_43', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_41', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "ST晨鸣今年一季度营收同比增273.97% 全面复产推动业绩修复",
     summary: "",
     time: "04-30 12:03", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_44', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_42', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "调研速递|赢合科技接受多家机构调研 2025年营收94.45亿元 锂电设备业务增长30%",
     summary: "",
     time: "04-30 09:12", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_45', catTags: ["company"], category: 'sina', level: 'none',
+    id: 'auto_43', catTags: ["company"], category: 'sina', level: 'none',
     source: "新浪财经", sourceClass: 'sina',
     title: "科技题材强势领涨 小市值成长股或有大机会",
     summary: "",
     time: "04-30 03:54", tags: [{text:"⚠️", cls:"company"}]
   },
   {
-    id: 'auto_46', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_44', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "宁夏宝丰能源集团股份有限公司关于与专业投资机构共同设立投资基金的公告",
     summary: "",
     time: "04-30 00:00", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_47', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_45', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "红星发展：2025年，碳酸锶价格呈现先扬后抑的态势",
     summary: "",
     time: "04-29 22:08", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_48', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_46', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "赢合科技：2025年末锂电设备在手订单达128.68亿元 整体订单储备充足且结构优质",
     summary: "",
     time: "04-29 19:38", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_49', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_47', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "鑫磊股份获得发明专利授权：“一种关于磁悬浮离心压缩机机组系统的控制方法”",
     summary: "",
     time: "04-29 07:25", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_48', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "鑫磊股份十大流通股东格局生变：王美琴等退出，北向资金增持，王壮利减持",
+    summary: "",
+    time: "04-28 20:46", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_49', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "九州一轨2026年一季度营收3201.27万元，同比增长22.85%",
+    summary: "",
+    time: "04-28 19:36", tags: [{text:"🔴", cls:"portfolio"}]
   },
 ];
 

@@ -7,3 +7,16 @@
 !.github/
 !.github/workflows/
 !.github/workflows/pages.yml
+
+# 敏感文件（本地保留，绝不推送）
+TOOLS.md
+stock_service.py
+price_alert_state.json
+price_alert_queue.json
+update_html_news.py
+auto_push_github.sh
+*.pyc
+__pycache__/
+.env
+.env.*
+.vercel

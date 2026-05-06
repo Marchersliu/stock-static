@@ -29,3 +29,6 @@ __pycache__/
 .env.local
 .env.production
 .env.*
+
+# memory文件（可能含敏感上下文，本地保留）
+memory/

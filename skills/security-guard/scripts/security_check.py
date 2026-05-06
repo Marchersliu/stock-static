@@ -61,6 +61,13 @@ ALLOWED_REPO_FILES = [
     'index.html',
     'README.md',
     'vercel.json',
+    'skills/',
+    'skills/security-guard/',
+    'skills/security-guard/SKILL.md',
+    'skills/security-guard/scripts/',
+    'skills/security-guard/scripts/security_check.py',
+    'skills/security-guard/references/',
+    'skills/security-guard/references/token_patterns.md',
     # vercel-deploy/ 目录下的文件
 ]
 

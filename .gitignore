@@ -15,6 +15,7 @@ price_alert_state.json
 price_alert_queue.json
 update_html_news.py
 auto_push_github.sh
+start_service.sh
 *.pyc
 __pycache__/
 .env

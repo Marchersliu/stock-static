@@ -1486,59 +1486,123 @@ const GLOBAL_MARKETS = {
 
 // ===================== 盘前新闻数据 =====================
 let LAST_NEWS_UPDATE = new Date().toISOString().slice(0,10); // 新闻最后更新时间（仅日期，盘前新闻不显示具体时间）
-const PAGE_BUILD = 'v0506-1551'; // 页面版本，用于检测缓存
+const PAGE_BUILD = 'v0506-1621'; // 页面版本，用于检测缓存
 
 const PREMARKET_NEWS = [
   {
-    id: 'auto_0', catTags: ["market"], category: 'wscn', level: 'none',
-    source: "Tushare·华尔街见闻 / Tushare·第一财经", sourceClass: 'wscn',
-    title: "外交部：中美双方就特朗普总统访华事保持着沟通",
+    id: 'auto_0', catTags: ["market"], category: 'ths', level: 'none',
+    source: "Tushare·同花顺 / Tushare·金融界", sourceClass: 'ths',
+    title: "永兴股份：股东广州市城投已减持0.1353%",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E5%A4%96%E4%BA%A4%E9%83%A8%EF%BC%9A%E4%B8%AD%E7%BE%8E%E5%8F%8C%E6%96%B9%E5%B0%B1%E7%89%B9%E6%9C%97%E6%99%AE%E6%80%BB%E7%BB%9F%E8%AE%BF%E5%8D%8E%E4%BA%8B%E4%BF%9D%E6%8C%81%E7%9D%80%E6%B2%9F%E9%80%9A&tn=news",
-    time: "05-06 15:49", tags: [{text:"⚠️", cls:"market"}]
+    url: "https://news.baidu.com/ns?word=%E6%B0%B8%E5%85%B4%E8%82%A1%E4%BB%BD%EF%BC%9A%E8%82%A1%E4%B8%9C%E5%B9%BF%E5%B7%9E%E5%B8%82%E5%9F%8E%E6%8A%95%E5%B7%B2%E5%87%8F%E6%8C%810.1353%25&tn=news",
+    time: "05-06 16:16", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_1', catTags: ["market"], category: 'wscn', level: 'none',
-    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
-    title: "外交部：中方对霍尔木兹海峡局势的立场很明确",
+    id: 'auto_1', catTags: ["market"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "万孚生物：乙型肝炎病毒核酸检测试剂盒获批上市",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E5%A4%96%E4%BA%A4%E9%83%A8%EF%BC%9A%E4%B8%AD%E6%96%B9%E5%AF%B9%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E6%B5%B7%E5%B3%A1%E5%B1%80%E5%8A%BF%E7%9A%84%E7%AB%8B%E5%9C%BA%E5%BE%88%E6%98%8E%E7%A1%AE&tn=news",
-    time: "05-06 15:49", tags: [{text:"⚠️", cls:"market"}]
+    url: "https://news.baidu.com/ns?word=%E4%B8%87%E5%AD%9A%E7%94%9F%E7%89%A9%EF%BC%9A%E4%B9%99%E5%9E%8B%E8%82%9D%E7%82%8E%E7%97%85%E6%AF%92%E6%A0%B8%E9%85%B8%E6%A3%80%E6%B5%8B%E8%AF%95%E5%89%82%E7%9B%92%E8%8E%B7%E6%89%B9%E4%B8%8A%E5%B8%82&tn=news",
+    time: "05-06 16:16", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_2', catTags: ["chain"], category: 'eastmoney', level: 'none',
+    id: 'auto_2', catTags: ["policy"], category: 'chinanews', level: 'none',
+    source: "中国新闻网", sourceClass: 'chinanews',
+    title: "英国宣布制裁两家中国实体 中方已提出严正交涉",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E8%8B%B1%E5%9B%BD%E5%AE%A3%E5%B8%83%E5%88%B6%E8%A3%81%E4%B8%A4%E5%AE%B6%E4%B8%AD%E5%9B%BD%E5%AE%9E%E4%BD%93%20%E4%B8%AD%E6%96%B9%E5%B7%B2%E6%8F%90%E5%87%BA%E4%B8%A5%E6%AD%A3%E4%BA%A4%E6%B6%89&tn=news",
+    time: "05-06 16:14", tags: [{text:"⚠️", cls:"policy"}]
+  },
+  {
+    id: 'auto_3', catTags: ["policy"], category: 'chinanews', level: 'none',
+    source: "中国新闻网 / Tushare·华尔街见闻", sourceClass: 'chinanews',
+    title: "王毅同伊朗外长阿拉格齐会谈",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E7%8E%8B%E6%AF%85%E5%90%8C%E4%BC%8A%E6%9C%97%E5%A4%96%E9%95%BF%E9%98%BF%E6%8B%89%E6%A0%BC%E9%BD%90%E4%BC%9A%E8%B0%88&tn=news",
+    time: "05-06 16:14", tags: [{text:"⚠️", cls:"policy"}]
+  },
+  {
+    id: 'auto_4', catTags: ["market"], category: 'eastmoney', level: 'none',
     source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "WTI原油期货价格跌超3% 报99.145美元/桶",
+    title: "外交部：只有全面止战才能为缓解霍尔木兹海峡局势紧张创造必要条件",
     summary: "",
-    url: "https://news.baidu.com/ns?word=WTI%E5%8E%9F%E6%B2%B9%E6%9C%9F%E8%B4%A7%E4%BB%B7%E6%A0%BC%E8%B7%8C%E8%B6%853%25%20%E6%8A%A599.145%E7%BE%8E%E5%85%83/%E6%A1%B6&tn=news",
-    time: "05-06 15:47", tags: [{text:"⚠️", cls:"chain"}]
+    url: "https://news.baidu.com/ns?word=%E5%A4%96%E4%BA%A4%E9%83%A8%EF%BC%9A%E5%8F%AA%E6%9C%89%E5%85%A8%E9%9D%A2%E6%AD%A2%E6%88%98%E6%89%8D%E8%83%BD%E4%B8%BA%E7%BC%93%E8%A7%A3%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E6%B5%B7%E5%B3%A1%E5%B1%80%E5%8A%BF%E7%B4%A7%E5%BC%A0%E5%88%9B%E9%80%A0%E5%BF%85%E8%A6%81%E6%9D%A1%E4%BB%B6&tn=news",
+    time: "05-06 16:14", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_3', catTags: ["chain"], category: 'eastmoney', level: 'none',
+    id: 'auto_5', catTags: ["market"], category: 'jinrongjie', level: 'none',
+    source: "Tushare·金融界", sourceClass: 'jinrongjie',
+    title: "ST京蓝：2025年扣非后归母净利润未达业绩承诺",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=ST%E4%BA%AC%E8%93%9D%EF%BC%9A2025%E5%B9%B4%E6%89%A3%E9%9D%9E%E5%90%8E%E5%BD%92%E6%AF%8D%E5%87%80%E5%88%A9%E6%B6%A6%E6%9C%AA%E8%BE%BE%E4%B8%9A%E7%BB%A9%E6%89%BF%E8%AF%BA&tn=news",
+    time: "05-06 16:14", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_6', catTags: ["market"], category: 'jinrongjie', level: 'none',
+    source: "Tushare·金融界", sourceClass: 'jinrongjie',
+    title: "恒宇信通：筹划购买资产 股票继续停牌",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E6%81%92%E5%AE%87%E4%BF%A1%E9%80%9A%EF%BC%9A%E7%AD%B9%E5%88%92%E8%B4%AD%E4%B9%B0%E8%B5%84%E4%BA%A7%20%E8%82%A1%E7%A5%A8%E7%BB%A7%E7%BB%AD%E5%81%9C%E7%89%8C&tn=news",
+    time: "05-06 16:14", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_7', catTags: ["market"], category: 'jinrongjie', level: 'none',
+    source: "Tushare·金融界", sourceClass: 'jinrongjie',
+    title: "长源电力(000966.SZ)：4月完成发电量23.66亿千瓦时 同比降低14.82%",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E9%95%BF%E6%BA%90%E7%94%B5%E5%8A%9B%28000966.SZ%29%EF%BC%9A4%E6%9C%88%E5%AE%8C%E6%88%90%E5%8F%91%E7%94%B5%E9%87%8F23.66%E4%BA%BF%E5%8D%83%E7%93%A6%E6%97%B6%20%E5%90%8C%E6%AF%94%E9%99%8D%E4%BD%8E14.82%25&tn=news",
+    time: "05-06 16:14", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_8', catTags: ["market"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻 / Tushare·同花顺 / Tushare·东方财富 / Tushare·第一财经", sourceClass: 'wscn',
+    title: "伊朗外长与沙特阿拉伯外交大臣通话 讨论地区局势",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E4%BC%8A%E6%9C%97%E5%A4%96%E9%95%BF%E4%B8%8E%E6%B2%99%E7%89%B9%E9%98%BF%E6%8B%89%E4%BC%AF%E5%A4%96%E4%BA%A4%E5%A4%A7%E8%87%A3%E9%80%9A%E8%AF%9D%20%E8%AE%A8%E8%AE%BA%E5%9C%B0%E5%8C%BA%E5%B1%80%E5%8A%BF&tn=news",
+    time: "05-06 16:13", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_9', catTags: ["market"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "港股收盘｜恒指涨1.22% 黄金板块走强",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E6%B8%AF%E8%82%A1%E6%94%B6%E7%9B%98%EF%BD%9C%E6%81%92%E6%8C%87%E6%B6%A81.22%25%20%E9%BB%84%E9%87%91%E6%9D%BF%E5%9D%97%E8%B5%B0%E5%BC%BA&tn=news",
+    time: "05-06 16:11", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_10', catTags: ["market"], category: 'eastmoney', level: 'none',
     source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "现货白银向上触及76美元/盎司",
+    title: "谷歌股价盘前上涨1.5%",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E7%8E%B0%E8%B4%A7%E7%99%BD%E9%93%B6%E5%90%91%E4%B8%8A%E8%A7%A6%E5%8F%8A76%E7%BE%8E%E5%85%83/%E7%9B%8E%E5%8F%B8&tn=news",
-    time: "05-06 15:46", tags: [{text:"⚠️", cls:"chain"}]
+    url: "https://news.baidu.com/ns?word=%E8%B0%B7%E6%AD%8C%E8%82%A1%E4%BB%B7%E7%9B%98%E5%89%8D%E4%B8%8A%E6%B6%A81.5%25&tn=news",
+    time: "05-06 16:10", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_4', catTags: ["chain"], category: 'ths', level: 'none',
+    id: 'auto_11', catTags: ["market"], category: 'eastmoney', level: 'none',
+    source: "Tushare·东方财富", sourceClass: 'eastmoney',
+    title: "5月6日涨停复盘：125只股涨停 金螳螂11天9板",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=5%E6%9C%886%E6%97%A5%E6%B6%A8%E5%81%9C%E5%A4%8D%E7%9B%98%EF%BC%9A125%E5%8F%AA%E8%82%A1%E6%B6%A8%E5%81%9C%20%E9%87%91%E8%9E%B3%E8%9E%8211%E5%A4%A99%E6%9D%BF&tn=news",
+    time: "05-06 16:09", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_12', catTags: ["market"], category: 'ths', level: 'none',
     source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "现货白银站上76美元/盎司",
+    title: "机构论市：非银金融板块平均估值较低 具有安全边际",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E7%8E%B0%E8%B4%A7%E7%99%BD%E9%93%B6%E7%AB%99%E4%B8%8A76%E7%BE%8E%E5%85%83/%E7%9B%8E%E5%8F%B8&tn=news",
-    time: "05-06 15:45", tags: [{text:"⚠️", cls:"chain"}]
+    url: "https://news.baidu.com/ns?word=%E6%9C%BA%E6%9E%84%E8%AE%BA%E5%B8%82%EF%BC%9A%E9%9D%9E%E9%93%B6%E9%87%91%E8%9E%8D%E6%9D%BF%E5%9D%97%E5%B9%B3%E5%9D%87%E4%BC%B0%E5%80%BC%E8%BE%83%E4%BD%8E%20%E5%85%B7%E6%9C%89%E5%AE%89%E5%85%A8%E8%BE%B9%E9%99%85&tn=news",
+    time: "05-06 16:05", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_5', catTags: ["company"], category: 'cls', level: 'none',
-    source: "Tushare·财联社", sourceClass: 'cls',
-    title: "常山药业：达肝素钠注射液获白俄罗斯药品注册证书",
+    id: 'auto_13', catTags: ["market"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
+    title: "英飞凌：AI数据中心电源解决方案需求旺盛，季度营收指引高于预期",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E5%B8%B8%E5%B1%B1%E8%8D%AF%E4%B8%9A%EF%BC%9A%E8%BE%BE%E8%82%9D%E7%B4%A0%E9%92%A0%E6%B3%A8%E5%B0%84%E6%B6%B2%E8%8E%B7%E7%99%BD%E4%BF%84%E7%BD%97%E6%96%AF%E8%8D%AF%E5%93%81%E6%B3%A8%E5%86%8C%E8%AF%81%E4%B9%A6&tn=news",
-    time: "05-06 15:43", tags: [{text:"⚠️", cls:"company"}]
+    url: "https://news.baidu.com/ns?word=%E8%8B%B1%E9%A3%9E%E5%87%8C%EF%BC%9AAI%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83%E7%94%B5%E6%BA%90%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88%E9%9C%80%E6%B1%82%E6%97%BA%E7%9B%9B%EF%BC%8C%E5%AD%A3%E5%BA%A6%E8%90%A5%E6%94%B6%E6%8C%87%E5%BC%95%E9%AB%98%E4%BA%8E%E9%A2%84%E6%9C%9F&tn=news",
+    time: "05-06 15:51", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_6', catTags: ["market"], category: 'sina', level: 'industry',
+    id: 'auto_14', catTags: ["market"], category: 'sina', level: 'industry',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "SENASIC琻捷更新港交所上市申报数据，宁德时代等多家实力机构入股",
     summary: "",
@@ -1546,47 +1610,15 @@ const PREMARKET_NEWS = [
     time: "05-06 15:43", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_7', catTags: ["market"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺 / Tushare·金融界", sourceClass: 'ths',
-    title: "常山药业：达肝素钠注射液获得白俄罗斯药品注册证书",
+    id: 'auto_15', catTags: ["market"], category: 'cls', level: 'none',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "美股最新评级 | 国泰海通维持微软增持评级，目标价611美元",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E5%B8%B8%E5%B1%B1%E8%8D%AF%E4%B8%9A%EF%BC%9A%E8%BE%BE%E8%82%9D%E7%B4%A0%E9%92%A0%E6%B3%A8%E5%B0%84%E6%B6%B2%E8%8E%B7%E5%BE%97%E7%99%BD%E4%BF%84%E7%BD%97%E6%96%AF%E8%8D%AF%E5%93%81%E6%B3%A8%E5%86%8C%E8%AF%81%E4%B9%A6&tn=news",
-    time: "05-06 15:43", tags: [{text:"⚠️", cls:"market"}]
+    url: "https://news.baidu.com/ns?word=%E7%BE%8E%E8%82%A1%E6%9C%80%E6%96%B0%E8%AF%84%E7%BA%A7%20%7C%20%E5%9B%BD%E6%B3%B0%E6%B5%B7%E9%80%9A%E7%BB%B4%E6%8C%81%E5%BE%AE%E8%BD%AF%E5%A2%9E%E6%8C%81%E8%AF%84%E7%BA%A7%EF%BC%8C%E7%9B%AE%E6%A0%87%E4%BB%B7611%E7%BE%8E%E5%85%83&tn=news",
+    time: "05-06 15:42", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_8', catTags: ["market"], category: 'jinrongjie', level: 'none',
-    source: "Tushare·金融界", sourceClass: 'jinrongjie',
-    title: "仁和药业：累计回购公司股份251.26万股，占公司目前总股本的0.1795%",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E4%BB%81%E5%92%8C%E8%8D%AF%E4%B8%9A%EF%BC%9A%E7%B4%AF%E8%AE%A1%E5%9B%9E%E8%B4%AD%E5%85%AC%E5%8F%B8%E8%82%A1%E4%BB%BD251.26%E4%B8%87%E8%82%A1%EF%BC%8C%E5%8D%A0%E5%85%AC%E5%8F%B8%E7%9B%AE%E5%89%8D%E6%80%BB%E8%82%A1%E6%9C%AC%E7%9A%840.1795%25&tn=news",
-    time: "05-06 15:43", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_9', catTags: ["market"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺", sourceClass: 'ths',
-    title: "仁和药业：累计回购公司股份251.26万股，占公司目前总股...",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E4%BB%81%E5%92%8C%E8%8D%AF%E4%B8%9A%EF%BC%9A%E7%B4%AF%E8%AE%A1%E5%9B%9E%E8%B4%AD%E5%85%AC%E5%8F%B8%E8%82%A1%E4%BB%BD251.26%E4%B8%87%E8%82%A1%EF%BC%8C%E5%8D%A0%E5%85%AC%E5%8F%B8%E7%9B%AE%E5%89%8D%E6%80%BB%E8%82%A1...&tn=news",
-    time: "05-06 15:41", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_10', catTags: ["market"], category: 'ths', level: 'none',
-    source: "Tushare·同花顺 / Tushare·东方财富", sourceClass: 'ths',
-    title: "法国公司证实其船只在霍尔木兹海峡遭袭",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E6%B3%95%E5%9B%BD%E5%85%AC%E5%8F%B8%E8%AF%81%E5%AE%9E%E5%85%B6%E8%88%B9%E5%8F%AA%E5%9C%A8%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E6%B5%B7%E5%B3%A1%E9%81%AD%E8%A2%AD&tn=news",
-    time: "05-06 15:40", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_11', catTags: ["policy"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "SEC拟取消上市公司季报制度 允许改为半年披露一次",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=SEC%E6%8B%9F%E5%8F%96%E6%B6%88%E4%B8%8A%E5%B8%82%E5%85%AC%E5%8F%B8%E5%AD%A3%E6%8A%A5%E5%88%B6%E5%BA%A6%20%E5%85%81%E8%AE%B8%E6%94%B9%E4%B8%BA%E5%8D%8A%E5%B9%B4%E6%8A%AB%E9%9C%B2%E4%B8%80%E6%AC%A1&tn=news",
-    time: "05-06 15:37", tags: [{text:"⚠️", cls:"policy"}]
-  },
-  {
-    id: 'auto_12', catTags: ["market"], category: 'sina', level: 'industry',
+    id: 'auto_16', catTags: ["market"], category: 'sina', level: 'industry',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "A股半导体全线大涨，江波龙20cm涨停，港股兆易创新大涨12%，百度、中芯国际涨超5%",
     summary: "",
@@ -1594,15 +1626,7 @@ const PREMARKET_NEWS = [
     time: "05-06 15:34", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_13', catTags: ["market"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "美媒：通过霍尔木兹海峡的美国商船上有美军",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E7%BE%8E%E5%AA%92%EF%BC%9A%E9%80%9A%E8%BF%87%E9%9C%8D%E5%B0%94%E6%9C%A8%E5%85%B9%E6%B5%B7%E5%B3%A1%E7%9A%84%E7%BE%8E%E5%9B%BD%E5%95%86%E8%88%B9%E4%B8%8A%E6%9C%89%E7%BE%8E%E5%86%9B&tn=news",
-    time: "05-06 15:34", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_14', catTags: ["market"], category: 'sina', level: 'none',
+    id: 'auto_17', catTags: ["market"], category: 'sina', level: 'none',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "破发股森泰股份股东拟减持 2023上市即巅峰超募4.2亿",
     summary: "",
@@ -1610,15 +1634,7 @@ const PREMARKET_NEWS = [
     time: "05-06 15:33", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_15', catTags: ["chain"], category: 'cls', level: 'none',
-    source: "Tushare·财联社", sourceClass: 'cls',
-    title: "5月6日涨停分析",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=5%E6%9C%886%E6%97%A5%E6%B6%A8%E5%81%9C%E5%88%86%E6%9E%90&tn=news",
-    time: "05-06 15:32", tags: [{text:"⚠️", cls:"chain"}]
-  },
-  {
-    id: 'auto_16', catTags: ["chain"], category: 'wscn', level: 'none',
+    id: 'auto_18', catTags: ["chain"], category: 'wscn', level: 'none',
     source: "Tushare·华尔街见闻", sourceClass: 'wscn',
     title: "因中东冲突，汉莎航空面临近20亿美元额外燃油成本",
     summary: "",
@@ -1626,15 +1642,7 @@ const PREMARKET_NEWS = [
     time: "05-06 15:32", tags: [{text:"⚠️", cls:"chain"}]
   },
   {
-    id: 'auto_17', catTags: ["market"], category: 'eastmoney', level: 'none',
-    source: "Tushare·东方财富", sourceClass: 'eastmoney',
-    title: "南向资金净卖出额达50亿港元",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E5%8D%97%E5%90%91%E8%B5%84%E9%87%91%E5%87%80%E5%8D%96%E5%87%BA%E9%A2%9D%E8%BE%BE50%E4%BA%BF%E6%B8%AF%E5%85%83&tn=news",
-    time: "05-06 15:31", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_18', catTags: ["market"], category: 'sina', level: 'none',
+    id: 'auto_19', catTags: ["market"], category: 'sina', level: 'none',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "钧达股份控股股东半个月减持套现6亿 2025年亏14亿",
     summary: "",
@@ -1642,7 +1650,7 @@ const PREMARKET_NEWS = [
     time: "05-06 15:31", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_19', catTags: ["market"], category: 'sina', level: 'industry',
+    id: 'auto_20', catTags: ["market"], category: 'sina', level: 'industry',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "上周，6家浙企发布并购重组公告，长芯博创拟以1.96亿元收购长芯盛...｜浙一周",
     summary: "",
@@ -1650,7 +1658,7 @@ const PREMARKET_NEWS = [
     time: "05-06 15:30", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_20', catTags: ["market"], category: 'sina', level: 'none',
+    id: 'auto_21', catTags: ["market"], category: 'sina', level: 'none',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "上海港湾控股股东拟套现3.52亿 2021年上市募5.99亿元",
     summary: "",
@@ -1658,20 +1666,12 @@ const PREMARKET_NEWS = [
     time: "05-06 15:28", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_21', catTags: ["market"], category: 'sina', level: 'none',
+    id: 'auto_22', catTags: ["market"], category: 'sina', level: 'none',
     source: "Tushare·新浪财经", sourceClass: 'sina',
     title: "连亏5年股森远股份拟向控股股东定增 原实控人去年套现",
     summary: "",
     url: "https://news.baidu.com/ns?word=%E8%BF%9E%E4%BA%8F5%E5%B9%B4%E8%82%A1%E6%A3%AE%E8%BF%9C%E8%82%A1%E4%BB%BD%E6%8B%9F%E5%90%91%E6%8E%A7%E8%82%A1%E8%82%A1%E4%B8%9C%E5%AE%9A%E5%A2%9E%20%E5%8E%9F%E5%AE%9E%E6%8E%A7%E4%BA%BA%E5%8E%BB%E5%B9%B4%E5%A5%97%E7%8E%B0&tn=news",
     time: "05-06 15:25", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_22', catTags: ["policy"], category: 'yicai', level: 'none',
-    source: "Tushare·第一财经 / Tushare·华尔街见闻", sourceClass: 'yicai',
-    title: "王毅同伊朗外长阿拉格齐会谈",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E7%8E%8B%E6%AF%85%E5%90%8C%E4%BC%8A%E6%9C%97%E5%A4%96%E9%95%BF%E9%98%BF%E6%8B%89%E6%A0%BC%E9%BD%90%E4%BC%9A%E8%B0%88&tn=news",
-    time: "05-06 15:21", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
     id: 'auto_23', catTags: ["chain"], category: 'sina', level: 'direct',
@@ -1690,55 +1690,7 @@ const PREMARKET_NEWS = [
     time: "05-06 15:11", tags: [{text:"⚠️", cls:"chain"}]
   },
   {
-    id: 'auto_25', catTags: ["market"], category: 'yicai', level: 'none',
-    source: "Tushare·第一财经", sourceClass: 'yicai',
-    title: "南向资金净卖出额超40亿港元",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E5%8D%97%E5%90%91%E8%B5%84%E9%87%91%E5%87%80%E5%8D%96%E5%87%BA%E9%A2%9D%E8%B6%8540%E4%BA%BF%E6%B8%AF%E5%85%83&tn=news",
-    time: "05-06 15:10", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_26', catTags: ["market"], category: 'wscn', level: 'none',
-    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
-    title: "诺和诺德Q1净销售额下降4%，但Wegovy口服药销量大超预期，小幅上调全年指引 | 财报见闻",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E8%AF%BA%E5%92%8C%E8%AF%BA%E5%BE%B7Q1%E5%87%80%E9%94%80%E5%94%AE%E9%A2%9D%E4%B8%8B%E9%99%8D4%25%EF%BC%8C%E4%BD%86Wegovy%E5%8F%A3%E6%9C%8D%E8%8D%AF%E9%94%80%E9%87%8F%E5%A4%A7%E8%B6%85%E9%A2%84%E6%9C%9F%EF%BC%8C%E5%B0%8F%E5%B9%85%E4%B8%8A%E8%B0%83%E5%85%A8%E5%B9%B4%E6%8C%87%E5%BC%95%20%7C%20%E8%B4%A2%E6%8A%A5%E8%A7%81%E9%97%BB&tn=news",
-    time: "05-06 15:10", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_27', catTags: ["chain"], category: 'wscn', level: 'industry',
-    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
-    title: "石油焦断供，下一个铝价暴涨的导火索？",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E7%9F%B3%E6%B2%B9%E7%84%A6%E6%96%AD%E4%BE%9B%EF%BC%8C%E4%B8%8B%E4%B8%80%E4%B8%AA%E9%93%9D%E4%BB%B7%E6%9A%B4%E6%B6%A8%E7%9A%84%E5%AF%BC%E7%81%AB%E7%B4%A2%EF%BC%9F&tn=news",
-    time: "05-06 15:01", tags: [{text:"🟡", cls:"industry"}]
-  },
-  {
-    id: 'auto_28', catTags: ["market"], category: 'wscn', level: 'industry',
-    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
-    title: "外资单日净买入3.5万亿韩元创纪录，集中扫货韩国三大芯片股",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E5%A4%96%E8%B5%84%E5%8D%95%E6%97%A5%E5%87%80%E4%B9%B0%E5%85%A53.5%E4%B8%87%E4%BA%BF%E9%9F%A9%E5%85%83%E5%88%9B%E7%BA%AA%E5%BD%95%EF%BC%8C%E9%9B%86%E4%B8%AD%E6%89%AB%E8%B4%A7%E9%9F%A9%E5%9B%BD%E4%B8%89%E5%A4%A7%E8%8A%AF%E7%89%87%E8%82%A1&tn=news",
-    time: "05-06 14:40", tags: [{text:"🟡", cls:"industry"}]
-  },
-  {
-    id: 'auto_29', catTags: ["company"], category: 'cls', level: 'industry',
-    source: "Tushare·财联社", sourceClass: 'cls',
-    title: "美国沃特世CEO盛赞中国创新药发展：他们正打造自己的辉瑞！",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E7%BE%8E%E5%9B%BD%E6%B2%83%E7%89%B9%E4%B8%96CEO%E7%9B%9B%E8%B5%9E%E4%B8%AD%E5%9B%BD%E5%88%9B%E6%96%B0%E8%8D%AF%E5%8F%91%E5%B1%95%EF%BC%9A%E4%BB%96%E4%BB%AC%E6%AD%A3%E6%89%93%E9%80%A0%E8%87%AA%E5%B7%B1%E7%9A%84%E8%BE%89%E7%91%9E%EF%BC%81&tn=news",
-    time: "05-06 14:26", tags: [{text:"🟡", cls:"industry"}]
-  },
-  {
-    id: 'auto_30', catTags: ["market"], category: 'cls', level: 'none',
-    source: "Tushare·财联社", sourceClass: 'cls',
-    title: "港股反弹能否持续？ 机构称三条主线成布局重点",
-    summary: "",
-    url: "https://news.baidu.com/ns?word=%E6%B8%AF%E8%82%A1%E5%8F%8D%E5%BC%B9%E8%83%BD%E5%90%A6%E6%8C%81%E7%BB%AD%EF%BC%9F%20%E6%9C%BA%E6%9E%84%E7%A7%B0%E4%B8%89%E6%9D%A1%E4%B8%BB%E7%BA%BF%E6%88%90%E5%B8%83%E5%B1%80%E9%87%8D%E7%82%B9&tn=news",
-    time: "05-06 14:25", tags: [{text:"⚠️", cls:"market"}]
-  },
-  {
-    id: 'auto_31', catTags: ["chain"], category: 'sina', level: 'industry',
+    id: 'auto_25', catTags: ["chain"], category: 'sina', level: 'industry',
     source: "新浪财经", sourceClass: 'sina',
     title: "【干货】2026年锂电设备产业链全景梳理及区域热力地图",
     summary: "",
@@ -1746,7 +1698,7 @@ const PREMARKET_NEWS = [
     time: "05-06 14:00", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_32', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_26', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "银行业绿色金融实践观察：招商银行绿色金融的独特路径",
     summary: "",
@@ -1754,7 +1706,7 @@ const PREMARKET_NEWS = [
     time: "05-06 12:27", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_33', catTags: ["company"], category: 'sina', level: 'industry',
+    id: 'auto_27', catTags: ["company"], category: 'sina', level: 'industry',
     source: "新浪财经", sourceClass: 'sina',
     title: "美银证券：内银H股首季业绩胜预期 最看好工商银行(01398)及建设银行",
     summary: "",
@@ -1762,7 +1714,7 @@ const PREMARKET_NEWS = [
     time: "05-06 10:58", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_34', catTags: ["company"], category: 'sina', level: 'none',
+    id: 'auto_28', catTags: ["company"], category: 'sina', level: 'none',
     source: "新浪财经", sourceClass: 'sina',
     title: "蓝筹“稳”筑基，发展“进”可期——沪市主板公司2025年年报业绩综述",
     summary: "",
@@ -1770,7 +1722,7 @@ const PREMARKET_NEWS = [
     time: "05-06 10:39", tags: [{text:"⚠️", cls:"company"}]
   },
   {
-    id: 'auto_35', catTags: ["company"], category: 'sina', level: 'none',
+    id: 'auto_29', catTags: ["company"], category: 'sina', level: 'none',
     source: "新浪财经", sourceClass: 'sina',
     title: "机构看好大化工板块投资机会，聚焦低费率的石化ETF华夏(159731)低位布局机遇",
     summary: "",
@@ -1778,7 +1730,7 @@ const PREMARKET_NEWS = [
     time: "05-06 10:30", tags: [{text:"⚠️", cls:"company"}]
   },
   {
-    id: 'auto_36', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_30', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "招商银行第一季归母净利仅增1.5% 信用卡贷款减少386亿不良率达1.9%",
     summary: "",
@@ -1786,7 +1738,7 @@ const PREMARKET_NEWS = [
     time: "05-06 07:26", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_37', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_31', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "2026-05-06 03:23  长江电力获得发明专利授权：“一种水电站机械过速装置及保护控制方法”",
     summary: "",
@@ -1794,7 +1746,7 @@ const PREMARKET_NEWS = [
     time: "05-06 07:26", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_38', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_32', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "长江电力获得发明专利授权：“基于互相关分析的混凝土大坝活动裂纹电磁发射信号自动识别方法”",
     summary: "",
@@ -1802,7 +1754,7 @@ const PREMARKET_NEWS = [
     time: "05-06 03:23", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_39', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_33', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电获得发明专利授权：“池式反应堆非能动热量导出装置及其布置方法”",
     summary: "",
@@ -1810,7 +1762,7 @@ const PREMARKET_NEWS = [
     time: "05-06 03:22", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_40', catTags: ["company"], category: 'sina', level: 'industry',
+    id: 'auto_34', catTags: ["company"], category: 'sina', level: 'industry',
     source: "新浪财经", sourceClass: 'sina',
     title: "透视银行年报中的养老金融： 协同联动枢纽角色凸显",
     summary: "",
@@ -1818,7 +1770,7 @@ const PREMARKET_NEWS = [
     time: "05-06 00:00", tags: [{text:"🟡", cls:"industry"}]
   },
   {
-    id: 'auto_41', catTags: ["policy"], category: 'sina', level: 'direct',
+    id: 'auto_35', catTags: ["policy"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电(601985)：26Q1业绩短暂承压 关注电价改革政策落地节奏",
     summary: "",
@@ -1826,7 +1778,7 @@ const PREMARKET_NEWS = [
     time: "05-05 20:15", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_42', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_36', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电(601985)：26Q1业绩阶段性承压 核电机制电价将维稳板块盈利水平",
     summary: "",
@@ -1834,7 +1786,7 @@ const PREMARKET_NEWS = [
     time: "05-05 20:05", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_43', catTags: ["policy"], category: 'cctv', level: 'none',
+    id: 'auto_37', catTags: ["policy"], category: 'cctv', level: 'none',
     source: "Tushare·新闻联播", sourceClass: 'cctv',
     title: "[新闻联播] 美称将推进对欧盟汽车加征关税计划 欧方称美方有政治目的将予以反制",
     summary: "",
@@ -1842,7 +1794,7 @@ const PREMARKET_NEWS = [
     time: "05-05 19:00", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
-    id: 'auto_44', catTags: ["chain"], category: 'cctv', level: 'none',
+    id: 'auto_38', catTags: ["chain"], category: 'cctv', level: 'none',
     source: "Tushare·新闻联播", sourceClass: 'cctv',
     title: "[新闻联播] 美称在霍尔木兹海峡击沉6艘伊朗小型船只 伊称美“疏导”行动将酿僵局",
     summary: "",
@@ -1850,7 +1802,7 @@ const PREMARKET_NEWS = [
     time: "05-05 19:00", tags: [{text:"⚠️", cls:"chain"}]
   },
   {
-    id: 'auto_45', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_39', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "宝丰能源(600989)：煤制烯烃龙头企业 26Q1归母净利润同比增长50.23%",
     summary: "",
@@ -1858,7 +1810,7 @@ const PREMARKET_NEWS = [
     time: "05-05 13:50", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_46', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_40', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "宝丰能源(600989)：油价中枢抬升叠加聚烯烃景气度改善 业绩显著改善",
     summary: "",
@@ -1866,7 +1818,7 @@ const PREMARKET_NEWS = [
     time: "05-05 11:35", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_47', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_41', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国核电(601985)：机制电价有望重塑中长期盈利稳定性",
     summary: "",
@@ -1874,7 +1826,7 @@ const PREMARKET_NEWS = [
     time: "05-05 10:00", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_48', catTags: ["chain"], category: 'sina', level: 'direct',
+    id: 'auto_42', catTags: ["chain"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "中国铝业2026年一季度净利增56.35% 主力资金现连续流出",
     summary: "",
@@ -1882,12 +1834,60 @@ const PREMARKET_NEWS = [
     time: "05-05 05:02", tags: [{text:"🔴", cls:"portfolio"}]
   },
   {
-    id: 'auto_49', catTags: ["company"], category: 'sina', level: 'direct',
+    id: 'auto_43', catTags: ["company"], category: 'sina', level: 'direct',
     source: "新浪财经", sourceClass: 'sina',
     title: "营收、归母净利润创四年最低，科伦药业“节流”难解“断流”之困",
     summary: "",
     url: "https://news.baidu.com/ns?word=%E8%90%A5%E6%94%B6%E3%80%81%E5%BD%92%E6%AF%8D%E5%87%80%E5%88%A9%E6%B6%A6%E5%88%9B%E5%9B%9B%E5%B9%B4%E6%9C%80%E4%BD%8E%EF%BC%8C%E7%A7%91%E4%BC%A6%E8%8D%AF%E4%B8%9A%E2%80%9C%E8%8A%82%E6%B5%81%E2%80%9D%E9%9A%BE%E8%A7%A3%E2%80%9C%E6%96%AD%E6%B5%81%E2%80%9D%E4%B9%8B%E5%9B%B0&tn=news",
     time: "05-04 22:08", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_44', catTags: ["company"], category: 'sina', level: 'industry',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "透视仿制药行业2025年年报：化学仿制药企业业绩普跌 战火从“以价换量”烧到“以质求生”",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E9%80%8F%E8%A7%86%E4%BB%BF%E5%88%B6%E8%8D%AF%E8%A1%8C%E4%B8%9A2025%E5%B9%B4%E5%B9%B4%E6%8A%A5%EF%BC%9A%E5%8C%96%E5%AD%A6%E4%BB%BF%E5%88%B6%E8%8D%AF%E4%BC%81%E4%B8%9A%E4%B8%9A%E7%BB%A9%E6%99%AE%E8%B7%8C%20%E6%88%98%E7%81%AB%E4%BB%8E%E2%80%9C%E4%BB%A5%E4%BB%B7%E6%8D%A2%E9%87%8F%E2%80%9D%E7%83%A7%E5%88%B0%E2%80%9C%E4%BB%A5%E8%B4%A8%E6%B1%82%E7%94%9F%E2%80%9D&tn=news",
+    time: "05-04 13:11", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_45', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "中国核电(601985)：核电主业经营稳健 机制电价护航行业可持续发展",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E4%B8%AD%E5%9B%BD%E6%A0%B8%E7%94%B5%28601985%29%EF%BC%9A%E6%A0%B8%E7%94%B5%E4%B8%BB%E4%B8%9A%E7%BB%8F%E8%90%A5%E7%A8%B3%E5%81%A5%20%E6%9C%BA%E5%88%B6%E7%94%B5%E4%BB%B7%E6%8A%A4%E8%88%AA%E8%A1%8C%E4%B8%9A%E5%8F%AF%E6%8C%81%E7%BB%AD%E5%8F%91%E5%B1%95&tn=news",
+    time: "05-03 21:05", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_46', catTags: ["chain"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "华友钴业这次是真把自己逼急了",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E5%8D%8E%E5%8F%8B%E9%92%B4%E4%B8%9A%E8%BF%99%E6%AC%A1%E6%98%AF%E7%9C%9F%E6%8A%8A%E8%87%AA%E5%B7%B1%E9%80%BC%E6%80%A5%E4%BA%86&tn=news",
+    time: "05-01 08:32", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_47', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "禾望电气获得实用新型专利授权：“应用于储能变流器的过流保护电路和储能变流器”",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E7%A6%BE%E6%9C%9B%E7%94%B5%E6%B0%94%E8%8E%B7%E5%BE%97%E5%AE%9E%E7%94%A8%E6%96%B0%E5%9E%8B%E4%B8%93%E5%88%A9%E6%8E%88%E6%9D%83%EF%BC%9A%E2%80%9C%E5%BA%94%E7%94%A8%E4%BA%8E%E5%82%A8%E8%83%BD%E5%8F%98%E6%B5%81%E5%99%A8%E7%9A%84%E8%BF%87%E6%B5%81%E4%BF%9D%E6%8A%A4%E7%94%B5%E8%B7%AF%E5%92%8C%E5%82%A8%E8%83%BD%E5%8F%98%E6%B5%81%E5%99%A8%E2%80%9D&tn=news",
+    time: "05-01 03:10", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_48', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "ST晨鸣2026年一季度营收29.81亿元，同比增长273.97%",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=ST%E6%99%A8%E9%B8%A32026%E5%B9%B4%E4%B8%80%E5%AD%A3%E5%BA%A6%E8%90%A5%E6%94%B629.81%E4%BA%BF%E5%85%83%EF%BC%8C%E5%90%8C%E6%AF%94%E5%A2%9E%E9%95%BF273.97%25&tn=news",
+    time: "04-30 19:03", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_49', catTags: ["company"], category: 'sina', level: 'none',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "一季度业绩大反转，游族网络领涨网游板块，外资、牛散纷纷进场",
+    summary: "",
+    url: "https://news.baidu.com/ns?word=%E4%B8%80%E5%AD%A3%E5%BA%A6%E4%B8%9A%E7%BB%A9%E5%A4%A7%E5%8F%8D%E8%BD%AC%EF%BC%8C%E6%B8%B8%E6%97%8F%E7%BD%91%E7%BB%9C%E9%A2%86%E6%B6%A8%E7%BD%91%E6%B8%B8%E6%9D%BF%E5%9D%97%EF%BC%8C%E5%A4%96%E8%B5%84%E3%80%81%E7%89%9B%E6%95%A3%E7%BA%B7%E7%BA%B7%E8%BF%9B%E5%9C%BA&tn=news",
+    time: "04-30 18:06", tags: [{text:"⚠️", cls:"company"}]
   },
 ];
 

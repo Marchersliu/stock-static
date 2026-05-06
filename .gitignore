@@ -1,6 +1,9 @@
-# Ignore everything except these 3 files + .gitignore
+# Ignore everything except these 3 files + .gitignore + workflows
 *
 !.gitignore
 !shl-jgyj-formulas.html
 !shl-jgyj-formulas-moxa.html
 !stock_dashboard.html
+!.github/
+!.github/workflows/
+!.github/workflows/pages.yml

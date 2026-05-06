@@ -2,6 +2,13 @@
 # 仅保留必要文件，其他全部忽略
 *
 !.gitignore
+!skills/
+!skills/security-guard/
+!skills/security-guard/SKILL.md
+!skills/security-guard/scripts/
+!skills/security-guard/scripts/security_check.py
+!skills/security-guard/references/
+!skills/security-guard/references/token_patterns.md
 !vercel-deploy/
 !vercel-deploy/index.html
 !.github/
@@ -19,4 +26,6 @@ start_service.sh
 *.pyc
 __pycache__/
 .env
+.env.local
+.env.production
 .env.*

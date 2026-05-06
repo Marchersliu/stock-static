@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="version" content="v2026-05-05-1120">
+<meta name="version" content="v2026-05-06-1020">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -255,7 +255,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 盘前新闻 -->
 <div class="card">
-  <div class="card-title">📰 盘前新闻 · <span id="news-date-title">2026-05-05 盘前</span><span style="color:var(--green);font-size:10px;margin-left:6px;">🤖 AI已审核+关联分析</span><span style="color:var(--red);font-size:9px;margin-left:4px;">[v2140]</span><span class="refresh-btn" id="update-news-candidates" onclick="fetchNewsCandidates()" title="自动抓取多来源新闻候选" style="margin-left:8px;">🔄 抓取候选</span><span class="update-time manual" id="update-news-candidates-time">等待抓取</span></div>
+  <div class="card-title">📰 盘前新闻 · <span id="news-date-title">2026-05-06 盘前</span><span style="color:var(--green);font-size:10px;margin-left:6px;">🤖 AI已审核+关联分析</span><span style="color:var(--red);font-size:9px;margin-left:4px;">[v2140]</span><span class="refresh-btn" id="update-news-candidates" onclick="fetchNewsCandidates()" title="自动抓取多来源新闻候选" style="margin-left:8px;">🔄 抓取候选</span><span class="update-time manual" id="update-news-candidates-time">等待抓取</span></div>
   <div class="news-tabs">
     <div class="news-tab active" onclick="switchNewsTab('all')">全部</div>
     <div class="news-tab" onclick="switchNewsTab('portfolio')">🔴 持仓直击</div>
@@ -347,7 +347,7 @@ tr:last-child td { border-bottom:none; }
 </div>
 <!-- 重大事件监控 -->
 <div class="card">
-  <div class="card-title">📰 重大事件监控（5日内·直接相关）<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-events" onclick="fetchAndRenderEvents()" title="点击抓取最新重大事件">🔄 刷新</span><span class="update-time manual" id="update-events-time">等待刷新</span></div>
+  <div class="card-title">📰 重大事件监控（5日内·直接相关）<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-events" onclick="fetchAndRenderEvents()" title="点击抓取最新重大事件">🔄 刷新</span><span class="update-time manual" id="update-events-time">等待刷新</span></div>
   <div class="events-grid" id="events-grid">
     <div class="event-card company">
       <div class="event-header"><span class="event-type">🏢 公司</span><span class="event-date">4/7-5/1</span></div>
@@ -370,7 +370,7 @@ tr:last-child td { border-bottom:none; }
   </div>
 </div>
 <div class="card">
-  <div class="card-title">🏭 持仓+关注股 · 产业链成本透视<span class="update-time manual">截至 2026-05-05</span><span id="commodity-refresh-btn" style="cursor:pointer;font-size:12px;color:var(--accent);margin-left:10px;" onclick="refreshCommodities()">🔄 刷新</span> <span id="commodity-update-time" style="font-size:11px;color:var(--text3);margin-left:6px;"></span></div>
+  <div class="card-title">🏭 持仓+关注股 · 产业链成本透视<span class="update-time manual">截至 2026-05-06</span><span id="commodity-refresh-btn" style="cursor:pointer;font-size:12px;color:var(--accent);margin-left:10px;" onclick="refreshCommodities()">🔄 刷新</span> <span id="commodity-update-time" style="font-size:11px;color:var(--text3);margin-left:6px;"></span></div>
   <div class="commodity-board" id="commodity-board" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:15px;">
     <!-- 原料价格实时看板由JS动态填充 -->
     <div style="grid-column:1/-1;color:var(--text3);font-size:13px;text-align:center;padding:12px;background:var(--bg-inner);border-radius:8px;">⏳ 加载中...</div>
@@ -639,7 +639,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 持仓总览 -->
 <div class="card">
-  <div class="card-title">📋 持仓总览<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-holdings" onclick="loadData()" title="点击刷新持仓数据">🔄 刷新</span><span class="update-time manual" id="update-holdings-time">等待刷新</span></div>
+  <div class="card-title">📋 持仓总览<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-holdings" onclick="loadData()" title="点击刷新持仓数据">🔄 刷新</span><span class="update-time manual" id="update-holdings-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr>
@@ -689,7 +689,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 原材料价格监控 -->
 <div class="card">
-  <div class="card-title">🛢️ 原材料价格监控<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-materials" onclick="loadData()" title="点击刷新原材料价格">🔄 刷新</span><span class="update-time manual" id="update-materials-time">等待刷新</span></div>
+  <div class="card-title">🛢️ 原材料价格监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-materials" onclick="loadData()" title="点击刷新原材料价格">🔄 刷新</span><span class="update-time manual" id="update-materials-time">等待刷新</span></div>
   <div class="commodity-grid">
     <div class="commodity-box">
       <div class="name">碳酸锂（电池级）</div>
@@ -840,7 +840,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 计划建仓标的 -->
 <div class="card">
-  <div class="card-title">📅 计划建仓标的<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
+  <div class="card-title">📅 计划建仓标的<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr><th>名称</th><th>代码</th><th>当前价</th><th>目标价</th><th>日涨跌</th><th>3日涨跌</th><th>5日涨跌</th><th>7日涨跌</th><th>距目标</th><th>消息面</th><th>资金面</th><th>技术面</th><th>说明</th><th>建议</th></tr></thead>
@@ -897,7 +897,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 融资融券数据 -->
 <div class="card">
-  <div class="card-title">💳 融资融券数据（Tushare Pro）<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-margin" onclick="refreshMargin()" title="点击刷新融资融券">🔄 刷新</span><span class="update-time manual" id="update-margin-time">等待刷新</span></div>
+  <div class="card-title">💳 融资融券数据（Tushare Pro）<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-margin" onclick="refreshMargin()" title="点击刷新融资融券">🔄 刷新</span><span class="update-time manual" id="update-margin-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:12px;margin-bottom:10px;">融资余额 = 借钱买股票余额 · 融券余额 = 借券做空余额 · 融资净买入 = 当日新增融资</p>
   <div class="overflow-x">
     <table id="margin-table">
@@ -919,7 +919,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 公司行为与特殊状态监控 -->
 <div class="card">
-  <div class="card-title">⚡ 公司行为与特殊状态监控<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-corp" onclick="refreshCorpEvents()" title="点击刷新公司公告">🔄 刷新</span><span class="update-time manual" id="update-corp-time">等待刷新</span></div>
+  <div class="card-title">⚡ 公司行为与特殊状态监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-corp" onclick="refreshCorpEvents()" title="点击刷新公司公告">🔄 刷新</span><span class="update-time manual" id="update-corp-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr>
@@ -945,7 +945,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 创业板抱团股 -->
 <div class="card">
-  <div class="card-title">🔥 创业板板块资金流动监控（399006 · 按行业分类）<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-cyb" onclick="loadData()" title="点击刷新创业板数据">🔄 刷新</span><span class="update-time manual" id="update-cyb-time">等待刷新</span></div>
+  <div class="card-title">🔥 创业板板块资金流动监控（399006 · 按行业分类）<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-cyb" onclick="loadData()" title="点击刷新创业板数据">🔄 刷新</span><span class="update-time manual" id="update-cyb-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">创业板六大核心板块资金流向 · 板块轮动信号 ⚡ · 资金从哪个板块流出 → 可能流向主板对应板块</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-bottom:12px;">
@@ -1061,7 +1061,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 板块轮动 -->
 <div class="card">
-  <div class="card-title">🔄 大盘A股 · 板块资金流动监控<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-sectors" onclick="loadData()" title="点击刷新板块资金数据">🔄 刷新</span><span class="update-time manual" id="update-sectors-time">等待刷新</span></div>
+  <div class="card-title">🔄 大盘A股 · 板块资金流动监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-sectors" onclick="loadData()" title="点击刷新板块资金数据">🔄 刷新</span><span class="update-time manual" id="update-sectors-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">持仓关联板块资金流向 · 基于个股 moneyflow 按行业聚合 ⚡</p>
 
   <div id="sector-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:12px;">
@@ -1221,7 +1221,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- ===================== 港股板块资金流动 ===================== -->
 <div class="card" id="hk-sectors">
-  <div class="card-title">🇭🇰 港股 · 板块资金流动监控<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-hk-sectors" onclick="loadData()" title="点击刷新港股板块数据">🔄 刷新</span><span class="update-time manual" id="update-hk-sectors-time">等待刷新</span></div>
+  <div class="card-title">🇭🇰 港股 · 板块资金流动监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-hk-sectors" onclick="loadData()" title="点击刷新港股板块数据">🔄 刷新</span><span class="update-time manual" id="update-hk-sectors-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">港股通南向资金 · 板块资金流向 · 与A股联动分析 ⚡</p>
 
   <div id="hk-sector-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:12px;">
@@ -1343,7 +1343,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- ===================== 恒生科技指数 ===================== -->
 <div class="card" id="hs-tech">
-  <div class="card-title">🔬 恒生科技指数 · 成分股资金流动监控<span class="update-time manual">截至 2026-05-05</span><span class="refresh-btn" id="update-hs-tech" onclick="loadData()" title="点击刷新恒生科技数据">🔄 刷新</span><span class="update-time manual" id="update-hs-tech-time">等待刷新</span></div>
+  <div class="card-title">🔬 恒生科技指数 · 成分股资金流动监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-hs-tech" onclick="loadData()" title="点击刷新恒生科技数据">🔄 刷新</span><span class="update-time manual" id="update-hs-tech-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">恒生科技指数(HSTECH) · 30只成分股资金流向 · 南向资金持仓变动 ⚡</p>
 
   <div id="hs-tech-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:12px;">
@@ -1899,8 +1899,8 @@ let lastConfirmedData = null;
 let pendingChanges = [];
 
 // ===================== 交易日判断 =====================
-const LAST_TRADE_DATE = '2026-04-30';
-const LAST_TRADE_DATE_STR = '2026年4月30日';
+const LAST_TRADE_DATE = '2026-05-06';
+const LAST_TRADE_DATE_STR = '2026年5月6日';
 
 // 2026年法定节假日（A股休市）
 const HOLIDAYS_2026 = [

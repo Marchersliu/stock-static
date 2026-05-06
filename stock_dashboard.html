@@ -2252,9 +2252,35 @@ async function loadData() {
 
     lastData = json;
 
-    // Update per-section timestamps
+    // Update per-section timestamps — 动态标注数据来源
     const nowStr = new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'});
-    ['update-holdings-time', 'update-watchlist-time', 'update-materials-time', 'update-cyb-time', 'update-sectors-time'].forEach(id => {
+    const hasStockData = json.stocks && Object.keys(json.stocks).length > 0;
+    
+    // 有实时数据的模块
+    ['update-holdings-time', 'update-watchlist-time', 'update-materials-time'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.textContent = '更新于 ' + nowStr + ' · 新浪实时';
+        el.className = 'update-time live';
+      }
+    });
+    
+    // Tushare依赖模块：盘中无数据，标注等待
+    ['update-cyb-time', 'update-sectors-time', 'update-hk-sectors-time', 'update-hs-tech-time', 'update-margin-time'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        if (hasStockData && isTradingTime()) {
+          el.textContent = '盘中无数据 · 15:30后更新';
+          el.className = 'update-time manual';
+        } else {
+          el.textContent = '更新于 ' + nowStr;
+          el.className = 'update-time live';
+        }
+      }
+    });
+    
+    // 其他模块
+    ['update-events-time', 'update-corp-time'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.textContent = '更新于 ' + nowStr;

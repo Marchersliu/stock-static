@@ -1446,11 +1446,11 @@ tr:last-child td { border-bottom:none; }
 <script>
 // ===================== 股票配置 =====================
 const HOLDINGS = [
-  {code:"688485.SH", name:"九州一轨", shares:23480, cost:46.70, target:"60/65", stop:49.0, hero:true},
-  {code:"600367.SH", name:"红星发展", shares:1600, cost:21.20, target:"22", stop:null, hero:false},
-  {code:"603063.SH", name:"禾望电气", shares:300, cost:44.31, target:"35", stop:37.0, hero:false},
-  {code:"000488.SZ", name:"ST晨鸣", shares:48200, cost:3.10, target:"3.5", stop:null, hero:false},
-  {code:"301317.SZ", name:"鑫磊股份", shares:500, cost:60.21, target:"25", stop:null, hero:false},
+  {code:"688485.SH", name:"九州一轨", shares:23480, cost:46.70, target:"60/65", stop:52.0, hero:true},
+  {code:"600367.SH", name:"红星发展", shares:1600, cost:21.20, target:"25-26", stop:21.0, hero:false},
+  {code:"603063.SH", name:"禾望电气", shares:300, cost:44.31, target:"50-55", stop:40.0, hero:false},
+  {code:"000488.SZ", name:"ST晨鸣", shares:48200, cost:3.10, target:"3.5", stop:2.2, hero:false},
+  {code:"301317.SZ", name:"鑫磊股份", shares:500, cost:60.21, target:"65-70", stop:52.0, hero:false},
 ];
 const WATCHLIST = [
   {code:"600989.SH", name:"宝丰能源", target:"38", rec:28.00},
@@ -2342,11 +2342,11 @@ function updateHoldingsFromBackend(data) {
 
   // 持仓配置（与后端同步）
   const holdings = [
-    {code:'688485.SH', name:'九州一轨', shares:23480, cost:46.70, target:'60', stop:49.0},
-    {code:'600367.SH', name:'红星发展', shares:1600, cost:21.20, target:'--', stop:null},
-    {code:'603063.SH', name:'禾望电气', shares:300, cost:44.31, target:'--', stop:37.0},
-    {code:'000488.SZ', name:'ST晨鸣', shares:48200, cost:3.10, target:'--', stop:null},
-    {code:'301317.SZ', name:'鑫磊股份', shares:500, cost:60.21, target:'--', stop:null},
+    {code:'688485.SH', name:'九州一轨', shares:23480, cost:46.70, target:'60/65', stop:52.0},
+    {code:'600367.SH', name:'红星发展', shares:1600, cost:21.20, target:'25-26', stop:21.0},
+    {code:'603063.SH', name:'禾望电气', shares:300, cost:44.31, target:'50-55', stop:40.0},
+    {code:'000488.SZ', name:'ST晨鸣', shares:48200, cost:3.10, target:'3.5', stop:2.2},
+    {code:'301317.SZ', name:'鑫磊股份', shares:500, cost:60.21, target:'65-70', stop:52.0},
   ];
 
   // 计算总市值（用于占比）
@@ -2417,12 +2417,12 @@ function updateWatchlistFromBackend(data) {
   if (!tbody || !data.stocks) return;
 
   const watchlist = [
-    {code:'600989.SH', name:'宝丰能源', target:'38', rec:28.00, note:'Q1净利+50%新闻，但主力净流出3.6亿'},
-    {code:'603799.SH', name:'华友钴业', target:'50', rec:58.00, note:'固态电池材料新闻，均线多头排列'},
-    {code:'600036.SH', name:'招商银行', target:'35-36', rec:35.00, note:'🛡️ 防守型 高股息·估值最低·银行龙头'},
-    {code:'601985.SH', name:'中国核电', target:'7.5-8.0', stop:6.5, rec:8.50, note:'🛡️ 防守型 核电·能源安全·逆周期·主力净流入1.4亿'},
-    {code:'601600.SH', name:'中国铝业', target:'9.5-10.0', stop:7.8, rec:10.50, note:'🛡️ 防守型 有色·全球通胀受益·实物资产·Q1净利+56%'},
-    {code:'600900.SH', name:'长江电力', target:'26-26.5', stop:22, rec:26.00, note:'🛡️ 防守型·核心 水电=类债券·逆周期·主力净流入3.6亿·均线多头'},
+    {code:'600989.SH', name:'宝丰能源', target:'38', stop:27.0, rec:28.00, note:'Q1净利+50%新闻，但主力净流出3.6亿'},
+    {code:'603799.SH', name:'华友钴业', target:'75-80', stop:58.0, rec:58.00, note:'固态电池材料新闻，均线多头排列'},
+    {code:'600036.SH', name:'招商银行', target:'40-42', stop:35.0, rec:35.00, note:'🛡️ 防守型 高股息·估值最低·银行龙头'},
+    {code:'601985.SH', name:'中国核电', target:'10-10.5', stop:7.5, rec:8.50, note:'🛡️ 防守型 核电·能源安全·逆周期·主力净流入1.4亿'},
+    {code:'601600.SH', name:'中国铝业', target:'13-14', stop:10.0, rec:10.50, note:'🛡️ 防守型 有色·全球通胀受益·实物资产·Q1净利+56%'},
+    {code:'600900.SH', name:'长江电力', target:'28-29', stop:22, rec:26.00, note:'🛡️ 防守型·核心 水电=类债券·逆周期·主力净流入3.6亿·均线多头'},
   ];
 
   // 消息面判断：基于PREMARKET_NEWS中portfolio分类的新闻

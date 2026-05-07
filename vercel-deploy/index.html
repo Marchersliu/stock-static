@@ -1447,6 +1447,72 @@ tr:last-child td { border-bottom:none; }
 </div>
 
 <script>
+let PREMARKET_NEWS = [];
+let DYNAMIC_NEWS = [];
+
+// ===================== 新闻渲染 =====================
+function renderNews() {
+  const container = document.getElementById('premarket-news-list');
+  const candidatesArea = document.getElementById('news-candidates-area');
+  const candidatesGrid = document.getElementById('news-candidates-grid');
+  
+  if (!container) return;
+  
+  // 使用动态新闻优先，没有则使用静态新闻
+  const newsToRender = DYNAMIC_NEWS.length > 0 ? DYNAMIC_NEWS : PREMARKET_NEWS;
+  
+  if (newsToRender.length === 0) {
+    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);">暂无新闻数据，点击上方 🔄 抓取候选 获取最新新闻</div>';
+    if (candidatesArea) candidatesArea.style.display = 'none';
+    return;
+  }
+  
+  // 按分类过滤
+  const activeTab = document.querySelector('.news-tab.active');
+  const activeFilter = activeTab ? activeTab.textContent.trim() : '全部';
+  
+  let filtered = newsToRender;
+  if (activeFilter !== '全部') {
+    const catMap = {
+      '🔴 持仓直击': 'portfolio',
+      '🏭 产业链': 'chain',
+      '🏛️ 政策宏观': 'policy',
+      '🌍 地缘国际': 'geo',
+      '📈 市场资金': 'market'
+    };
+    const cat = catMap[activeFilter];
+    if (cat) {
+      filtered = newsToRender.filter(n => n.category === cat);
+    }
+  }
+  
+  // 渲染新闻列表
+  const html = filtered.map(item => {
+    const levelClass = item.level === 'critical' ? 'critical' : (item.level === 'important' ? 'important' : '');
+    const tagsHtml = (item.tags || []).map(t => `<span class="news-tag ${t.cls}">${t.text}</span>`).join('');
+    
+    return `<div class="news-item ${levelClass}">
+      <div class="news-source">
+        <span class="dot ${item.sourceClass || 'sina'}"></span>
+        <span>${item.source || '未知'}</span>
+        <span class="news-time">${item.time || ''}</span>
+        ${tagsHtml}
+      </div>
+      <div class="news-title">${item.title || ''}</div>
+      ${item.summary ? `<div class="news-summary">${item.summary}</div>` : ''}
+    </div>`;
+  }).join('');
+  
+  container.innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--text3);">该分类下暂无新闻</div>';
+}
+
+// ===================== 新闻Tab切换 =====================
+function switchNewsTab(tab) {
+  document.querySelectorAll('.news-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  renderNews();
+}
+
 // ===================== 股票配置 =====================
 const HOLDINGS = [
   {code:"688485.SH", name:"九州一轨", shares:23480, cost:46.70, target:"60/65", stop:52.0, hero:true},

@@ -1447,7 +1447,43 @@ tr:last-child td { border-bottom:none; }
 </div>
 
 <script>
-let PREMARKET_NEWS = [];
+let PREMARKET_NEWS = [
+  {
+    id: 'static_1', category: 'portfolio', level: 'critical',
+    source: '新浪财经', sourceClass: 'sina',
+    time: '05/07 10:30', title: '禾望电气触及第一目标价50元，建议减仓30%',
+    summary: '禾望电气盘中触及50.75元（+5.14%），达成第一目标价位。英伟达GTC 2026确认Blackwell+Vera Rubin订单≥$1万亿，数据中心电力需求爆发利好PCS供应商。',
+    tags: [{text: '🔴 持仓', cls: 'urgent'}, {text: '禾望电气', cls: 'market'}]
+  },
+  {
+    id: 'static_2', category: 'portfolio', level: 'critical',
+    source: '东方财富', sourceClass: 'eastmoney',
+    time: '05/07 11:00', title: '九州一轨逼近60元第一目标，PB 6.63估值偏高',
+    summary: '九州一轨盘中最高59.96元（+6.88%），距第一目标60元仅一步之遥。20日已涨+123%，KDJ-J 99.43超买，建议60元开始分批减仓。',
+    tags: [{text: '🔴 持仓', cls: 'urgent'}, {text: '九州一轨', cls: 'market'}]
+  },
+  {
+    id: 'static_3', category: 'market', level: 'important',
+    source: '财联社', sourceClass: 'cls',
+    time: '05/07 09:15', title: 'A股三大指数低开高走，创业板指涨近1%',
+    summary: '上证指数、深证成指、创业板指集体翻红，半导体、新能源板块领涨，北向资金净流入超30亿。',
+    tags: [{text: '📈 市场', cls: 'market'}]
+  },
+  {
+    id: 'static_4', category: 'policy', level: 'normal',
+    source: '央行', sourceClass: 'pbc',
+    time: '05/07 08:00', title: '央行开展3000亿元逆回购操作，维持流动性合理充裕',
+    summary: '为维护银行体系流动性合理充裕，央行以利率招标方式开展了3000亿元逆回购操作，中标利率2.0%。',
+    tags: [{text: '🏛️ 政策', cls: 'policy'}]
+  },
+  {
+    id: 'static_5', category: 'chain', level: 'normal',
+    source: 'SMM', sourceClass: 'sina',
+    time: '05/06 16:00', title: '碳酸锂价格维持10.2万/吨，锂电材料成本趋稳',
+    summary: '电池级碳酸锂价格稳定在10.15-10.25万元/吨区间，氢氧化锂价格同步企稳，锂电产业链成本端压力缓解。',
+    tags: [{text: '🏭 产业链', cls: 'chain'}]
+  }
+];
 let DYNAMIC_NEWS = [];
 
 // ===================== 新闻渲染 =====================

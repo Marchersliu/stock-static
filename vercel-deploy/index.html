@@ -1960,7 +1960,7 @@ function isWithin3Days(timeStr) {
   const newsDate = new Date(year, newsMonth - 1, newsDay);
   const diffMs = now - newsDate;
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
-  return diffDays <= 3;
+  return diffDays < 5;  // 放宽到5天内（覆盖周末/假期）
 }
 
 function renderNews() {
@@ -1992,7 +1992,12 @@ function renderNews() {
     return (b.relevance_score || 0) - (a.relevance_score || 0);
   });
   const todayNews = sorted.filter(n => isToday(n.time));
-  const all = todayNews.length > 0 ? todayNews : sorted.filter(n => isWithin3Days(n.time));
+  let all = todayNews.length > 0 ? todayNews : sorted.filter(n => isWithin3Days(n.time));
+  // 保底：如果过滤后为空，显示全部新闻（避免假期后空白）
+  if (all.length === 0) {
+    all = sorted;
+    console.log('[News] 日期过滤后无新闻，显示全部', sorted.length, '条');
+  }
   const filterLabel = todayNews.length > 0 ? '今日' : '近3日';
   
   // 兼容函数：提取新闻的分类标签类型（静态新闻=字符串数组，动态新闻=对象数组）

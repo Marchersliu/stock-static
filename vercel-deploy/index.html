@@ -290,61 +290,7 @@ tr:last-child td { border-bottom:none; }
   <div class="card-title">🌍 全球主要市场<span class="update-time manual">各市场最新收盘日不同，详见卡片标注</span><span style="color:var(--green);font-size:10px;margin-left:6px;">🤖 AI已审核 10个指数</span></div>
   <div class="global-grid" id="global-grid"></div>
 </div>
-<!-- 📊 当前持仓调仓方案卡 -->
-<div class="card" style="background:linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(234,179,8,0.06) 50%, rgba(34,197,94,0.06) 100%);border:1px solid rgba(220,38,38,0.3);">
-  <div class="card-title" style="color:var(--red);">📊 当前持仓调仓方案 · 5/6~5/15执行</div>
-  <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;">
-    <!-- 当前持仓结构 -->
-    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--red);">
-      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">🚨 当前持仓结构（极度危险）</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
-          <span style="background:rgba(220,38,38,0.15);padding:4px 10px;border-radius:6px;color:var(--red);font-weight:700;">九州一轨 86%</span>
-          <span style="background:rgba(234,179,8,0.15);padding:4px 10px;border-radius:6px;color:var(--gold);">ST晨鸣 8.2%</span>
-          <span style="background:rgba(168,85,247,0.15);padding:4px 10px;border-radius:6px;color:var(--purple);">红星发展 2.5%</span>
-          <span style="background:rgba(74,158,255,0.15);padding:4px 10px;border-radius:6px;color:var(--blue);">鑫磊股份 1.96%</span>
-          <span style="background:rgba(7,182,212,0.15);padding:4px 10px;border-radius:6px;color:var(--cyan);">禾望电气 0.87%</span>
-        </div>
-        <div style="margin-bottom:4px;"><span style="color:var(--red);font-weight:700;">致命1：</span>单吊86% = 赌博，九州回调20% = 总仓亏17%</div>
-        <div style="margin-bottom:4px;"><span style="color:var(--red);font-weight:700;">致命2：</span>0%防守仓位，大盘跌10%你可能跌20%+</div>
-        <div><span style="color:var(--red);font-weight:700;">致命3：</span>ST晨鸣8.2% = 退市风险，一旦归零直接损失8%</div>
-      </div>
-    </div>
-    <!-- 三步调仓计划 -->
-    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--gold);">
-      <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">⚡ 三步调仓计划</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="margin-bottom:6px;"><span style="color:var(--gold);font-weight:700;">Step 1 · 九州减仓</span> 86%→30%，60元减30%、62元再减30%、65元清仓</div>
-        <div style="margin-bottom:6px;"><span style="color:var(--gold);font-weight:700;">Step 2 · 清理问题股</span> ST晨鸣8.2%全部清仓 | 鑫磊股份1.96%清仓 | 红星发展2.5%视情况</div>
-        <div><span style="color:var(--gold);font-weight:700;">Step 3 · 建仓防守</span> 长江电力15%(等26以下) + 中国神华15% + 招商银行10% + 现金20%</div>
-      </div>
-    </div>
-    <!-- 目标仓位 -->
-    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--green);">
-      <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px;">🎯 目标仓位结构</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
-          <span style="background:rgba(220,38,38,0.1);padding:3px 8px;border-radius:4px;">进攻 35%</span>
-          <span style="background:rgba(34,197,94,0.1);padding:3px 8px;border-radius:4px;">防守 45%</span>
-          <span style="background:rgba(168,85,247,0.1);padding:3px 8px;border-radius:4px;">现金 20%</span>
-        </div>
-        <div style="margin-bottom:4px;">进攻：九州一轨30% + 红星发展2.5% + 禾望电气0.87% + 宝丰能源+华友(场外)2%</div>
-        <div style="margin-bottom:4px;">防守：长江电力15% + 中国神华15% + 招商银行10% + 交通银行5%</div>
-        <div>现金：20%机动，等更低位置加仓或应对突发</div>
-      </div>
-    </div>
-    <!-- 执行时间表 -->
-    <div style="background:rgba(220,38,38,0.06);padding:14px;border-radius:10px;border-left:4px solid var(--red);">
-      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⏰ 5/6~5/15 执行时间表</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="margin-bottom:4px;"><span style="color:var(--gold);font-weight:700;">5/6 开盘</span> · 九州冲高60→减仓30%；ST晨鸣/鑫磊挂涨停价清仓</div>
-        <div style="margin-bottom:4px;"><span style="color:var(--gold);font-weight:700;">5/6~5/7</span> · 九州到62→再减30%；清理红星发展/禾望电气</div>
-        <div style="margin-bottom:4px;"><span style="color:var(--green);font-weight:700;">5/8~5/15</span> · 建仓防守：长江电力26以下 + 中国神华46以下</div>
-        <div><span style="color:var(--green);font-weight:700;">5/15后</span> · 若大盘回调，加仓招行37以下 + 交行6.5以下</div>
-      </div>
-    </div>
-  </div>
-</div>
+
 <!-- 重大事件监控 -->
 <div class="card">
   <div class="card-title">📰 重大事件监控（5日内·直接相关）<span class="refresh-btn" id="update-events" onclick="fetchAndRenderEvents()" title="点击抓取最新重大事件">🔄 刷新</span><span class="update-time manual" id="update-events-time">等待刷新</span></div>
@@ -524,7 +470,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 九州一轨重点仓位 -->
 <div class="card hero-card">
-  <div class="hero-badge">⭐ 重点关注 · 第一仓位 86.4%</div>
+  <div class="hero-badge">⭐ 重点关注 · 第一仓位 ~92%</div>
   <div class="card-title" style="color:#c4b5fd;">🚄 九州一轨（688485）— 轨交设备+半导体双概念<span class="update-time manual">截至 2026-04-30</span></div>
   <div class="hero-grid">
     <div class="hero-stat">

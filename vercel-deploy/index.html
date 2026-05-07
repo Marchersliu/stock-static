@@ -159,6 +159,8 @@ tr:last-child td { border-bottom:none; }
 .news-item.important { border-left-color:var(--orange); }
 .news-item.candidate { background:rgba(255,255,255,0.03); border:1px dashed var(--text3); border-left:3px dashed var(--text3); opacity:0.85; }
 .news-item.candidate:hover { border-left-color:var(--gold); opacity:1; }
+.news-section { display: none; }
+.news-section.active { display: block; }
 .candidate-badge { display:inline-block; font-size:10px; color:var(--text3); background:rgba(255,255,255,0.05); padding:2px 6px; border-radius:4px; margin-bottom:6px; }
 .news-source { display:inline-flex; align-items:center; gap:4px; font-size:10px; color:var(--text3); margin-bottom:6px; }
 .news-source .dot { width:6px; height:6px; border-radius:50%; }
@@ -1488,65 +1490,77 @@ let DYNAMIC_NEWS = [];
 
 // ===================== 新闻渲染 =====================
 function renderNews() {
-  const container = document.getElementById('premarket-news-list');
-  const candidatesArea = document.getElementById('news-candidates-area');
-  const candidatesGrid = document.getElementById('news-candidates-grid');
-  
-  if (!container) return;
-  
   // 使用动态新闻优先，没有则使用静态新闻
   const newsToRender = DYNAMIC_NEWS.length > 0 ? DYNAMIC_NEWS : PREMARKET_NEWS;
   
   if (newsToRender.length === 0) {
-    container.innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);">暂无新闻数据，点击上方 🔄 抓取候选 获取最新新闻</div>';
-    if (candidatesArea) candidatesArea.style.display = 'none';
+    document.getElementById('news-all').innerHTML = '<div style="padding:20px;text-align:center;color:var(--text3);">暂无新闻数据</div>';
     return;
   }
   
-  // 按分类过滤
-  const activeTab = document.querySelector('.news-tab.active');
-  const activeFilter = activeTab ? activeTab.textContent.trim() : '全部';
+  // 按分类分组
+  const cats = ['all', 'portfolio', 'chain', 'policy', 'geo', 'market'];
+  const catMap = {
+    'all': newsToRender,
+    'portfolio': newsToRender.filter(n => n.category === 'portfolio'),
+    'chain': newsToRender.filter(n => n.category === 'chain'),
+    'policy': newsToRender.filter(n => n.category === 'policy'),
+    'geo': newsToRender.filter(n => n.category === 'geo'),
+    'market': newsToRender.filter(n => n.category === 'market'),
+  };
   
-  let filtered = newsToRender;
-  if (activeFilter !== '全部') {
-    const catMap = {
-      '🔴 持仓直击': 'portfolio',
-      '🏭 产业链': 'chain',
-      '🏛️ 政策宏观': 'policy',
-      '🌍 地缘国际': 'geo',
-      '📈 市场资金': 'market'
-    };
-    const cat = catMap[activeFilter];
-    if (cat) {
-      filtered = newsToRender.filter(n => n.category === cat);
+  // 渲染每个分类
+  for (const cat of cats) {
+    const container = document.getElementById('news-' + cat);
+    if (!container) continue;
+    
+    const items = catMap[cat] || [];
+    if (items.length === 0) {
+      container.innerHTML = '<div style="padding:16px;text-align:center;color:var(--text3);font-size:13px;">该分类下暂无新闻</div>';
+      continue;
     }
+    
+    const html = items.map(item => {
+      const levelClass = item.level === 'critical' ? 'critical' : (item.level === 'important' ? 'important' : '');
+      const tagsHtml = (item.tags || []).map(t => `<span class="news-tag ${t.cls}">${t.text}</span>`).join('');
+      
+      return `<div class="news-item ${levelClass}">
+        <div class="news-source">
+          <span class="dot ${item.sourceClass || 'sina'}"></span>
+          <span>${item.source || '未知'}</span>
+          <span class="news-time">${item.time || ''}</span>
+          ${tagsHtml}
+        </div>
+        <div class="news-title">${item.title || ''}</div>
+        ${item.summary ? `<div class="news-summary">${item.summary}</div>` : ''}
+      </div>`;
+    }).join('');
+    
+    container.innerHTML = html;
   }
   
-  // 渲染新闻列表
-  const html = filtered.map(item => {
-    const levelClass = item.level === 'critical' ? 'critical' : (item.level === 'important' ? 'important' : '');
-    const tagsHtml = (item.tags || []).map(t => `<span class="news-tag ${t.cls}">${t.text}</span>`).join('');
-    
-    return `<div class="news-item ${levelClass}">
-      <div class="news-source">
-        <span class="dot ${item.sourceClass || 'sina'}"></span>
-        <span>${item.source || '未知'}</span>
-        <span class="news-time">${item.time || ''}</span>
-        ${tagsHtml}
-      </div>
-      <div class="news-title">${item.title || ''}</div>
-      ${item.summary ? `<div class="news-summary">${item.summary}</div>` : ''}
-    </div>`;
-  }).join('');
-  
-  container.innerHTML = html || '<div style="padding:20px;text-align:center;color:var(--text3);">该分类下暂无新闻</div>';
+  // 更新标题日期
+  const titleEl = document.getElementById('news-date-title');
+  if (titleEl) {
+    titleEl.textContent = LAST_TRADE_DATE_STR + ' 盘前';
+  }
 }
 
 // ===================== 新闻Tab切换 =====================
 function switchNewsTab(tab) {
+  // 更新tab样式
   document.querySelectorAll('.news-tab').forEach(t => t.classList.remove('active'));
   event.target.classList.add('active');
-  renderNews();
+  
+  // 切换显示区域
+  const cats = ['all', 'portfolio', 'chain', 'policy', 'geo', 'market'];
+  for (const cat of cats) {
+    const el = document.getElementById('news-' + cat);
+    if (el) {
+      el.classList.toggle('active', cat === tab);
+      el.style.display = cat === tab ? 'block' : 'none';
+    }
+  }
 }
 
 // ===================== 股票配置 =====================

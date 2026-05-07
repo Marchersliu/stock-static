@@ -2911,92 +2911,60 @@ function fetchNewsCandidates() {
       }
       
       if (candidates.length === 0) {
-        grid.innerHTML = '<div style="color:var(--text2);text-align:center;padding:30px 20px;">暂无候选新闻（所有来源返回为空）</div>';
+        console.log('[NewsCandidates] 无候选新闻');
       } else {
-        let html = '';
-        for (const item of candidates.slice(0, 100)) { // 最多100条
-          const dateStr = item.date ? item.date.substring(5).replace('-', '/') : '';
-          const timeStr = item.time ? item.time : '';
-          const dtStr = dateStr && timeStr ? `${dateStr} ${timeStr}` : (dateStr || timeStr || '');
+        // 合并到主新闻区域（不再显示候选新闻池）
+        DYNAMIC_NEWS = candidates.map((item, idx) => {
+          const timeFmt = item.date && item.time 
+            ? `${item.date.substring(5).replace('-', '/')} ${item.time}` 
+            : (item.time || '未知');
           
-          // 分类颜色
-          const catStyles = {
-            policy: { icon: '🏛️', label: '政策', color: 'var(--blue)', bg: 'rgba(74,158,255,0.12)' },
-            finance: { icon: '🏦', label: '金融', color: 'var(--purple)', bg: 'rgba(168,85,247,0.12)' },
-            company: { icon: '🏢', label: '公司', color: 'var(--green)', bg: 'rgba(0,208,132,0.12)' },
-            material: { icon: '🛢️', label: '原料', color: '#f97316', bg: 'rgba(249,115,22,0.12)' }
+          const catMap = {
+            'company': 'portfolio', 'policy': 'policy', 'material': 'chain',
+            'finance': 'market', 'market': 'market', 'geo': 'geo'
           };
-          const cat = catStyles[item.category] || { icon: '🔍', label: '其他', color: 'var(--text3)', bg: 'rgba(122,139,157,0.12)' };
+          let cat = catMap[item.category] || 'market';
+          if (item.relevance_level === 'direct') cat = 'portfolio';
           
-          // 关联持仓标签
-          let relPills = '';
-          if (item.relevance_level && item.relevance_level !== 'none') {
-            const levelColor = item.relevance_level === 'direct' ? 'var(--red)' : 'var(--orange)';
-            const levelBg = item.relevance_level === 'direct' ? 'rgba(255,71,87,0.15)' : 'rgba(249,115,22,0.15)';
-            const levelText = item.relevance_level === 'direct' ? '直接关联' : '行业关联';
-            relPills += `<span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;color:${levelColor};background:${levelBg};margin-right:4px;margin-bottom:4px;">${levelText}</span>`;
-            if (item.stock_tags && item.stock_tags.length > 0) {
-              item.stock_tags.forEach(t => {
-                relPills += `<span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;color:var(--gold);background:rgba(251,191,36,0.12);margin-right:4px;margin-bottom:4px;">${t}</span>`;
-              });
-            }
-          }
-          if (item.stock_name && item.stock_name !== '关联持仓' && item.stock_name !== '宏观关联') {
-            relPills += `<span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;color:var(--gold);background:rgba(251,191,36,0.12);margin-right:4px;margin-bottom:4px;">📌 ${item.stock_name}</span>`;
-          }
+          const level = item.relevance_level === 'direct' ? 'critical' : 
+                       (item.relevance_level === 'industry' ? 'important' : 'normal');
           
-          // 来源展示（合并来源时）
-          let sourceLine = '';
-          if (item.source) {
-            const sources = item.source.split(' / ');
-            if (sources.length > 1) {
-              sourceLine = sources.map((s, i) => `<span style="color:var(--text3);${i > 0 ? 'margin-left:4px;' : ''}">${s}</span>`).join('<span style="color:var(--text3);margin:0 4px;">/</span>');
-            } else {
-              sourceLine = `<span style="color:var(--text3);">${item.source}</span>`;
-            }
-          }
+          let tags = [];
+          if (item.relevance_level === 'direct') tags.push({text: '🔴 持仓', cls: 'urgent'});
+          if (item.stock_name) tags.push({text: item.stock_name, cls: 'market'});
+          if (tags.length === 0) tags.push({text: '📰 新闻', cls: 'market'});
           
-          // 标题（可点击跳转）
-          let titleHtml, searchUrl, linkText;
-          if (item.url && item.url !== '#' && !item.url.includes('tushare')) {
-            searchUrl = item.url;
-            linkText = '查看原文';
-          } else {
-            // 所有新闻统一用百度新闻搜索
-            searchUrl = `https://news.baidu.com/ns?word=${encodeURIComponent(item.title)}&tn=news`;
-            linkText = '搜索查看';
-          }
-          titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
-          
-          html += `<div style="background:var(--bg-inner);border-radius:12px;padding:14px 16px;border-left:3px solid ${cat.color};margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='var(--bg-card)'" onmouseout="this.style.background='var(--bg-inner)'">
-            <!-- 顶部行：分类标签 + 来源/时间 -->
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:6px;">
-                <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;color:${cat.color};background:${cat.bg};">
-                  ${cat.icon} ${cat.label}
-                </span>
-                ${relPills ? `<div style="display:flex;flex-wrap:wrap;gap:2px;margin-left:4px;">${relPills}</div>` : ''}
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text3);white-space:nowrap;">
-                ${sourceLine}
-                <span style="color:var(--text3);opacity:0.5;">·</span>
-                <span>${dtStr}</span>
-              </div>
-            </div>
-            <!-- 标题 -->
-            <div style="margin-bottom:${(item.url || (item.source && !item.source.includes('Tushare'))) ? '8px' : '0'}">${titleHtml}</div>
-            <!-- 查看原文链接 -->
-            <div style="font-size:11px;"><a href="${searchUrl}" target="_blank" style="color:var(--text3);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text3)'">🔗 ${linkText} →</a></div>
-          </div>`;
+          return {
+            id: `dyn_${idx}`,
+            category: cat,
+            level: level,
+            source: item.source || '未知',
+            sourceClass: item.sourceClass || 'sina',
+            time: timeFmt,
+            title: item.title || '',
+            summary: item.summary || '',
+            tags: tags
+          };
+        });
+        
+        renderNews();
+        
+        // 更新标题日期
+        const latest = candidates[0];
+        if (latest.date) {
+          LAST_NEWS_UPDATE = latest.date;
+          const newsDateTitle = document.getElementById('news-date-title');
+          if (newsDateTitle) newsDateTitle.textContent = `${latest.date} 盘前`;
         }
-        grid.innerHTML = html;
+        
+        console.log(`[NewsCandidates] 已更新 ${candidates.length} 条新闻到主区域`);
       }
       
-      area.style.display = 'block';
-      if (countEl) countEl.textContent = `共 ${candidates.length} 条 · ${Object.keys(data.source_counts || {}).length} 个来源`;
+      // 隐藏候选新闻池，只显示刷新状态
+      if (area) area.style.display = 'none';
+      if (countEl) countEl.textContent = '';
       if (timeEl) { timeEl.textContent = `抓取于 ${timeStr}`; timeEl.className = 'update-time live'; }
-      if (btn) { btn.textContent = '🔄 抓取候选'; btn.className = 'refresh-btn'; }
-      console.log(`[NewsCandidates] 已展示 ${candidates.length} 条候选新闻，动态新闻已更新`);
+      if (btn) { btn.textContent = '🔄 刷新新闻'; btn.className = 'refresh-btn'; }
     })
     .catch(err => {
       console.log('[NewsCandidates] 后端未启动或请求失败', err);

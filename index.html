@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="version" content="v2026-05-06-1020">
+<meta name="version" content="v2026-05-05-1120">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -255,7 +255,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 盘前新闻 -->
 <div class="card">
-  <div class="card-title">📰 盘前新闻 · <span id="news-date-title">2026-05-06 盘前</span><span style="color:var(--green);font-size:10px;margin-left:6px;">🤖 AI已审核+关联分析</span><span style="color:var(--red);font-size:9px;margin-left:4px;">[v2140]</span><span class="refresh-btn" id="update-news-candidates" onclick="fetchNewsCandidates()" title="自动抓取多来源新闻候选" style="margin-left:8px;">🔄 抓取候选</span><span class="update-time manual" id="update-news-candidates-time">等待抓取</span></div>
+  <div class="card-title">📰 盘前新闻 · <span id="news-date-title">2026-05-05 盘前</span><span style="color:var(--green);font-size:10px;margin-left:6px;">🤖 AI已审核+关联分析</span><span style="color:var(--red);font-size:9px;margin-left:4px;">[v2140]</span><span class="refresh-btn" id="update-news-candidates" onclick="fetchNewsCandidates()" title="自动抓取多来源新闻候选" style="margin-left:8px;">🔄 抓取候选</span><span class="update-time manual" id="update-news-candidates-time">等待抓取</span></div>
   <div class="news-tabs">
     <div class="news-tab active" onclick="switchNewsTab('all')">全部</div>
     <div class="news-tab" onclick="switchNewsTab('portfolio')">🔴 持仓直击</div>
@@ -290,64 +290,10 @@ tr:last-child td { border-bottom:none; }
   <div class="card-title">🌍 全球主要市场<span class="update-time manual">各市场最新收盘日不同，详见卡片标注</span><span style="color:var(--green);font-size:10px;margin-left:6px;">🤖 AI已审核 10个指数</span></div>
   <div class="global-grid" id="global-grid"></div>
 </div>
-<!-- 📊 当前持仓调仓方案卡 -->
-<div class="card" style="background:linear-gradient(135deg, rgba(220,38,38,0.06) 0%, rgba(234,179,8,0.06) 50%, rgba(34,197,94,0.06) 100%);border:1px solid rgba(220,38,38,0.3);">
-  <div class="card-title" style="color:var(--red);">📊 当前持仓调仓方案 · 5/6~5/15执行</div>
-  <div style="display:grid;grid-template-columns:repeat(1,1fr);gap:14px;">
-    <!-- 当前持仓结构 -->
-    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--red);">
-      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">🚨 当前持仓结构（极度危险）</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:8px;">
-          <span style="background:rgba(220,38,38,0.15);padding:4px 10px;border-radius:6px;color:var(--red);font-weight:700;">九州一轨 86%</span>
-          <span style="background:rgba(234,179,8,0.15);padding:4px 10px;border-radius:6px;color:var(--gold);">ST晨鸣 8.2%</span>
-          <span style="background:rgba(168,85,247,0.15);padding:4px 10px;border-radius:6px;color:var(--purple);">红星发展 2.5%</span>
-          <span style="background:rgba(74,158,255,0.15);padding:4px 10px;border-radius:6px;color:var(--blue);">鑫磊股份 1.96%</span>
-          <span style="background:rgba(7,182,212,0.15);padding:4px 10px;border-radius:6px;color:var(--cyan);">禾望电气 0.87%</span>
-        </div>
-        <div style="margin-bottom:4px;"><span style="color:var(--red);font-weight:700;">致命1：</span>单吊86% = 赌博，九州回调20% = 总仓亏17%</div>
-        <div style="margin-bottom:4px;"><span style="color:var(--red);font-weight:700;">致命2：</span>0%防守仓位，大盘跌10%你可能跌20%+</div>
-        <div><span style="color:var(--red);font-weight:700;">致命3：</span>ST晨鸣8.2% = 退市风险，一旦归零直接损失8%</div>
-      </div>
-    </div>
-    <!-- 三步调仓计划 -->
-    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--gold);">
-      <div style="font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">⚡ 三步调仓计划</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="margin-bottom:6px;"><span style="color:var(--gold);font-weight:700;">Step 1 · 九州减仓</span> 86%→30%，60元减30%、62元再减30%、65元清仓</div>
-        <div style="margin-bottom:6px;"><span style="color:var(--gold);font-weight:700;">Step 2 · 清理问题股</span> ST晨鸣8.2%全部清仓 | 鑫磊股份1.96%清仓 | 红星发展2.5%视情况</div>
-        <div><span style="color:var(--gold);font-weight:700;">Step 3 · 建仓防守</span> 长江电力15%(等26以下) + 中国神华15% + 招商银行10% + 现金20%</div>
-      </div>
-    </div>
-    <!-- 目标仓位 -->
-    <div style="background:var(--bg-card);padding:14px;border-radius:10px;border-left:4px solid var(--green);">
-      <div style="font-size:14px;font-weight:700;color:var(--green);margin-bottom:8px;">🎯 目标仓位结构</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:8px;">
-          <span style="background:rgba(220,38,38,0.1);padding:3px 8px;border-radius:4px;">进攻 35%</span>
-          <span style="background:rgba(34,197,94,0.1);padding:3px 8px;border-radius:4px;">防守 45%</span>
-          <span style="background:rgba(168,85,247,0.1);padding:3px 8px;border-radius:4px;">现金 20%</span>
-        </div>
-        <div style="margin-bottom:4px;">进攻：九州一轨30% + 红星发展2.5% + 禾望电气0.87% + 宝丰能源+华友(场外)2%</div>
-        <div style="margin-bottom:4px;">防守：长江电力15% + 中国神华15% + 招商银行10% + 交通银行5%</div>
-        <div>现金：20%机动，等更低位置加仓或应对突发</div>
-      </div>
-    </div>
-    <!-- 执行时间表 -->
-    <div style="background:rgba(220,38,38,0.06);padding:14px;border-radius:10px;border-left:4px solid var(--red);">
-      <div style="font-size:14px;font-weight:700;color:var(--red);margin-bottom:8px;">⏰ 5/6~5/15 执行时间表</div>
-      <div style="font-size:12px;color:var(--text2);line-height:1.8;">
-        <div style="margin-bottom:4px;"><span style="color:var(--gold);font-weight:700;">5/6 开盘</span> · 九州冲高60→减仓30%；ST晨鸣/鑫磊挂涨停价清仓</div>
-        <div style="margin-bottom:4px;"><span style="color:var(--gold);font-weight:700;">5/6~5/7</span> · 九州到62→再减30%；清理红星发展/禾望电气</div>
-        <div style="margin-bottom:4px;"><span style="color:var(--green);font-weight:700;">5/8~5/15</span> · 建仓防守：长江电力26以下 + 中国神华46以下</div>
-        <div><span style="color:var(--green);font-weight:700;">5/15后</span> · 若大盘回调，加仓招行37以下 + 交行6.5以下</div>
-      </div>
-    </div>
-  </div>
-</div>
+
 <!-- 重大事件监控 -->
 <div class="card">
-  <div class="card-title">📰 重大事件监控（5日内·直接相关）<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-events" onclick="fetchAndRenderEvents()" title="点击抓取最新重大事件">🔄 刷新</span><span class="update-time manual" id="update-events-time">等待刷新</span></div>
+  <div class="card-title">📰 重大事件监控（5日内·直接相关）<span class="refresh-btn" id="update-events" onclick="fetchAndRenderEvents()" title="点击抓取最新重大事件">🔄 刷新</span><span class="update-time manual" id="update-events-time">等待刷新</span></div>
   <div class="events-grid" id="events-grid">
     <div class="event-card company">
       <div class="event-header"><span class="event-type">🏢 公司</span><span class="event-date">4/7-5/1</span></div>
@@ -357,7 +303,7 @@ tr:last-child td { border-bottom:none; }
         <li><span class="event-tag tag-down">业绩</span>4/27 <strong>九州一轨</strong> 披露2025年年报：营收2.27亿（-36.67%），归母净利润<strong style="color:var(--red)">亏损1445万（-229.59%）</strong>，创上市以来最差业绩</li>
         <li><span class="event-tag tag-up">并购</span>4/17 <strong>九州一轨</strong> 董事会拟申请3.32亿并购贷款，收购苏州晶禧半导体100%股权</li>
         <li><span class="event-tag tag-neutral">公告</span>4/7 <strong>九州一轨</strong> 股票交易异常波动，半导体收购事项正在推进</li>
-        <li><span class="event-tag tag-down">ST</span>4/28 ST晨鸣年报披露，ST风险未解除 → 谨慎</li>
+
       </ul>
     </div>
     <div class="event-card material">
@@ -370,7 +316,7 @@ tr:last-child td { border-bottom:none; }
   </div>
 </div>
 <div class="card">
-  <div class="card-title">🏭 持仓+关注股 · 产业链成本透视<span class="update-time manual">截至 2026-05-06</span><span id="commodity-refresh-btn" style="cursor:pointer;font-size:12px;color:var(--accent);margin-left:10px;" onclick="refreshCommodities()">🔄 刷新</span> <span id="commodity-update-time" style="font-size:11px;color:var(--text3);margin-left:6px;"></span></div>
+  <div class="card-title">🏭 持仓+关注股 · 产业链成本透视 <span id="commodity-refresh-btn" style="cursor:pointer;font-size:12px;color:var(--accent);margin-left:10px;" onclick="refreshCommodities()">🔄 刷新</span> <span id="commodity-update-time" style="font-size:11px;color:var(--text3);margin-left:6px;"></span></div>
   <div class="commodity-board" id="commodity-board" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:15px;">
     <!-- 原料价格实时看板由JS动态填充 -->
     <div style="grid-column:1/-1;color:var(--text3);font-size:13px;text-align:center;padding:12px;background:var(--bg-inner);border-radius:8px;">⏳ 加载中...</div>
@@ -403,16 +349,7 @@ tr:last-child td { border-bottom:none; }
           <td><span class="badge badge-red">产品跌·原料涨·承压</span></td>
         </tr>
         
-        <tr>
-          <td><strong>洛阳钼业</strong></td>
-          <td>铜精矿/钴/黄金</td>
-          <td class="highlight">电解铜~101,030元/吨<br>钴~230,000元/吨<br>黄金~780元/克</td>
-          <td>铜矿石(刚果金TFM/KFM)<br>钴矿石(刚果金)<br>金矿石(巴西)</td>
-          <td>铜矿<span class="up">↑供应紧</span><br>钴矿<span class="neutral">趋稳</span><br>金矿<span class="up">↑新增</span></td>
-          <td>电解/冶炼</td>
-          <td>水电(非洲)</td>
-          <td><span class="badge badge-green">产量增·成本降</span></td>
-        </tr><tr>
+<tr>
           <td><strong>禾望电气</strong></td>
           <td>风电变流器<br>光伏逆变器</td>
           <td class="neutral">~3-8万/台<br>(功率相关)</td>
@@ -422,16 +359,7 @@ tr:last-child td { border-bottom:none; }
           <td>深圳工业用电<br>~0.75元/度</td>
           <td><span class="badge badge-green">国产替代·成本降</span></td>
         </tr>
-        <tr>
-          <td><strong>ST晨鸣</strong></td>
-          <td>文化纸/白卡纸</td>
-          <td class="neutral">文化纸~5,500<br>白卡纸~6,200</td>
-          <td>进口针叶浆<br>阔叶浆</td>
-          <td class="up">针叶浆5,800↑12%</td>
-          <td>制浆+造纸<br>高耗水高耗能</td>
-          <td>造纸业高耗电<br>山东大工业电价</td>
-          <td><span class="badge badge-red">浆价涨·纸价稳·承压</span></td>
-        </tr>
+
         <tr>
           <td><strong>鑫磊股份</strong></td>
           <td>半导体设备<br>精密零部件</td>
@@ -463,6 +391,16 @@ tr:last-child td { border-bottom:none; }
           <td><span class="badge badge-green">产品大涨·产能释放<br>镍单吨毛利0.8-1万美金</span></td>
         </tr>
         <tr>
+          <td><strong>科伦药业</strong></td>
+          <td>大输液/原料药<br>中间体</td>
+          <td class="neutral">大输液~3-5元/瓶<br>原料药差异化定价</td>
+          <td>药用级葡萄糖<br>氯化钠/包装材料</td>
+          <td class="neutral">药用辅料价格稳定</td>
+          <td>无菌灌装<br>GMP标准</td>
+          <td>四川电价较低<br>蒸汽消耗中等</td>
+          <td><span class="badge badge-green">集采后价格稳<br>成本可控</span></td>
+        </tr>
+        <tr>
 
           <td><strong>招商银行</strong></td>
           <td>存贷利差<br>中间业务</td>
@@ -482,16 +420,6 @@ tr:last-child td { border-bottom:none; }
           <td>核电站运维<br>乏燃料处理</td>
           <td>核电站自给<br>冷却水循环</td>
           <td><span class="badge badge-green">电价稳·运营成本低<br>长期现金流确定</span></td>
-        </tr>
-        <tr>
-          <td><strong>中国铝业</strong></td>
-          <td>氧化铝/电解铝<br>铝加工材</td>
-          <td>氧化铝 <span class="down">2,820↓2.1%</span><br>铝锭 <span class="up">19,800↑8.5%</span></td>
-          <td>铝土矿<br>氧化铝(自供)<br>电力(自备电厂)</td>
-          <td>铝土矿价稳<br>氧化铝成本↓<br>自备煤电成本↓</td>
-          <td>拜耳法提炼<br>电解(吨铝耗电13,500度)</td>
-          <td>自备电厂为主<br>云南水电辅</td>
-          <td><span class="badge badge-green">铝价涨·成本↓<br>自备电优势凸显</span></td>
         </tr>
         <tr>
           <td><strong>长江电力</strong></td>
@@ -514,13 +442,13 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 九州一轨重点仓位 -->
 <div class="card hero-card">
-  <div class="hero-badge">⭐ 重点关注 · 第一仓位 86.4%</div>
-  <div class="card-title" style="color:#c4b5fd;">🚄 九州一轨（688485）— 轨交设备+半导体双概念<span class="update-time manual">截至 2026-05-06</span></div>
+  <div class="hero-badge">⭐ 重点关注 · 第一仓位 ~94%</div>
+  <div class="card-title" style="color:#c4b5fd;">🚄 九州一轨（688485）— 轨交设备+半导体双概念<span class="update-time manual">截至 2026-05-07</span></div>
   <div class="hero-grid">
     <div class="hero-stat">
       <div class="label">现价</div>
-      <div class="value" style="color:var(--gold);">55.2</div>
-      <div class="sub">+1.85%</div>
+      <div class="value" style="color:var(--gold);">59.96</div>
+      <div class="sub">+6.88%</div>
     </div>
     <div class="hero-stat">
       <div class="label">你的成本</div>
@@ -529,13 +457,13 @@ tr:last-child td { border-bottom:none; }
     </div>
     <div class="hero-stat">
       <div class="label">浮盈</div>
-      <div class="value" style="color:var(--red);">+18.2%</div>
-      <div class="sub">+20.0万</div>
+      <div class="value" style="color:var(--red);">+28.4%</div>
+      <div class="sub">+31.2万</div>
     </div>
     <div class="hero-stat">
       <div class="label">止损线</div>
-      <div class="value" style="color:var(--red);">49</div>
-      <div class="sub">跌破清仓</div>
+      <div class="value" style="color:var(--red);">52</div>
+      <div class="sub">距止损 +13.4%</div>
     </div>
   </div>
   <div class="hero-grid" style="margin-top:12px;">
@@ -639,7 +567,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 持仓总览 -->
 <div class="card">
-  <div class="card-title">📋 持仓总览<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-holdings" onclick="loadData()" title="点击刷新持仓数据">🔄 刷新</span><span class="update-time manual" id="update-holdings-time">等待刷新</span></div>
+  <div class="card-title">📋 持仓总览<span class="refresh-btn" id="update-holdings" onclick="loadData()" title="点击刷新持仓数据">🔄 刷新</span><span class="update-time manual" id="update-holdings-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr>
@@ -648,38 +576,38 @@ tr:last-child td { border-bottom:none; }
       </tr></thead>
       <tbody id="holding-table">
         <tr>
-          <td><strong>九州一轨</strong></td><td>688485</td><td class="highlight">55.2</td>
-          <td class="up">+1.85%</td><td class="up">+15.00%</td><td class="up">+23.35%</td><td class="up">+20.84%</td>
-          <td><span class="badge badge-green">+326万</span></td>
-          <td>60</td><td class="down">49</td><td>86.4%</td>
+          <td><strong>九州一轨</strong></td><td>688485</td><td class="highlight">59.96</td>
+          <td class="up">+6.88%</td><td class="up">+15.00%</td><td class="up">+23.35%</td><td class="up">+20.84%</td>
+          <td><span class="badge badge-green">+3650万</span></td>
+          <td>60/65</td><td class="down">52</td><td>93.6%</td>
           <td><span class="badge badge-green">持有</span></td>
         </tr>
         <tr>
-          <td><strong>红星发展</strong></td><td>600367</td><td class="highlight">23.47</td>
-          <td class="up">+1.08%</td><td class="up">+8.16%</td><td class="up">+4.50%</td><td class="up">+3.85%</td>
-          <td><span class="badge badge-red">-1287万</span></td>
-          <td>--</td><td class="down">--</td><td>2.5%</td>
+          <td><strong>红星发展</strong></td><td>600367</td><td class="highlight">23.81</td>
+          <td class="up">+3.48%</td><td class="up">+8.16%</td><td class="up">+4.50%</td><td class="up">+3.85%</td>
+          <td><span class="badge badge-green">+210万</span></td>
+          <td>25-26</td><td class="down">21</td><td>2.5%</td>
           <td><span class="badge badge-green">持有</span></td>
         </tr>
         <tr>
-          <td><strong>禾望电气</strong></td><td>603063</td><td class="highlight">43.88</td>
-          <td class="up">+4.15%</td><td class="up">+3.61%</td><td class="up">+5.00%</td><td class="up">+6.38%</td>
-          <td><span class="badge badge-green">+892万</span></td>
-          <td>--</td><td class="down">37</td><td>0.9%</td>
+          <td><strong>禾望电气</strong></td><td>603063</td><td class="highlight">50.75</td>
+          <td class="up">+5.14%</td><td class="up">+3.61%</td><td class="up">+5.00%</td><td class="up">+6.38%</td>
+          <td><span class="badge badge-green">+1200万</span></td>
+          <td>50-55</td><td class="down">40</td><td>1.0%</td>
+          <td><span class="badge badge-green">持有·触及目标</span></td>
+        </tr>
+        <tr>
+          <td><strong>汉钟精机</strong></td><td>002158</td><td class="highlight">32.25</td>
+          <td class="up">+6.19%</td><td class="up">+6.19%</td><td class="up">+6.19%</td><td class="up">+6.19%</td>
+          <td><span class="badge badge-green">+85万</span></td>
+          <td>35-40</td><td class="down">28</td><td>0.9%</td>
           <td><span class="badge badge-green">持有</span></td>
         </tr>
         <tr>
-          <td><strong>ST晨鸣</strong></td><td>000488</td><td class="highlight">2.57</td>
-          <td class="down">-1.91%</td><td class="down">-5.17%</td><td class="down">-4.10%</td><td class="up">+0.78%</td>
-          <td><span class="badge badge-red">-512万</span></td>
-          <td>--</td><td class="down">--</td><td>8.2%</td>
-          <td><span class="badge badge-red">ST风险</span></td>
-        </tr>
-        <tr>
-          <td><strong>鑫磊股份</strong></td><td>301317</td><td class="highlight">58.88</td>
-          <td class="down">-1.95%</td><td class="up">+8.02%</td><td class="down">-2.00%</td><td class="down">-2.08%</td>
+          <td><strong>鑫磊股份</strong></td><td>301317</td><td class="highlight">60.21</td>
+          <td class="neutral">0.00%</td><td class="up">+8.02%</td><td class="down">-2.00%</td><td class="down">-2.08%</td>
           <td><span class="badge badge-yellow">+12万</span></td>
-          <td>--</td><td class="down">--</td><td>2.0%</td>
+          <td>65-70</td><td class="down">52</td><td>2.0%</td>
           <td><span class="badge badge-green">持有</span></td>
         </tr>
       </tbody>
@@ -689,7 +617,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 原材料价格监控 -->
 <div class="card">
-  <div class="card-title">🛢️ 原材料价格监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-materials" onclick="loadData()" title="点击刷新原材料价格">🔄 刷新</span><span class="update-time manual" id="update-materials-time">等待刷新</span></div>
+  <div class="card-title">🛢️ 原材料价格监控<span class="refresh-btn" id="update-materials" onclick="loadData()" title="点击刷新原材料价格">🔄 刷新</span><span class="update-time manual" id="update-materials-time">等待刷新</span></div>
   <div class="commodity-grid">
     <div class="commodity-box">
       <div class="name">碳酸锂（电池级）</div>
@@ -697,12 +625,12 @@ tr:last-child td { border-bottom:none; }
       <div class="change neutral">区间震荡</div>
       <div class="note">锂电上游 · <span style="color:var(--cyan);font-size:10px;">SMM</span><span style="font-size:9px;color:var(--text3);"> · 4/30现货</span></div>
     </div>
-<!-- 铜（与洛阳钼业相关） -->
+<!-- 铜 -->
     <div class="commodity-box" style="border:1px solid var(--purple);">
       <div class="name">沪铜（Cu） <span style="font-size:10px;color:var(--purple);">期货</span></div>
       <div class="price" style="color:var(--purple);">82,350元/吨</div>
       <div class="change up">+1.2%</div>
-      <div class="note">洛阳钼业核心产品 · <span style="color:var(--purple);font-size:10px;">上期所</span><span style="font-size:9px;color:var(--text3);"> · 5/4</span></div>
+      <div class="note">电解铜 · <span style="color:var(--purple);font-size:10px;">上期所</span><span style="font-size:9px;color:var(--text3);"> · 5/4</span></div>
     </div>
     <div class="commodity-box" style="border:1px solid var(--purple);">
       <div class="name">LME铜 <span style="font-size:10px;color:var(--purple);">外盘</span></div>
@@ -714,13 +642,13 @@ tr:last-child td { border-bottom:none; }
       <div class="name">电解钴 <span style="font-size:10px;color:var(--gold);">Co:99.8%</span></div>
       <div class="price" style="color:var(--gold);">20.5万/吨</div>
       <div class="change neutral">企稳回升</div>
-      <div class="note">洛阳钼业钴产品 · <span style="color:var(--cyan);font-size:10px;">SMM</span><span style="font-size:9px;color:var(--text3);"> · 5/4</span></div>
+      <div class="note">钴 · <span style="color:var(--cyan);font-size:10px;">SMM</span><span style="font-size:9px;color:var(--text3);"> · 5/4</span></div>
     </div>
     <div class="commodity-box" style="border:1px solid var(--gold);">
       <div class="name">黄金（Au） <span style="font-size:10px;color:var(--gold);">现货</span></div>
       <div class="price" style="color:var(--gold);">$2,380/盎司</div>
       <div class="change up">+1.5%</div>
-      <div class="note">洛阳钼业黄金业务 · <span style="color:var(--gold);font-size:10px;">伦敦金</span><span style="font-size:9px;color:var(--text3);"> · 5/4</span></div>
+      <div class="note">黄金 · <span style="color:var(--gold);font-size:10px;">伦敦金</span><span style="font-size:9px;color:var(--text3);"> · 5/4</span></div>
     </div>
     <div class="commodity-box">
       <div class="name">电解钴（Co:99.8%）</div>
@@ -762,13 +690,13 @@ tr:last-child td { border-bottom:none; }
       <div class="name">纸浆（进口针叶浆）</div>
       <div class="price" style="color:var(--red);">5,800元/吨</div>
       <div class="change up">+12% YoY</div>
-      <div class="note">ST晨鸣成本压力 · <span style="color:var(--orange);font-size:10px;">卓创</span><span style="font-size:9px;color:var(--text3);"> · 4/30</span></div>
+      <div class="note">造纸行业 · <span style="color:var(--orange);font-size:10px;">卓创</span><span style="font-size:9px;color:var(--text3);"> · 4/30</span></div>
     </div>
     <div class="commodity-box">
       <div class="name">铝锭（A00）</div>
       <div class="price" style="color:var(--red);">19,800元/吨</div>
       <div class="change up">+8.5% YoY</div>
-      <div class="note">中国铝业 · <span style="color:var(--cyan);font-size:10px;">SMM</span><span style="font-size:9px;color:var(--text3);"> · 4/30</span></div>
+      <div class="note">铝锭（A00）· <span style="color:var(--cyan);font-size:10px;">SMM</span><span style="font-size:9px;color:var(--text3);"> · 4/30</span></div>
     </div>
     <div class="commodity-box">
       <div class="name">硫磺（固体）</div>
@@ -840,7 +768,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 计划建仓标的 -->
 <div class="card">
-  <div class="card-title">📅 计划建仓标的<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
+  <div class="card-title">📅 计划建仓标的<span class="refresh-btn" id="update-watchlist" onclick="loadData()" title="点击刷新计划建仓数据">🔄 刷新</span><span class="update-time manual" id="update-watchlist-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr><th>名称</th><th>代码</th><th>当前价</th><th>目标价</th><th>日涨跌</th><th>3日涨跌</th><th>5日涨跌</th><th>7日涨跌</th><th>距目标</th><th>消息面</th><th>资金面</th><th>技术面</th><th>说明</th><th>建议</th></tr></thead>
@@ -848,9 +776,12 @@ tr:last-child td { border-bottom:none; }
         <tr><td><strong>宝丰能<br>源</strong></td><td>600989</td><td>30.70</td><td>38</td><td class="down">-1.38%</td><td class="up">+2.06%</td><td class="up">+6.67%</td><td class="up">+10.99%</td><td class="down">-8.8%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--red);font-weight:700;">🔥 地缘冲突核心受益</span> 中东战局→油价+50%→聚烯烃+38%→煤制价差+80%·Q1净利+50%</td><td><span class="badge badge-green">关注</span></td></tr>
         <tr><td><strong>招商银<br>行</strong></td><td>600036</td><td>38.27</td><td>35-36</td><td class="down">-0.60%</td><td class="down">-2.82%</td><td class="down">-3.87%</td><td class="down">-4.01%</td><td class="down">-8.5%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型</span> 高股息·估值最低·银行龙头</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>中国核<br>电</strong></td><td>601985</td><td>8.99</td><td>7.5-8.0</td><td class="neutral">0.00%</td><td class="down">-0.33%</td><td class="down">-1.10%</td><td class="up">+0.90%</td><td class="down">-5.4%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型</span> 核电·能源安全·逆周期·主力净流入1.4亿</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>中国铝<br>业</strong></td><td>601600</td><td>11.65</td><td>9.5-10.0</td><td class="down">-2.18%</td><td class="down">-2.75%</td><td class="down">-2.10%</td><td class="down">-4.12%</td><td class="down">-9.9%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-red">流出</span></td><td><span class="badge badge-red">偏弱</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型</span> 有色·全球通胀受益·实物资产·Q1净利+56%</td><td><span class="badge badge-blue">观察</span></td></tr>
         <tr><td><strong>长江电<br>力</strong></td><td>600900</td><td>27.32</td><td>26-26.5</td><td class="up">+2.05%</td><td class="up">+2.48%</td><td class="up">+1.37%</td><td class="up">+0.70%</td><td class="down">-4.8%</td><td><span class="badge badge-yellow">中性</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-green">偏多</span></td><td class="note" style="font-size:11px;color:var(--text2);"><span style="color:var(--green);font-weight:700;">🛡️ 防守型·核心</span> 水电=类债券·逆周期·主力净流入3.6亿·均线多头</td><td><span class="badge badge-blue">观察</span></td></tr>
-        <tr><td><strong>洛阳钼<br>业</strong></td><td>603993</td><td>18.62</td><td>25-28</td><td class="down">-2.97%</td><td class="down">-2.00%</td><td class="down">-3.82%</td><td class="down">-7.27%</td><td class="down">-25.5%</td><td><span class="badge badge-green">偏多</span></td><td><span class="badge badge-green">流入</span></td><td><span class="badge badge-yellow">震荡</span></td><td class="note" style="font-size:11px;color:var(--text2);">2025净利+50%，铜产量+14%，新增黄金业务，全球第一大钴生产商</td><td><span class="badge badge-green">关注</span></td></tr>
+        <tr><td><strong>ST利达<br>（重组）</strong></td><td>603828</td><td>--</td><td>--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td><span class="badge badge-red">ST</span></td><td><span class="badge badge-yellow">--</span></td><td><span class="badge badge-red">--</span></td><td class="note" style="font-size:11px;color:var(--text2);">朋友推荐·重组概念·已*ST被立案·2025净利-2.34亿·负债率85.76%·<span style="color:var(--red);">高风险</span></td><td><span class="badge badge-red">回避</span></td></tr>
+        <tr><td><strong>通源环<br>境（重组）</strong></td><td>688679</td><td>--</td><td>--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td><span class="badge badge-yellow">--</span></td><td><span class="badge badge-yellow">--</span></td><td><span class="badge badge-red">--</span></td><td class="note" style="font-size:11px;color:var(--text2);">朋友推荐·重组概念·2025净利-4184万·环保主业萎缩·液冷转型无实质·<span style="color:var(--red);">高风险</span></td><td><span class="badge badge-red">回避</span></td></tr>
+        <tr><td><strong>华蓝集<br>团（重组）</strong></td><td>301027</td><td>--</td><td>--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td><span class="badge badge-yellow">--</span></td><td><span class="badge badge-yellow">--</span></td><td><span class="badge badge-red">--</span></td><td class="note" style="font-size:11px;color:var(--text2);">朋友推荐·重组概念·2025净利-3513万·设计院亏损·蹭光伏/算力·<span style="color:var(--red);">高风险</span></td><td><span class="badge badge-red">回避</span></td></tr>
+        <tr><td><strong>腾亚精<br>工（重组）</strong></td><td>301125</td><td>--</td><td>--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td class="neutral">--</td><td><span class="badge badge-yellow">--</span></td><td><span class="badge badge-yellow">--</span></td><td><span class="badge badge-red">--</span></td><td class="note" style="font-size:11px;color:var(--text2);">朋友推荐·重组概念·2025净利488万(-53%)·Q1亏2077万·经营现金流-3875万·<span style="color:var(--red);">高风险</span></td><td><span class="badge badge-red">回避</span></td></tr>
+
       </tbody>
     </table>
   </div>
@@ -881,10 +812,6 @@ tr:last-child td { border-bottom:none; }
           <td class="neutral">38.5%</td><td>5.2</td><td class="neutral">1.85</td><td>12.8%</td>
         </tr>
         <tr>
-          <td><strong>ST晨鸣</strong></td><td class="down">-5.2</td><td>0.4</td><td>78.50亿</td>
-          <td class="up">85.3%</td><td>12.5</td><td class="down">-2.1</td><td>-8.2%</td>
-        </tr>
-        <tr>
           <td><strong>鑫磊股份</strong></td><td class="neutral">35.6</td><td>3.2</td><td>28.50亿</td>
           <td class="neutral">25.8%</td><td>2.8</td><td class="neutral">0.65</td><td>15.2%</td>
         </tr>
@@ -892,12 +819,11 @@ tr:last-child td { border-bottom:none; }
     </table>
   </div>
   <p class="source-note"><span class="source-badge src-l1">🟢 官方</span> Tushare Pro fina_indicator接口(2026Q1季报) · <span style="color:var(--green);font-size:10px;">🤖 AI已审核</span> 2026-05-03 09:40核查通过 · <span class="source-badge src-l4">⚪ AI估算</span> 部分缺失字段按行业均值推算</p>
-  <p style="color:var(--text3);font-size:11px;margin-top:8px;">⚠️ ST晨鸣 PE为负（亏损中），负债率85%极高，请密切关注退市风险</p>
 </div>
 
 <!-- 融资融券数据 -->
 <div class="card">
-  <div class="card-title">💳 融资融券数据（Tushare Pro）<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-margin" onclick="refreshMargin()" title="点击刷新融资融券">🔄 刷新</span><span class="update-time manual" id="update-margin-time">等待刷新</span></div>
+  <div class="card-title">💳 融资融券数据（Tushare Pro）<span class="refresh-btn" id="update-margin" onclick="refreshMargin()" title="点击刷新融资融券">🔄 刷新</span><span class="update-time manual" id="update-margin-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:12px;margin-bottom:10px;">融资余额 = 借钱买股票余额 · 融券余额 = 借券做空余额 · 融资净买入 = 当日新增融资</p>
   <div class="overflow-x">
     <table id="margin-table">
@@ -909,7 +835,7 @@ tr:last-child td { border-bottom:none; }
         <tr><td><strong>九州一轨</strong></td><td>1.2万</td><td>850</td><td class="up">420</td><td style="color:var(--text2);font-weight:700;">中性</td></tr>
         <tr><td><strong>红星发展</strong></td><td>4800</td><td>65</td><td class="up">180</td><td style="color:var(--text2);font-weight:700;">中性</td></tr>
         <tr><td><strong>禾望电气</strong></td><td>8900</td><td>210</td><td class="up">320</td><td style="color:var(--red);font-weight:700;">偏多</td></tr>
-        <tr><td><strong>ST晨鸣</strong></td><td>3200</td><td>120</td><td class="down">-580</td><td style="color:var(--green);font-weight:700;">偏空</td></tr>
+
         <tr><td><strong>鑫磊股份</strong></td><td>2100</td><td>35</td><td class="up">95</td><td style="color:var(--red);font-weight:700;">偏多</td></tr>
       </tbody>
     </table>
@@ -919,7 +845,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 公司行为与特殊状态监控 -->
 <div class="card">
-  <div class="card-title">⚡ 公司行为与特殊状态监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-corp" onclick="refreshCorpEvents()" title="点击刷新公司公告">🔄 刷新</span><span class="update-time manual" id="update-corp-time">等待刷新</span></div>
+  <div class="card-title">⚡ 公司行为与特殊状态监控<span class="refresh-btn" id="update-corp" onclick="refreshCorpEvents()" title="点击刷新公司公告">🔄 刷新</span><span class="update-time manual" id="update-corp-time">等待刷新</span></div>
   <div class="overflow-x">
     <table>
       <thead><tr>
@@ -930,7 +856,7 @@ tr:last-child td { border-bottom:none; }
         <tr><td><strong>九州一轨</strong></td><td style="color:var(--green);font-weight:700;">正常</td><td>0%</td><td>无</td><td>无</td><td>2026-08</td><td>✅ 纳入</td></tr>
         <tr><td><strong>红星发展</strong></td><td style="color:var(--green);font-weight:700;">正常</td><td>12%</td><td>无</td><td>无</td><td>2026-06</td><td>✅ 纳入</td></tr>
         <tr><td><strong>禾望电气</strong></td><td style="color:var(--green);font-weight:700;">正常</td><td>15%</td><td>无</td><td>无</td><td>2026-07</td><td>✅ 纳入</td></tr>
-        <tr><td><strong>ST晨鸣</strong></td><td style="color:var(--red);font-weight:700;">⚠️ ST</td><td>65%</td><td>无</td><td>无</td><td>近期无</td><td>❌ 未纳入</td></tr>
+
         <tr><td><strong>鑫磊股份</strong></td><td style="color:var(--green);font-weight:700;">正常</td><td>8%</td><td>无</td><td>无</td><td>2026-09</td><td>✅ 纳入</td></tr>
       </tbody>
     </table>
@@ -945,7 +871,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 创业板抱团股 -->
 <div class="card">
-  <div class="card-title">🔥 创业板板块资金流动监控（399006 · 按行业分类）<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-cyb" onclick="loadData()" title="点击刷新创业板数据">🔄 刷新</span><span class="update-time manual" id="update-cyb-time">等待刷新</span></div>
+  <div class="card-title">🔥 创业板板块资金流动监控（399006 · 按行业分类）<span class="refresh-btn" id="update-cyb" onclick="loadData()" title="点击刷新创业板数据">🔄 刷新</span><span class="update-time manual" id="update-cyb-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">创业板六大核心板块资金流向 · 板块轮动信号 ⚡ · 资金从哪个板块流出 → 可能流向主板对应板块</p>
 
   <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:12px;margin-bottom:12px;">
@@ -1061,7 +987,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- 板块轮动 -->
 <div class="card">
-  <div class="card-title">🔄 大盘A股 · 板块资金流动监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-sectors" onclick="loadData()" title="点击刷新板块资金数据">🔄 刷新</span><span class="update-time manual" id="update-sectors-time">等待刷新</span></div>
+  <div class="card-title">🔄 大盘A股 · 板块资金流动监控<span class="refresh-btn" id="update-sectors" onclick="loadData()" title="点击刷新板块资金数据">🔄 刷新</span><span class="update-time manual" id="update-sectors-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">持仓关联板块资金流向 · 基于个股 moneyflow 按行业聚合 ⚡</p>
 
   <div id="sector-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:12px;">
@@ -1143,7 +1069,7 @@ tr:last-child td { border-bottom:none; }
       <div style="font-size:11px;color:var(--text2);line-height:1.8;">
         <div style="display:flex;justify-content:space-between;"><span>宝丰能源 600989</span><span class="down">-3.6亿 🔴</span></div>
         <div style="display:flex;justify-content:space-between;"><span>红星发展 600367</span><span class="down">-6,097万 🔴</span></div>
-        <div style="display:flex;justify-content:space-between;"><span>中国铝业 601600</span><span class="down">-5.4亿 🔴</span></div>
+
         <div style="display:flex;justify-content:space-between;"><span>有色板块整体</span><span class="up">+18.2亿 🟢</span></div>
       </div>
       <div style="margin-top:6px;font-size:10px;color:var(--text3);">铝价上涨+煤炭成本下降 → 分化明显，整体流入</div>
@@ -1221,7 +1147,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- ===================== 港股板块资金流动 ===================== -->
 <div class="card" id="hk-sectors">
-  <div class="card-title">🇭🇰 港股 · 板块资金流动监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-hk-sectors" onclick="loadData()" title="点击刷新港股板块数据">🔄 刷新</span><span class="update-time manual" id="update-hk-sectors-time">等待刷新</span></div>
+  <div class="card-title">🇭🇰 港股 · 板块资金流动监控<span class="refresh-btn" id="update-hk-sectors" onclick="loadData()" title="点击刷新港股板块数据">🔄 刷新</span><span class="update-time manual" id="update-hk-sectors-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">港股通南向资金 · 板块资金流向 · 与A股联动分析 ⚡</p>
 
   <div id="hk-sector-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:12px;">
@@ -1343,7 +1269,7 @@ tr:last-child td { border-bottom:none; }
 
 <!-- ===================== 恒生科技指数 ===================== -->
 <div class="card" id="hs-tech">
-  <div class="card-title">🔬 恒生科技指数 · 成分股资金流动监控<span class="update-time manual">截至 2026-05-06</span><span class="refresh-btn" id="update-hs-tech" onclick="loadData()" title="点击刷新恒生科技数据">🔄 刷新</span><span class="update-time manual" id="update-hs-tech-time">等待刷新</span></div>
+  <div class="card-title">🔬 恒生科技指数 · 成分股资金流动监控<span class="refresh-btn" id="update-hs-tech" onclick="loadData()" title="点击刷新恒生科技数据">🔄 刷新</span><span class="update-time manual" id="update-hs-tech-time">等待刷新</span></div>
   <p style="color:var(--text2);font-size:13px;margin-bottom:12px;">恒生科技指数(HSTECH) · 30只成分股资金流向 · 南向资金持仓变动 ⚡</p>
 
   <div id="hs-tech-flow-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:12px;">
@@ -1438,7 +1364,7 @@ tr:last-child td { border-bottom:none; }
 </div>
 
 <div class="footer">
-  <p>📊 投资组合实时监控中心 · <span id="footer-time">数据截至 2026-05-04 22:45（静态·五一休市·显示4/30收盘）</span> · <span id="news-update-time">新闻更新: 2026-05-03 02:03</span> · <span id="verify-status" style="color:var(--green);font-size:11px;">✅ 数据已核查 2026-05-04 22:21</span></p>
+  <p>📊 投资组合实时监控中心 · <span id="footer-time">数据截至 2026-05-07 15:30（静态·五一休市·显示5/7收盘）</span> · <span id="news-update-time">新闻更新: 2026-05-03 02:03</span> · <span id="verify-status" style="color:var(--green);font-size:11px;">✅ 数据已核查 2026-05-04 22:21</span></p>
   <p style="margin-top:4px;">数据来源：Tushare Pro、新浪财经、新华社、财联社 | 锂电金属→SMM优先 · 精细化工→百川优先 · 涂料橡塑→卓创优先 · 钢铁→Mysteel优先 · 国际金属→LME · 全品类化工→生意社 | 后端连接后自动更新实时数据 | 不构成投资建议</p>
   <p style="margin-top:4px;">🔄 <span id="footer-refresh">交易时段每2分钟刷新 · 非交易时段每10分钟刷新 · 📰 新闻手动更新</span> · 当前显示为静态数据（4/30收盘），后端启动后自动覆盖</p>
 </div>
@@ -1446,19 +1372,21 @@ tr:last-child td { border-bottom:none; }
 <script>
 // ===================== 股票配置 =====================
 const HOLDINGS = [
-  {code:"688485.SH", name:"九州一轨", shares:23480, cost:46.70, target:"60/65", stop:52.0, hero:true},
-  {code:"600367.SH", name:"红星发展", shares:1600, cost:21.20, target:"25-26", stop:21.0, hero:false},
-  {code:"603063.SH", name:"禾望电气", shares:300, cost:44.31, target:"50-55", stop:40.0, hero:false},
-  {code:"000488.SZ", name:"ST晨鸣", shares:48200, cost:3.10, target:"3.5", stop:2.2, hero:false},
-  {code:"301317.SZ", name:"鑫磊股份", shares:500, cost:60.21, target:"65-70", stop:52.0, hero:false},
+  {code:"688485.SH", name:"九州一轨", shares:23480, cost:46.70, target:"60/65", stop:49.0, hero:true},
+  {code:"600367.SH", name:"红星发展", shares:1600, cost:21.20, target:"22", stop:null, hero:false},
+  {code:"603063.SH", name:"禾望电气", shares:300, cost:44.31, target:"35", stop:37.0, hero:false},
+  {code:"002158.SZ", name:"汉钟精机", shares:400, cost:32.00, target:"35-40", stop:28.0, hero:false},
+  {code:"301317.SZ", name:"鑫磊股份", shares:500, cost:60.21, target:"25", stop:null, hero:false},
 ];
 const WATCHLIST = [
   {code:"600989.SH", name:"宝丰能源", target:"38", rec:28.00},
-  {code:"603993.SH", name:"洛阳钼业", target:"25-28", stop:15.0, rec:22.00},
   {code:"600036.SH", name:"招商银行", target:"35-36", rec:35.00},
   {code:"601985.SH", name:"中国核电", target:"7.5-8.0", stop:6.5, rec:8.50},
-  {code:"601600.SH", name:"中国铝业", target:"9.5-10.0", stop:7.8, rec:10.50},
   {code:"600900.SH", name:"长江电力", target:"26-26.5", stop:22, rec:26.00},
+  {code:"603828.SH", name:"ST利达", target:"--", stop:null, rec:null, note:"朋友推荐·重组概念·已*ST被立案·高风险"},
+  {code:"688679.SH", name:"通源环境", target:"--", stop:null, rec:null, note:"朋友推荐·重组概念·2025亏4184万·高风险"},
+  {code:"301027.SZ", name:"华蓝集团", target:"--", stop:null, rec:null, note:"朋友推荐·重组概念·2025亏3513万·高风险"},
+  {code:"301125.SZ", name:"腾亚精工", target:"--", stop:null, rec:null, note:"朋友推荐·重组概念·2025净利488万·Q1亏2077万·高风险"},
 ];
 const CYB_STOCKS = [
   {code:"300750.SZ", name:"宁德时代"}, {code:"300308.SZ", name:"中际旭创"},
@@ -1470,9 +1398,9 @@ const CYB_STOCKS = [
 
 // ===================== 全球市场数据 =====================
 const GLOBAL_MARKETS = {
-  "上证指数": {close: 4150.78, pct: 0.94, region: "cn", tradeDate: "2026-05-06", note: "交易中", inflow: "科技+半导体", outflow: "金融+地产"},
-  "深证成指": {close: 15426.14, pct: 2.11, region: "cn", tradeDate: "2026-05-06", note: "交易中", inflow: "新能源+电子", outflow: "消费+白酒"},
-  "创业板指": {close: 3789.73, pct: 3.06, region: "cn", tradeDate: "2026-05-06", note: "交易中", inflow: "锂电+光伏", outflow: "医疗+传媒"},
+  "上证指数": {close: 4112.16, pct: 0.11, region: "cn", tradeDate: "2026-04-30", inflow: "科技+医药", outflow: "金融+消费"},
+  "深证成指": {close: 15107.55, pct: -0.09, region: "cn", tradeDate: "2026-04-30", inflow: "新能源+电子", outflow: "地产+白酒"},
+  "创业板指": {close: 2055.00, pct: 0.24, region: "cn", tradeDate: "2026-04-30", inflow: "锂电+光伏", outflow: "医疗+传媒"},
   "恒生指数": {close: 26095.88, pct: 1.24, region: "hk", tradeDate: "2026-05-05", note: "港股5/5正常交易", inflow: "科网+金融", outflow: "地产+能源"},
   "韩国KOSPI": {close: 6936.99, pct: 5.12, region: "kr", tradeDate: "2026-05-05", note: "韩国5/5正常交易", inflow: "半导体+汽车", outflow: "金融+重工"},
   "日经225": {close: 59513.12, pct: 0.38, region: "jp", tradeDate: "2026-05-01", note: "5/4-6黄金周休市", inflow: "出口+汽车", outflow: "内需+金融"},
@@ -1480,54 +1408,345 @@ const GLOBAL_MARKETS = {
   "道琼斯": {close: 49074.11, pct: -0.76, region: "us", tradeDate: "2026-05-05", note: "美股5/5正常交易", inflow: "消费+医疗", outflow: "科技+金融"},
   "纳斯达克": {close: 25016.00, pct: -0.39, region: "us", tradeDate: "2026-05-05", note: "美股5/5正常交易", inflow: "AI+半导体", outflow: "生物+金融"},
   "标普500": {close: 7199.60, pct: -0.42, region: "us", tradeDate: "2026-05-05", note: "美股5/5正常交易", inflow: "科技+通信", outflow: "公用+材料"},
-  "WTI原油": {close: 106.46, pct: +4.43, region: "oil", unit: "$/桶", tradeDate: "2026-05-04", note: "原油5/4正常交易"},
-  "布伦特原油": {close: 113.64, pct: +5.05, region: "oil", unit: "$/桶", tradeDate: "2026-05-04", note: "原油5/4正常交易"},
+  "WTI原油": {close: 106.46, pct: +4.43, region: "oil", unit: "$/桶", tradeDate: "2026-05-04"},
+  "布伦特原油": {close: 113.64, pct: +5.05, region: "oil", unit: "$/桶", tradeDate: "2026-05-04"},
 };
 
 // ===================== 盘前新闻数据 =====================
 let LAST_NEWS_UPDATE = new Date().toISOString().slice(0,10); // 新闻最后更新时间（仅日期，盘前新闻不显示具体时间）
-const PAGE_BUILD = 'v0507-1954'; // 页面版本，用于检测缓存
+const PAGE_BUILD = 'v0505-1156'; // 页面版本，用于检测缓存
 
 const PREMARKET_NEWS = [
   {
-    id: 'auto_0', catTags: ["company"], category: 'sina', level: 'none',
-    source: "新浪财经", sourceClass: 'sina',
-    title: "2026年05月07日龙虎榜机构买入和卖出的个股一览",
+    id: 'auto_0', catTags: ["market"], category: 'ths', level: 'none',
+    source: "Tushare·同花顺", sourceClass: 'ths',
+    title: "韩国通报该国霍尔木兹海峡起火船只最新情况",
     summary: "",
-    url: "https://news.baidu.com/ns?word=2026%E5%B9%B405%E6%9C%8807%E6%97%A5%E9%BE%99%E8%99%8E%E6%A6%9C%E6%9C%BA%E6%9E%84%E4%B9%B0%E5%85%A5%E5%92%8C%E5%8D%96%E5%87%BA%E7%9A%84%E4%B8%AA%E8%82%A1%E4%B8%80%E8%A7%88&tn=news",
-    time: "05-07 18:20", tags: [{text:"⚠️", cls:"company"}]
+    time: "05-05 11:47", tags: [{text:"⚠️", cls:"market"}]
   },
   {
-    id: 'auto_1', catTags: ["company"], category: 'sina', level: 'direct',
-    source: "新浪财经", sourceClass: 'sina',
-    title: "汉钟精机：股价异常波动 2025年营收降20.35%",
+    id: 'auto_1', catTags: ["policy"], category: 'ths', level: 'none',
+    source: "Tushare·同花顺 / Tushare·金融界", sourceClass: 'ths',
+    title: "印度尼西亚央行表示，将优化外汇市场干预措施",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E6%B1%89%E9%92%9F%E7%B2%BE%E6%9C%BA%EF%BC%9A%E8%82%A1%E4%BB%B7%E5%BC%82%E5%B8%B8%E6%B3%A2%E5%8A%A8%202025%E5%B9%B4%E8%90%A5%E6%94%B6%E9%99%8D20.35%25&tn=news",
-    time: "05-07 17:28", tags: [{text:"🔴", cls:"portfolio"}]
+    time: "05-05 11:33", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
-    id: 'auto_2', catTags: ["company"], category: 'sina', level: 'none',
-    source: "新浪财经", sourceClass: 'sina',
-    title: "05月06日锰硅5920.00元/吨 90天上涨6.09%",
+    id: 'auto_2', catTags: ["policy"], category: 'eastmoney', level: 'none',
+    source: "Tushare·东方财富", sourceClass: 'eastmoney',
+    title: "印尼央行：采取持续审慎的措施以维护印尼卢比汇率稳定",
     summary: "",
-    url: "https://news.baidu.com/ns?word=05%E6%9C%8806%E6%97%A5%E9%94%B0%E7%A1%855920.00%E5%85%83/%E5%90%A8%2090%E5%A4%A9%E4%B8%8A%E6%B6%A86.09%25&tn=news",
-    time: "05-06 17:02", tags: [{text:"⚠️", cls:"company"}]
+    time: "05-05 11:30", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
-    id: 'auto_3', catTags: ["company"], category: 'sina', level: 'none',
-    source: "新浪财经", sourceClass: 'sina',
-    title: "301511，垂直20%涨停！利好来袭，电池概念股集体爆发！",
+    id: 'auto_3', catTags: ["policy"], category: 'eastmoney', level: 'none',
+    source: "Tushare·东方财富", sourceClass: 'eastmoney',
+    title: "印度尼西亚央行将优化外汇市场干预措施",
     summary: "",
-    url: "https://news.baidu.com/ns?word=301511%EF%BC%8C%E5%9E%82%E7%9B%B420%25%E6%B6%A8%E5%81%9C%EF%BC%81%E5%88%A9%E5%A5%BD%E6%9D%A5%E8%A2%AD%EF%BC%8C%E7%94%B5%E6%B1%A0%E6%A6%82%E5%BF%B5%E8%82%A1%E9%9B%86%E4%BD%93%E7%88%86%E5%8F%91%EF%BC%81&tn=news",
-    time: "05-06 16:38", tags: [{text:"⚠️", cls:"company"}]
+    time: "05-05 11:26", tags: [{text:"⚠️", cls:"policy"}]
   },
   {
-    id: 'auto_4', catTags: ["company"], category: 'sina', level: 'none',
+    id: 'auto_4', catTags: ["market"], category: 'eastmoney', level: 'none',
+    source: "Tushare·东方财富", sourceClass: 'eastmoney',
+    title: "2026年4月标普全球澳大利亚综合PMI回升至50.4点",
+    summary: "",
+    time: "05-05 11:25", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_5', catTags: ["market"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "韩国通报霍尔木兹海峡起火韩船只最新情况",
+    summary: "",
+    time: "05-05 10:47", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_6', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经 / Tushare·新浪财经", sourceClass: 'sina',
+    title: "营收、归母净利润创四年最低，科伦药业“节流”难解“断流”之困",
+    summary: "",
+    time: "05-05 10:28", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_7', catTags: ["market"], category: 'sina', level: 'industry',
+    source: "Tushare·新浪财经", sourceClass: 'sina',
+    title: "光伏一季报交卷：通威、隆基连亏10个季度，“反内卷”复杂性超预期",
+    summary: "",
+    time: "05-05 10:24", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_8', catTags: ["company"], category: 'cls', level: 'none',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "中东战火改写货币政策剧本？美联储“三把手”：短期内无加息必要",
+    summary: "",
+    time: "05-05 10:13", tags: [{text:"⚠️", cls:"company"}]
+  },
+  {
+    id: 'auto_9', catTags: ["market"], category: 'cls', level: 'industry',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "港股芯片概念股今日继续走强 芯成科技大涨超90%",
+    summary: "",
+    time: "05-05 10:11", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_10', catTags: ["company"], category: 'sina', level: 'industry',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "息差筑底分化加剧，银行业正在重塑下一周期估值逻辑丨2025年报专题",
+    summary: "",
+    time: "05-05 10:01", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_11', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "中国核电(601985)：机制电价有望重塑中长期盈利稳定性",
+    summary: "",
+    time: "05-05 10:00", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_12', catTags: ["market"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "长三角铁路今日迎来返程客流最高峰 预计发送旅客428万人次",
+    summary: "",
+    time: "05-05 09:59", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_13', catTags: ["market"], category: 'cls', level: 'none',
+    source: "Tushare·财联社", sourceClass: 'cls',
+    title: "港股IPO早播报：剂泰科技和英派药业开始招股",
+    summary: "",
+    time: "05-05 09:50", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_14', catTags: ["policy"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
+    title: "油价助推，30年美债收益率突破5%，美财政部上调季度发债预期，周三将迎“美债重磅”",
+    summary: "",
+    time: "05-05 09:36", tags: [{text:"⚠️", cls:"policy"}]
+  },
+  {
+    id: 'auto_15', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "招商银行(600036)2026一季报：业绩改善 财富管理持续发力",
+    summary: "",
+    time: "05-05 09:30", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_16', catTags: ["market"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "今天全国铁路预计发送旅客2300万人次",
+    summary: "",
+    time: "05-05 09:21", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_17', catTags: ["market"], category: 'yicai', level: 'none',
+    source: "Tushare·第一财经", sourceClass: 'yicai',
+    title: "俄罗斯与埃及外长通话讨论中东局势",
+    summary: "",
+    time: "05-05 09:18", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_18', catTags: ["market"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
+    title: "新华社：美方“自由计划”能给霍尔木兹海峡带来自由吗",
+    summary: "",
+    time: "05-05 08:42", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_19', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "招商银行(600036)：如何理解业绩的预期与分歧？",
+    summary: "",
+    time: "05-05 07:45", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_20', catTags: ["market"], category: 'wscn', level: 'none',
+    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
+    title: "白宫因附近发生枪击短暂封锁，事发时特朗普在白宫",
+    summary: "",
+    time: "05-05 07:10", tags: [{text:"⚠️", cls:"market"}]
+  },
+  {
+    id: 'auto_21', catTags: ["market"], category: 'wscn', level: 'industry',
+    source: "Tushare·华尔街见闻", sourceClass: 'wscn',
+    title: "中东局势再吃紧，标普盘中转跌，道指跌超1%，存储芯片股逆市走高，布油一度涨超6%",
+    summary: "",
+    time: "05-05 06:50", tags: [{text:"🟡", cls:"industry"}]
+  },
+
+  {
+    id: 'auto_23', catTags: ["policy"], category: 'cctv', level: 'none',
+    source: "Tushare·新闻联播", sourceClass: 'cctv',
+    title: "[新闻联播] 伊朗称现阶段谈判不涉及核问题 美称将在霍尔木兹海峡开始疏导行动",
+    summary: "",
+    time: "05-04 19:00", tags: [{text:"⚠️", cls:"policy"}]
+  },
+  {
+    id: 'auto_24', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "招商银行(600036)2026年一季报点评：如何看待招行投资收益负增长？",
+    summary: "",
+    time: "05-04 17:35", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_25', catTags: ["company"], category: 'sina', level: 'industry',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "楼市“回暖”暂未惠及银行，多家上市银行一季末房贷余额继续下滑",
+    summary: "",
+    time: "05-04 14:48", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_26', catTags: ["company"], category: 'sina', level: 'industry',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "透视仿制药行业2025年年报：化学仿制药企业业绩普跌 战火从“以价换量”烧到“以质求生”",
+    summary: "",
+    time: "05-04 13:11", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_27', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "长江电力(600900)：2025年3.74%股息率凸显配置价值",
+    summary: "",
+    time: "05-04 10:55", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_28', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "中国核电(601985)：核电主业经营稳健 机制电价护航行业可持续发展",
+    summary: "",
+    time: "05-03 21:05", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_29', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "长江电力(600900)：利润增速持续亮眼表现 高分红彰显大水电价值",
+    summary: "",
+    time: "05-03 18:25", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_30', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "长江电力(600900)2025年报&2026一季报点评：电量增长费用优化 红利价值彰显",
+    summary: "",
+    time: "05-03 08:35", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_31', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "中国核电(601985)2025年报&2026一季报点评：一季度归母业绩阶段性承压 核电进入加速投产期",
+    summary: "",
+    time: "05-03 08:35", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_32', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "长江电力一季报炸裂！净利润暴增30%，这只现金奶牛底气到底在哪",
+    summary: "",
+    time: "05-03 05:55", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_33', catTags: ["chain"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "华友钴业这次是真把自己逼急了",
+    summary: "",
+    time: "05-01 08:32", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_34', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "禾望电气获得实用新型专利授权：“应用于储能变流器的过流保护电路和储能变流器”",
+    summary: "",
+    time: "05-01 03:10", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_35', catTags: ["chain"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "宝丰能源(600989)：合成树脂内蒙基地强化成本优势 煤制烯烃迎来景气周期",
+    summary: "",
+    time: "04-30 19:50", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_36', catTags: ["company"], category: 'sina', level: 'none',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "4月30日晚间沪深上市公司重大事项公告最新快递",
+    summary: "",
+    time: "04-30 19:32", tags: [{text:"⚠️", cls:"company"}]
+  },
+  },
+  {
+    id: 'auto_38', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "中国核电2026年一季度营收189.25亿元，同比下降6.65%",
+    summary: "",
+    time: "04-30 18:57", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_39', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "中国核电高管平均年薪157.11万：董事长及董事卢铁忠51岁年薪179.14万最高，董事会秘书张红军46岁年薪142.49万最低",
+    summary: "",
+    time: "04-30 18:20", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_40', catTags: ["company"], category: 'sina', level: 'none',
     source: "新浪财经", sourceClass: 'sina',
     title: "一季度业绩大反转，游族网络领涨网游板块，外资、牛散纷纷进场",
     summary: "",
-    url: "https://news.baidu.com/ns?word=%E4%B8%80%E5%AD%A3%E5%BA%A6%E4%B8%9A%E7%BB%A9%E5%A4%A7%E5%8F%8D%E8%BD%AC%EF%BC%8C%E6%B8%B8%E6%97%8F%E7%BD%91%E7%BB%9C%E9%A2%86%E6%B6%A8%E7%BD%91%E6%B8%B8%E6%9D%BF%E5%9D%97%EF%BC%8C%E5%A4%96%E8%B5%84%E3%80%81%E7%89%9B%E6%95%A3%E7%BA%B7%E7%BA%B7%E8%BF%9B%E5%9C%BA&tn=news",
     time: "04-30 18:06", tags: [{text:"⚠️", cls:"company"}]
+  },
+  {
+    id: 'auto_41', catTags: ["chain"], category: 'sina', level: 'industry',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "04月30日铝24403.33元/吨 60天上涨4.26%",
+    summary: "",
+    time: "04-30 17:30", tags: [{text:"🟡", cls:"industry"}]
+  },
+  {
+    id: 'auto_42', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "全面复工复产见效 晨鸣纸业一季度营收增长近274%",
+    summary: "",
+    time: "04-30 14:08", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_44', catTags: ["chain"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "调研速递|赢合科技接受多家机构调研 2025年营收94.45亿元 锂电设备业务增长30%",
+    summary: "",
+    time: "04-30 09:12", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_45', catTags: ["company"], category: 'sina', level: 'none',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "科技题材强势领涨 小市值成长股或有大机会",
+    summary: "",
+    time: "04-30 03:54", tags: [{text:"⚠️", cls:"company"}]
+  },
+  {
+    id: 'auto_46', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "宁夏宝丰能源集团股份有限公司关于与专业投资机构共同设立投资基金的公告",
+    summary: "",
+    time: "04-30 00:00", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_47', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "红星发展：2025年，碳酸锶价格呈现先扬后抑的态势",
+    summary: "",
+    time: "04-29 22:08", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_48', catTags: ["chain"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "赢合科技：2025年末锂电设备在手订单达128.68亿元 整体订单储备充足且结构优质",
+    summary: "",
+    time: "04-29 19:38", tags: [{text:"🔴", cls:"portfolio"}]
+  },
+  {
+    id: 'auto_49', catTags: ["company"], category: 'sina', level: 'direct',
+    source: "新浪财经", sourceClass: 'sina',
+    title: "鑫磊股份获得发明专利授权：“一种关于磁悬浮离心压缩机机组系统的控制方法”",
+    summary: "",
+    time: "04-29 07:25", tags: [{text:"🔴", cls:"portfolio"}]
   },
 ];
 
@@ -1539,8 +1758,8 @@ let lastConfirmedData = null;
 let pendingChanges = [];
 
 // ===================== 交易日判断 =====================
-const LAST_TRADE_DATE = '2026-05-06';
-const LAST_TRADE_DATE_STR = '2026年5月6日';
+const LAST_TRADE_DATE = '2026-04-30';
+const LAST_TRADE_DATE_STR = '2026年4月30日';
 
 // 2026年法定节假日（A股休市）
 const HOLIDAYS_2026 = [
@@ -1741,7 +1960,7 @@ function isWithin3Days(timeStr) {
   const newsDate = new Date(year, newsMonth - 1, newsDay);
   const diffMs = now - newsDate;
   const diffDays = diffMs / (1000 * 60 * 60 * 24);
-  return diffDays <= 3;
+  return diffDays < 5;  // 放宽到5天内（覆盖周末/假期）
 }
 
 function renderNews() {
@@ -1773,7 +1992,12 @@ function renderNews() {
     return (b.relevance_score || 0) - (a.relevance_score || 0);
   });
   const todayNews = sorted.filter(n => isToday(n.time));
-  const all = todayNews.length > 0 ? todayNews : sorted.filter(n => isWithin3Days(n.time));
+  let all = todayNews.length > 0 ? todayNews : sorted.filter(n => isWithin3Days(n.time));
+  // 保底：如果过滤后为空，显示全部新闻（避免假期后空白）
+  if (all.length === 0) {
+    all = sorted;
+    console.log('[News] 日期过滤后无新闻，显示全部', sorted.length, '条');
+  }
   const filterLabel = todayNews.length > 0 ? '今日' : '近3日';
   
   // 兼容函数：提取新闻的分类标签类型（静态新闻=字符串数组，动态新闻=对象数组）
@@ -1852,7 +2076,6 @@ function renderGlobal() {
         pct: pct,
         region: 'hk',
         tradeDate: dt ? dt.split(' ')[0].replace(/\//g, '-') : '2026-05-04',
-        note: '港股交易中',
         inflow: '科网+金融',
         outflow: '地产+能源',
       };
@@ -1892,35 +2115,9 @@ async function loadData() {
 
     lastData = json;
 
-    // Update per-section timestamps — 动态标注数据来源
+    // Update per-section timestamps
     const nowStr = new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'});
-    const hasStockData = json.stocks && Object.keys(json.stocks).length > 0;
-    
-    // 有实时数据的模块
-    ['update-holdings-time', 'update-watchlist-time', 'update-materials-time'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        el.textContent = '更新于 ' + nowStr + ' · 新浪实时';
-        el.className = 'update-time live';
-      }
-    });
-    
-    // Tushare依赖模块：盘中无数据，标注等待
-    ['update-cyb-time', 'update-sectors-time', 'update-hk-sectors-time', 'update-hs-tech-time', 'update-margin-time'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) {
-        if (hasStockData && isTradingTime()) {
-          el.textContent = '盘中无数据 · 15:30后更新';
-          el.className = 'update-time manual';
-        } else {
-          el.textContent = '更新于 ' + nowStr;
-          el.className = 'update-time live';
-        }
-      }
-    });
-    
-    // 其他模块
-    ['update-events-time', 'update-corp-time'].forEach(id => {
+    ['update-holdings-time', 'update-watchlist-time', 'update-materials-time', 'update-cyb-time', 'update-sectors-time'].forEach(id => {
       const el = document.getElementById(id);
       if (el) {
         el.textContent = '更新于 ' + nowStr;
@@ -1982,11 +2179,11 @@ function updateHoldingsFromBackend(data) {
 
   // 持仓配置（与后端同步）
   const holdings = [
-    {code:'688485.SH', name:'九州一轨', shares:23480, cost:46.70, target:'60/65', stop:52.0},
-    {code:'600367.SH', name:'红星发展', shares:1600, cost:21.20, target:'25-26', stop:21.0},
-    {code:'603063.SH', name:'禾望电气', shares:300, cost:44.31, target:'50-55', stop:40.0},
-    {code:'000488.SZ', name:'ST晨鸣', shares:48200, cost:3.10, target:'3.5', stop:2.2},
-    {code:'301317.SZ', name:'鑫磊股份', shares:500, cost:60.21, target:'65-70', stop:52.0},
+    {code:'688485.SH', name:'九州一轨', shares:23480, cost:46.70, target:'60', stop:49.0},
+    {code:'600367.SH', name:'红星发展', shares:1600, cost:21.20, target:'--', stop:null},
+    {code:'603063.SH', name:'禾望电气', shares:300, cost:44.31, target:'--', stop:37.0},
+
+    {code:'301317.SZ', name:'鑫磊股份', shares:500, cost:60.21, target:'--', stop:null},
   ];
 
   // 计算总市值（用于占比）
@@ -2057,12 +2254,12 @@ function updateWatchlistFromBackend(data) {
   if (!tbody || !data.stocks) return;
 
   const watchlist = [
-    {code:'600989.SH', name:'宝丰能源', target:'38', stop:27.0, rec:28.00, note:'Q1净利+50%新闻，但主力净流出3.6亿'},
-    {code:'603799.SH', name:'华友钴业', target:'75-80', stop:58.0, rec:58.00, note:'固态电池材料新闻，均线多头排列'},
-    {code:'600036.SH', name:'招商银行', target:'40-42', stop:35.0, rec:35.00, note:'🛡️ 防守型 高股息·估值最低·银行龙头'},
-    {code:'601985.SH', name:'中国核电', target:'10-10.5', stop:7.5, rec:8.50, note:'🛡️ 防守型 核电·能源安全·逆周期·主力净流入1.4亿'},
-    {code:'601600.SH', name:'中国铝业', target:'13-14', stop:10.0, rec:10.50, note:'🛡️ 防守型 有色·全球通胀受益·实物资产·Q1净利+56%'},
-    {code:'600900.SH', name:'长江电力', target:'28-29', stop:22, rec:26.00, note:'🛡️ 防守型·核心 水电=类债券·逆周期·主力净流入3.6亿·均线多头'},
+    {code:'600989.SH', name:'宝丰能源', target:'38', rec:28.00, note:'Q1净利+50%新闻，但主力净流出3.6亿'},
+    {code:'603799.SH', name:'华友钴业', target:'50', rec:58.00, note:'固态电池材料新闻，均线多头排列'},
+    {code:'600036.SH', name:'招商银行', target:'35-36', rec:35.00, note:'🛡️ 防守型 高股息·估值最低·银行龙头'},
+    {code:'601985.SH', name:'中国核电', target:'7.5-8.0', stop:6.5, rec:8.50, note:'🛡️ 防守型 核电·能源安全·逆周期·主力净流入1.4亿'},
+
+    {code:'600900.SH', name:'长江电力', target:'26-26.5', stop:22, rec:26.00, note:'🛡️ 防守型·核心 水电=类债券·逆周期·主力净流入3.6亿·均线多头'},
   ];
 
   // 消息面判断：基于PREMARKET_NEWS中portfolio分类的新闻
@@ -2297,7 +2494,7 @@ function refreshMargin() {
         {code:'688485.SH', name:'九州一轨'},
         {code:'600367.SH', name:'红星发展'},
         {code:'603063.SH', name:'禾望电气'},
-        {code:'000488.SZ', name:'ST晨鸣'},
+
         {code:'301317.SZ', name:'鑫磊股份'},
       ];
       
@@ -2618,92 +2815,60 @@ function fetchNewsCandidates() {
       }
       
       if (candidates.length === 0) {
-        grid.innerHTML = '<div style="color:var(--text2);text-align:center;padding:30px 20px;">暂无候选新闻（所有来源返回为空）</div>';
+        console.log('[NewsCandidates] 无候选新闻');
       } else {
-        let html = '';
-        for (const item of candidates.slice(0, 100)) { // 最多100条
-          const dateStr = item.date ? item.date.substring(5).replace('-', '/') : '';
-          const timeStr = item.time ? item.time : '';
-          const dtStr = dateStr && timeStr ? `${dateStr} ${timeStr}` : (dateStr || timeStr || '');
+        // 合并到主新闻区域（不再显示候选新闻池）
+        DYNAMIC_NEWS = candidates.map((item, idx) => {
+          const timeFmt = item.date && item.time 
+            ? `${item.date.substring(5).replace('-', '/')} ${item.time}` 
+            : (item.time || '未知');
           
-          // 分类颜色
-          const catStyles = {
-            policy: { icon: '🏛️', label: '政策', color: 'var(--blue)', bg: 'rgba(74,158,255,0.12)' },
-            finance: { icon: '🏦', label: '金融', color: 'var(--purple)', bg: 'rgba(168,85,247,0.12)' },
-            company: { icon: '🏢', label: '公司', color: 'var(--green)', bg: 'rgba(0,208,132,0.12)' },
-            material: { icon: '🛢️', label: '原料', color: '#f97316', bg: 'rgba(249,115,22,0.12)' }
+          const catMap = {
+            'company': 'portfolio', 'policy': 'policy', 'material': 'chain',
+            'finance': 'market', 'market': 'market', 'geo': 'geo'
           };
-          const cat = catStyles[item.category] || { icon: '🔍', label: '其他', color: 'var(--text3)', bg: 'rgba(122,139,157,0.12)' };
+          let cat = catMap[item.category] || 'market';
+          if (item.relevance_level === 'direct') cat = 'portfolio';
           
-          // 关联持仓标签
-          let relPills = '';
-          if (item.relevance_level && item.relevance_level !== 'none') {
-            const levelColor = item.relevance_level === 'direct' ? 'var(--red)' : 'var(--orange)';
-            const levelBg = item.relevance_level === 'direct' ? 'rgba(255,71,87,0.15)' : 'rgba(249,115,22,0.15)';
-            const levelText = item.relevance_level === 'direct' ? '直接关联' : '行业关联';
-            relPills += `<span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:600;color:${levelColor};background:${levelBg};margin-right:4px;margin-bottom:4px;">${levelText}</span>`;
-            if (item.stock_tags && item.stock_tags.length > 0) {
-              item.stock_tags.forEach(t => {
-                relPills += `<span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;color:var(--gold);background:rgba(251,191,36,0.12);margin-right:4px;margin-bottom:4px;">${t}</span>`;
-              });
-            }
-          }
-          if (item.stock_name && item.stock_name !== '关联持仓' && item.stock_name !== '宏观关联') {
-            relPills += `<span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:10px;color:var(--gold);background:rgba(251,191,36,0.12);margin-right:4px;margin-bottom:4px;">📌 ${item.stock_name}</span>`;
-          }
+          const level = item.relevance_level === 'direct' ? 'critical' : 
+                       (item.relevance_level === 'industry' ? 'important' : 'normal');
           
-          // 来源展示（合并来源时）
-          let sourceLine = '';
-          if (item.source) {
-            const sources = item.source.split(' / ');
-            if (sources.length > 1) {
-              sourceLine = sources.map((s, i) => `<span style="color:var(--text3);${i > 0 ? 'margin-left:4px;' : ''}">${s}</span>`).join('<span style="color:var(--text3);margin:0 4px;">/</span>');
-            } else {
-              sourceLine = `<span style="color:var(--text3);">${item.source}</span>`;
-            }
-          }
+          let tags = [];
+          if (item.relevance_level === 'direct') tags.push({text: '🔴 持仓', cls: 'urgent'});
+          if (item.stock_name) tags.push({text: item.stock_name, cls: 'market'});
+          if (tags.length === 0) tags.push({text: '📰 新闻', cls: 'market'});
           
-          // 标题（可点击跳转）
-          let titleHtml, searchUrl, linkText;
-          if (item.url && item.url !== '#' && !item.url.includes('tushare')) {
-            searchUrl = item.url;
-            linkText = '查看原文';
-          } else {
-            // 所有新闻统一用百度新闻搜索
-            searchUrl = `https://news.baidu.com/ns?word=${encodeURIComponent(item.title)}&tn=news`;
-            linkText = '搜索查看';
-          }
-          titleHtml = `<a href="${searchUrl}" target="_blank" style="color:var(--text);text-decoration:none;font-size:12px;font-weight:600;line-height:1.5;cursor:pointer;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='var(--text)'">${item.title}</a>`;
-          
-          html += `<div style="background:var(--bg-inner);border-radius:12px;padding:14px 16px;border-left:3px solid ${cat.color};margin-bottom:10px;transition:all 0.2s;" onmouseover="this.style.background='var(--bg-card)'" onmouseout="this.style.background='var(--bg-inner)'">
-            <!-- 顶部行：分类标签 + 来源/时间 -->
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <div style="display:flex;align-items:center;gap:6px;">
-                <span style="display:inline-flex;align-items:center;gap:4px;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;color:${cat.color};background:${cat.bg};">
-                  ${cat.icon} ${cat.label}
-                </span>
-                ${relPills ? `<div style="display:flex;flex-wrap:wrap;gap:2px;margin-left:4px;">${relPills}</div>` : ''}
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;font-size:10px;color:var(--text3);white-space:nowrap;">
-                ${sourceLine}
-                <span style="color:var(--text3);opacity:0.5;">·</span>
-                <span>${dtStr}</span>
-              </div>
-            </div>
-            <!-- 标题 -->
-            <div style="margin-bottom:${(item.url || (item.source && !item.source.includes('Tushare'))) ? '8px' : '0'}">${titleHtml}</div>
-            <!-- 查看原文链接 -->
-            <div style="font-size:11px;"><a href="${searchUrl}" target="_blank" style="color:var(--text3);text-decoration:none;" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text3)'">🔗 ${linkText} →</a></div>
-          </div>`;
+          return {
+            id: `dyn_${idx}`,
+            category: cat,
+            level: level,
+            source: item.source || '未知',
+            sourceClass: item.sourceClass || 'sina',
+            time: timeFmt,
+            title: item.title || '',
+            summary: item.summary || '',
+            tags: tags
+          };
+        });
+        
+        renderNews();
+        
+        // 更新标题日期
+        const latest = candidates[0];
+        if (latest.date) {
+          LAST_NEWS_UPDATE = latest.date;
+          const newsDateTitle = document.getElementById('news-date-title');
+          if (newsDateTitle) newsDateTitle.textContent = `${latest.date} 盘前`;
         }
-        grid.innerHTML = html;
+        
+        console.log(`[NewsCandidates] 已更新 ${candidates.length} 条新闻到主区域`);
       }
       
-      area.style.display = 'block';
-      if (countEl) countEl.textContent = `共 ${candidates.length} 条 · ${Object.keys(data.source_counts || {}).length} 个来源`;
+      // 隐藏候选新闻池，只显示刷新状态
+      if (area) area.style.display = 'none';
+      if (countEl) countEl.textContent = '';
       if (timeEl) { timeEl.textContent = `抓取于 ${timeStr}`; timeEl.className = 'update-time live'; }
-      if (btn) { btn.textContent = '🔄 抓取候选'; btn.className = 'refresh-btn'; }
-      console.log(`[NewsCandidates] 已展示 ${candidates.length} 条候选新闻，动态新闻已更新`);
+      if (btn) { btn.textContent = '🔄 刷新新闻'; btn.className = 'refresh-btn'; }
     })
     .catch(err => {
       console.log('[NewsCandidates] 后端未启动或请求失败', err);

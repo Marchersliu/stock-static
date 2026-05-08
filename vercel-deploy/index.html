@@ -7,7 +7,7 @@
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
-<meta http-equiv="refresh" content="120">
+<!-- 手动刷新模式：取消自动刷新 -->
 <title>📊 投资组合实时监控中心</title>
 <style>
 :root {
@@ -232,7 +232,7 @@ tr:last-child td { border-bottom:none; }
 <div id="confirm-panel" class="confirm-panel"></div>
 
 <div class="header">
-  <h1>📊 投资组合实时监控中心</h1>
+  <h1>📊 投资组合实时监控中心 <span id="main-refresh-btn" onclick="manualRefreshAll()" title="点击手动刷新所有数据" style="cursor:pointer;font-size:18px;padding:6px 14px;background:var(--accent);color:#fff;border-radius:6px;margin-left:12px;vertical-align:middle;display:inline-block;transition:opacity 0.2s;">🔄 刷新全部</span></h1>
   <p>A股持仓追踪 | 原材料监控 | 技术面+资金面+消息面 | 全球市场联动</p>
   <div style="background:#0f172a;padding:10px 14px;border-radius:8px;margin:8px 0;border:1px solid var(--border);">
     <div style="font-size:11px;color:var(--text2);margin-bottom:4px;">📊 数据来源可信度等级</div>
@@ -2137,9 +2137,9 @@ async function loadData() {
     tag.textContent = status.label;
     const ts = data.timestamp ? new Date(data.timestamp) : new Date();
     const td = data.trade_date ? data.trade_date.replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3') : LAST_TRADE_DATE;
-    time.innerHTML = `数据日期: ${td} | 更新: ${ts.toLocaleTimeString('zh-CN')} | ${status.isOpen ? '实时刷新中（每2分钟）' : status.isTradingDay ? '交易日休市' : '非交易日·显示最后收盘'} | <span style="color:var(--green);">✅ 后端已连接</span>`;
-    document.getElementById('footer-time').textContent = ts.toLocaleString('zh-CN') + '（实时）';
-    document.getElementById('footer-refresh').textContent = status.isOpen ? '交易时段每2分钟刷新 · 📰 新闻手动更新' : '非交易时段每10分钟刷新 · 📰 新闻手动更新';
+    time.innerHTML = `数据日期: ${td} | 更新: ${ts.toLocaleTimeString('zh-CN')} | 手动刷新模式 | <span style="color:var(--green);">✅ 后端已连接</span>`;
+    document.getElementById('footer-time').textContent = ts.toLocaleString('zh-CN') + '（手动刷新）';
+    document.getElementById('footer-refresh').textContent = '手动刷新模式 · 点击顶部 🔄 刷新全部 获取最新数据';
 
     // Update holding table with real-time data
     updateHoldingsFromBackend(json);
@@ -2162,11 +2162,11 @@ async function loadData() {
     tag.textContent = status.label;
 
     if (status.isOpen) {
-      time.innerHTML = `📰 新闻更新: ${LAST_NEWS_UPDATE} | 数据日期: ${LAST_TRADE_DATE} | <span style="color:var(--orange);">⚠️ 交易中但后端未连接</span> | <span style="color:var(--text3);">运行 stock_service.py 获取实时数据</span>`;
+      time.innerHTML = `📰 新闻更新: ${LAST_NEWS_UPDATE} | 数据日期: ${LAST_TRADE_DATE} | <span style="color:var(--orange);">⚠️ 交易中但后端未连接</span> | <span style="color:var(--text3);">运行 stock_service.py 后点击刷新获取数据</span>`;
     } else if (status.isTradingDay) {
-      time.innerHTML = `📰 新闻更新: ${LAST_NEWS_UPDATE} | 数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 交易日休市 · 显示最后收盘 | <span style="color:var(--text3);">后端未启动 - 运行 stock_service.py 获取实时数据</span>`;
+      time.innerHTML = `📰 新闻更新: ${LAST_NEWS_UPDATE} | 数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 交易日休市 · 手动刷新模式 | <span style="color:var(--text3);">运行 stock_service.py 后点击刷新获取数据</span>`;
     } else {
-      time.innerHTML = `📰 新闻更新: ${LAST_NEWS_UPDATE} | 数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 非交易日 · 显示最后收盘 | <span style="color:var(--text3);">后端未启动 - 运行 stock_service.py 获取实时数据</span>`;
+      time.innerHTML = `📰 新闻更新: ${LAST_NEWS_UPDATE} | 数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 非交易日 · 手动刷新模式 | <span style="color:var(--text3);">运行 stock_service.py 后点击刷新获取数据</span>`;
     }
     document.getElementById('footer-time').textContent = `${LAST_TRADE_DATE_STR}（静态数据）`;
     loading.classList.add('hidden');
@@ -2382,11 +2382,11 @@ function updateWatchlistFromBackend(data) {
   tag.className = status.isOpen ? 'market-tag online' : 'market-tag offline';
   tag.textContent = status.label;
   if (status.isOpen) {
-    time.innerHTML = `数据截至 ${LAST_TRADE_DATE_STR} · 交易中实时刷新（每2分钟）| 共跟踪 5 只持仓 + 7 只计划 + 10 只创业板 · <span style="color:var(--green);">后端连接中...</span>`;
+    time.innerHTML = `数据截至 ${LAST_TRADE_DATE_STR} · 手动刷新模式 | 点击顶部 🔄 刷新全部 获取实时数据 | 共跟踪 ${HOLDINGS.length} 只持仓 + ${WATCHLIST.length} 只计划 · <span style="color:var(--text3);">后端连接中...</span>`;
   } else if (status.isTradingDay) {
-    time.innerHTML = `数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 交易日休市 · 显示最后收盘 | 共跟踪 5 只持仓 + 7 只计划 + 10 只创业板 · <span style="color:var(--text3);">运行 stock_service.py 获取实时数据</span>`;
+    time.innerHTML = `数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 交易日休市 · 手动刷新模式 | 共跟踪 ${HOLDINGS.length} 只持仓 + ${WATCHLIST.length} 只计划 · <span style="color:var(--text3);">运行 stock_service.py 后点击刷新获取数据</span>`;
   } else {
-    time.innerHTML = `数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 非交易日 · 显示最后收盘 | 共跟踪 5 只持仓 + 7 只计划 + 10 只创业板 · <span style="color:var(--text3);">运行 stock_service.py 获取实时数据</span>`;
+    time.innerHTML = `数据截至 ${LAST_TRADE_DATE_STR} · 静态数据（${LAST_TRADE_DATE}收盘）| 非交易日 · 手动刷新模式 | 共跟踪 ${HOLDINGS.length} 只持仓 + ${WATCHLIST.length} 只计划 · <span style="color:var(--text3);">运行 stock_service.py 后点击刷新获取数据</span>`;
   }
   document.getElementById('footer-time').textContent = `${LAST_TRADE_DATE_STR}（静态数据）`;
   const newsTime = document.getElementById('news-update-time');
@@ -2400,29 +2400,68 @@ function updateWatchlistFromBackend(data) {
   }
   
   const refreshInfo = document.getElementById('footer-refresh');
-  if (refreshInfo) refreshInfo.textContent = status.isOpen ? '交易时段每2分钟刷新 · 非交易时段每10分钟刷新 · 📰 新闻手动更新' : '非交易时段每10分钟刷新 · 📰 新闻手动更新';
+  if (refreshInfo) refreshInfo.textContent = '手动刷新模式 · 点击顶部 🔄 刷新全部 获取最新数据';
 })();
 
 renderGlobal();
 renderNews();
-loadData();
-fetchAndRenderEvents();
-fetchNewsCandidates(); // 页面加载时自动抓取新闻候选
-refreshCommodities(); // 页面加载时自动刷新原料价格
+// 手动刷新模式：页面加载时不自动获取数据，等待用户点击刷新按钮
+// loadData();
+// fetchAndRenderEvents();
+// fetchNewsCandidates();
+// refreshCommodities();
 
-// 动态刷新频率：交易时段2分钟，非交易时段10分钟
-let refreshInterval = null;
-function setRefreshInterval() {
-  if (refreshInterval) clearInterval(refreshInterval);
-  const status = getMarketStatus();
-  const ms = status.isOpen ? 120000 : 600000;
-  refreshInterval = setInterval(() => {
-    loadData();
-  }, ms);
+// 动态刷新已禁用：改为手动刷新
+// let refreshInterval = null;
+// function setRefreshInterval() {
+//   if (refreshInterval) clearInterval(refreshInterval);
+//   const status = getMarketStatus();
+//   const ms = status.isOpen ? 120000 : 600000;
+//   refreshInterval = setInterval(() => {
+//     loadData();
+//   }, ms);
+// }
+// setRefreshInterval();
+// setInterval(setRefreshInterval, 3600000);
+
+// ===================== 手动刷新全部 =====================
+function manualRefreshAll() {
+  const btn = document.getElementById('main-refresh-btn');
+  if (btn) {
+    btn.style.opacity = '0.5';
+    btn.textContent = '⏳ 刷新中...';
+  }
+  
+  // 顺序执行刷新，避免并行请求过多
+  loadData().then(() => {
+    fetchAndRenderEvents();
+    fetchNewsCandidates();
+    refreshCommodities();
+    
+    if (btn) {
+      btn.style.opacity = '1';
+      btn.textContent = '🔄 刷新全部';
+    }
+    
+    const nowStr = new Date().toLocaleTimeString('zh-CN', {hour:'2-digit', minute:'2-digit'});
+    const timeEl = document.getElementById('update-time');
+    if (timeEl) {
+      timeEl.innerHTML = `数据已手动刷新于 ${nowStr} | 模式：手动刷新 | 共跟踪 ${HOLDINGS.length} 只持仓 + ${WATCHLIST.length} 只计划 · <span style="color:var(--green);">✅ 后端已连接</span>`;
+    }
+    
+    const footerRefresh = document.getElementById('footer-refresh');
+    if (footerRefresh) footerRefresh.textContent = '手动刷新模式 · 点击 🔄 刷新全部 获取最新数据';
+    
+    console.log(`[${nowStr}] 手动刷新全部完成`);
+  }).catch(err => {
+    if (btn) {
+      btn.style.opacity = '1';
+      btn.textContent = '❌ 刷新失败';
+      setTimeout(() => { btn.textContent = '🔄 刷新全部'; }, 3000);
+    }
+    console.error('手动刷新失败:', err);
+  });
 }
-setRefreshInterval();
-// 每小时重新评估刷新频率（防止跨时段）
-setInterval(setRefreshInterval, 3600000);
 
 // ===================== 板块资金流向刷新 =====================
 function updateSectorsFromBackend(data) {

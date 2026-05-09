@@ -365,14 +365,8 @@ function renderNews(data) {
     return;
   }
   
-  // 合并所有分类新闻，按时间倒序排序（最新的在上面）
-  allItems.sort((a, b) => {
-    const ta = (a.date || '') + (a.time || '');
-    const tb = (b.date || '') + (b.time || '');
-    return tb.localeCompare(ta);
-  });
-  
-  // 去重
+  // 后端已按相关性+时间排序，前端直接使用，不再重新排序
+  // 仅去重
   const seen = new Set();
   const displayItems = [];
   for (const item of allItems) {
@@ -384,31 +378,63 @@ function renderNews(data) {
     if (displayItems.length >= 50) break;
   }
   
+  // 相关性标签映射
+  const tagLabels = {
+    'direct': '⭐直接相关',
+    'industry': '🏭行业相关',
+    'customer': '🏢客户相关',
+    'geopolitical': '🌍地缘冲突',
+    'us_market': '🇺🇸美股映射',
+    'policy': '📜政策法规',
+    'none': '📰市场'
+  };
+  const tagColors = {
+    'direct': '#FFD700',
+    'industry': '#4A9EFF',
+    'customer': '#00E5C0',
+    'geopolitical': '#FF6B6B',
+    'us_market': '#C084FC',
+    'policy': '#FFA726',
+    'none': '#666'
+  };
+  
   let html = '';
   for (const item of displayItems) {
     const related = item.related_stocks || [];
-    const hasPortfolio = related.some(code => STOCK_CONFIG[code]);
-    const cls = hasPortfolio ? 'critical' : '';
+    const tags = item.relevance_tags || [item.relevance_level || 'none'];
+    const primaryTag = tags[0] || 'none';
     
-    let tags = '';
+    // 股票标签
+    let stockTagsHtml = '';
     for (const code of related) {
       const cfg = STOCK_CONFIG[code];
-      if (cfg) tags += `<span class="news-tag tag-portfolio">${cfg.name}</span>`;
+      if (cfg) stockTagsHtml += `<span class="news-tag tag-portfolio">${cfg.name}</span>`;
     }
     
+    // 相关性标签
+    let relTagsHtml = '';
+    for (const t of tags) {
+      const color = tagColors[t] || '#666';
+      const label = tagLabels[t] || t;
+      relTagsHtml += `<span style="display:inline-block;background:${color}22;color:${color};border:1px solid ${color}44;border-radius:3px;padding:1px 5px;font-size:10px;margin-right:4px;">${label}</span>`;
+    }
+    
+    // 分类标签（兼容旧数据）
     const cat = item.category || 'market';
     const catTag = `<span class="news-tag tag-${cat}">${cat === 'portfolio' ? '持仓' : cat === 'chain' ? '产业链' : cat === 'policy' ? '政策' : cat === 'geo' ? '地缘' : '市场'}</span>`;
     
     const summary = item.summary || item.content || '';
     const summaryHtml = summary ? `<div class="news-summary">${summary.substring(0, 120)}${summary.length > 120 ? '...' : ''}</div>` : '';
+    
+    // 链接：优先用原始url，打不开则百度搜索兜底
     const url = item.url || '';
     const titleHtml = url 
-      ? `<a href="${url}" target="_blank" style="color:var(--text);text-decoration:none;cursor:pointer;">${item.title}</a>`
-      : `<span style="color:var(--text);">${item.title}</span>`;
+      ? `<a href="${url}" target="_blank" rel="noopener" style="color:var(--text);text-decoration:none;cursor:pointer;" onerror="this.href='https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}'">${item.title}</a>`
+      : `<a href="https://www.baidu.com/s?wd=${encodeURIComponent(item.title)}" target="_blank" style="color:var(--text);text-decoration:none;cursor:pointer;">${item.title}</a>`;
     
     html += `
-      <div class="news-item ${cls}">
-        <div style="margin-bottom:6px;">${catTag}${tags}</div>
+      <div class="news-item">
+        <div style="margin-bottom:6px;">${relTagsHtml}${stockTagsHtml}</div>
         <div class="news-title">${titleHtml}</div>
         ${summaryHtml}
         <div class="news-time">${item.source || '未知'} · ${item.date || ''} ${item.time || ''}</div>

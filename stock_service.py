@@ -249,77 +249,205 @@ INDUSTRY_KEYWORDS = {
 # ===================== 新闻关联分析 =====================
 def analyze_news_relevance(item):
     """
-    分析单条新闻与持仓股/计划标的的关联度。
-    返回 (related_stocks, relevance_level, reason)
-    - related_stocks: 关联的股票代码列表
-    - relevance_level: 'direct'(直接提及) / 'industry'(行业关联) / 'none'
+    六维关联分析：
+    1. direct     - 5只股票名/代码直接出现
+    2. industry   - 行业板块关键词（半导体、AI算力、网络安全、轨交设备等）
+    3. customer   - 下游客户/大客户（英伟达、华为、台积电、中国中车等）
+    4. geopolitical - 中东地缘冲突（伊朗、霍尔木兹、以色列、黎巴嫩等）
+    5. us_market  - 美股映射（NVIDIA、AMD、Intel、美股半导体、中概股等）
+    6. policy     - 重大政策法规（降准、证监会、国务院、AI监管、数据安全法等）
+    
+    返回 (related_stocks, relevance_tags, primary_level, reason)
+    - related_stocks: 关联股票代码列表
+    - relevance_tags: 所有匹配的标签列表（如 ['direct', 'industry', 'policy']）
+    - primary_level: 最高优先级标签（用于排序）
     - reason: 关联原因描述
     """
     title = item.get('title', '')
     summary = item.get('summary', '') or item.get('content', '')
     text = title + ' ' + summary
-    
+    tags = []
     related = []
     reasons = []
     
-    # 1. 直接匹配：股票名或代码出现在新闻中
+    # ========== 1. direct: 5只股票名或代码直接出现 ==========
     for code, info in STOCK_KEYWORDS.items():
         for kw in info['keywords']:
             if kw in text:
-                related.append(code)
+                if code not in related:
+                    related.append(code)
                 reasons.append(f"提及{info['name']}({kw})")
+                if 'direct' not in tags:
+                    tags.append('direct')
                 break
     
-    # 2. 行业关联：新闻含行业关键词，且该行业对应某持仓股
-    if not related:
-        for industry, kws in INDUSTRY_KEYWORDS.items():
-            for kw in kws:
-                if kw in text:
-                    # 找到该行业对应的持仓股
-                    for code, info in STOCK_KEYWORDS.items():
-                        if industry in info['industry'] or kw in info['keywords']:
-                            if code not in related:
-                                related.append(code)
-                                reasons.append(f"行业关联:{industry}")
-                    break
+    # ========== 2. industry: 行业板块关键词 ==========
+    INDUSTRY_KWS_DETAILED = {
+        '半导体/芯片': ['半导体', '芯片', '晶圆', '光刻', 'IC', '集成电路', 'EDA', '先进制程', 'SiC', '碳化硅', '氮化镓'],
+        'AI算力': ['AI', '人工智能', '算力', '数据中心', '光模块', '大模型', 'Agent', '推理', '训练', 'GPU', 'NPU'],
+        '网络安全': ['网络安全', '信息安全', '数据安全', '网安', '国资云', '密码', '加密', '防火墙', '零信任'],
+        '轨交设备': ['轨交', '高铁', '铁路', '地铁', '轨道交通', '减震', '降噪', '动车组', '磁悬浮列车'],
+        '通用设备': ['压缩机', '真空泵', '制冷设备', '磁悬浮', '风机', '水泵'],
+        '电容/电子元件': ['电容', '超级电容', '铝电解', '薄膜电容', 'MLCC', '电子元件', '被动元件'],
+        '电源/HVDC': ['HVDC', '高压直流', '数据中心电源', '巴拿马电源', 'UPS', '服务器电源'],
+    }
+    matched_industries = []
+    for ind_name, kws in INDUSTRY_KWS_DETAILED.items():
+        for kw in kws:
+            if kw in text:
+                matched_industries.append(ind_name)
+                if 'industry' not in tags:
+                    tags.append('industry')
+                # 找到对应持仓股
+                for code, info in STOCK_KEYWORDS.items():
+                    if code not in related and (ind_name in info.get('industry', []) or any(k in info.get('keywords', []) for k in kws)):
+                        related.append(code)
+                break
+    if matched_industries:
+        reasons.append(f"行业:{','.join(matched_industries[:2])}")
     
-    # 去重
+    # ========== 3. customer: 下游客户/大客户 ==========
+    CUSTOMER_KWS = [
+        '英伟达', 'NVIDIA', '华为', '海思', '台积电', 'TSMC', '中芯国际', 'SMIC',
+        '中国中车', '中车', '国铁集团', '铁路局', '中国中铁', '中国铁建',
+        '国家电网', '南方电网', '国网', '南网', '三峡集团', '中核集团',
+        '宁德时代', '比亚迪', '特斯拉', 'Tesla', '苹果', 'Apple',
+        '微软', 'Microsoft', '谷歌', 'Google', '亚马逊', 'AWS',
+        '字节跳动', '腾讯', '阿里', '百度', '小米', '理想', '蔚来',
+    ]
+    matched_customers = [kw for kw in CUSTOMER_KWS if kw in text]
+    if matched_customers:
+        tags.append('customer')
+        reasons.append(f"客户:{','.join(matched_customers[:3])}")
+        # 关联相关股票
+        customer_map = {
+            '英伟达': ['002484.SZ', '002364.SZ'],  # 江海(电容)、中恒(电源)
+            'NVIDIA': ['002484.SZ', '002364.SZ'],
+            '华为': ['002484.SZ', '688485.SH', '002364.SZ'],  # 江海、九州、中恒
+            '海思': ['002484.SZ', '688485.SH'],
+            '台积电': ['002484.SZ', '002158.SZ'],
+            'TSMC': ['002484.SZ', '002158.SZ'],
+            '中国中车': ['688485.SH'],
+            '中车': ['688485.SH'],
+            '国铁集团': ['688485.SH'],
+            '铁路局': ['688485.SH'],
+            '国家电网': ['002364.SZ', '002484.SZ'],
+            '南方电网': ['002364.SZ', '002484.SZ'],
+            '宁德时代': ['002484.SZ'],
+            '比亚迪': ['002484.SZ', '002158.SZ'],
+            '特斯拉': ['002484.SZ', '002158.SZ'],
+        }
+        for kw in matched_customers:
+            for code in customer_map.get(kw, []):
+                if code not in related:
+                    related.append(code)
+    
+    # ========== 4. geopolitical: 中东地缘冲突 ==========
+    GEO_KWS = [
+        '伊朗', '霍尔木兹', '以色列', '以军', '哈马斯', '黎巴嫩', '真主党', '胡塞', '也门',
+        '沙特', '海湾', '波斯湾', '中东', '巴以', '加沙', '叙利亚', '伊拉克',
+        '核设施', '浓缩铀', '核谈判', '美军', '中东局势', '中东冲突', '中东战争',
+    ]
+    matched_geo = [kw for kw in GEO_KWS if kw in text]
+    if matched_geo:
+        tags.append('geopolitical')
+        reasons.append(f"地缘:{','.join(matched_geo[:3])}")
+    
+    # ========== 5. us_market: 美股映射 ==========
+    US_KWS = [
+        'NVIDIA', '英伟达', 'AMD', 'Intel', '英特尔', 'Broadcom', '博通', 'Qualcomm', '高通',
+        '美股', '纳斯达克', '道琼斯', '标普', 'S&P', 'NYSE',
+        '中概股', '中概', '拼多多', 'PDD', '阿里巴巴', 'BABA', '京东', 'JD',
+        '台积电', 'TSMC', 'ASML', '应用材料', 'Applied Materials',
+        '美光', 'Micron', '德州仪器', 'TI', 'Marvell', '美满',
+        '半导体指数', 'SOX', '费城半导体', '芯片股', '科技七巨头', 'Mag7',
+    ]
+    matched_us = [kw for kw in US_KWS if kw in text]
+    if matched_us:
+        tags.append('us_market')
+        reasons.append(f"美股:{','.join(matched_us[:3])}")
+        # 关联美股映射股票
+        us_stock_map = {
+            'NVIDIA': ['002484.SZ', '002364.SZ'], '英伟达': ['002484.SZ', '002364.SZ'],
+            'AMD': ['002484.SZ', '002439.SZ'], 'Intel': ['002439.SZ', '688485.SH'],
+            '台积电': ['002484.SZ', '002158.SZ'], 'TSMC': ['002484.SZ', '002158.SZ'],
+            'ASML': ['002158.SZ', '688485.SH'],
+            '半导体指数': ['002484.SZ', '688485.SH', '002158.SZ'],
+            '芯片股': ['002484.SZ', '688485.SH', '002158.SZ'],
+            'SOX': ['002484.SZ', '688485.SH', '002158.SZ'],
+        }
+        for kw in matched_us:
+            for code in us_stock_map.get(kw, []):
+                if code not in related:
+                    related.append(code)
+    
+    # ========== 6. policy: 重大政策法规 ==========
+    POLICY_KWS = [
+        '降准', '降息', 'LPR', 'MLF', '逆回购', '社融', 'M2',
+        '证监会', '国务院', '央行', '政治局', '财政部', '外汇局',
+        '监管', '改革', '制度', '政策', '法规', '法律', '条例',
+        'AI监管', '人工智能监管', '数据安全法', '网络安全法', '密码法',
+        '信创', '国产替代', '自主可控', '科技自立', '卡脖子',
+        '补贴', '退税', '税收优惠', '产业政策', '十四五', '十五五',
+        '基建', '新基建', '东数西算', '算力网络', '数据要素',
+        '高铁规划', '铁路投资', '轨道交通规划', '城际高铁',
+        '新能源', '双碳', '碳中和', '碳达峰', '绿色金融',
+    ]
+    matched_policy = [kw for kw in POLICY_KWS if kw in text]
+    if matched_policy:
+        tags.append('policy')
+        reasons.append(f"政策:{','.join(matched_policy[:3])}")
+    
+    # 去重并保持顺序
     related = list(dict.fromkeys(related))
     
-    if related:
-        # 判断关联级别
-        has_direct = any(
-            any(kw in text for kw in STOCK_KEYWORDS[c]['keywords'][:3])  # 前3个关键词含股票名/代码
-            for c in related
-        )
-        level = 'direct' if has_direct else 'industry'
-        return related, level, '；'.join(reasons[:3])
+    # 确定 primary_level（优先级最高的标签）
+    priority_order = ['direct', 'industry', 'customer', 'us_market', 'geopolitical', 'policy', 'none']
+    primary_level = 'none'
+    for p in priority_order:
+        if p in tags:
+            primary_level = p
+            break
     
-    return [], 'none', ''
+    return related, tags, primary_level, '；'.join(reasons[:4]) if reasons else ''
 
 
 def mark_news_relevance(items):
-    """为新闻列表批量标记关联度 + 多分类标签"""
+    """为新闻列表批量标记六维关联度 + 多分类标签 + 链接兜底"""
     for item in items:
-        related, level, reason = analyze_news_relevance(item)
+        related, tags, primary_level, reason = analyze_news_relevance(item)
         item['related_stocks'] = related
-        item['relevance_level'] = level
+        item['relevance_tags'] = tags
+        item['relevance_level'] = primary_level
         item['relevance_reason'] = reason
-        item['relevance_score'] = {'direct': 3, 'industry': 2, 'none': 0}.get(level, 0)
-        # 多分类标签
+        # 评分用于排序：direct=6 > industry=5 > customer=4 > us_market=3 > geopolitical=2 > policy=1 > none=0
+        score_map = {'direct': 6, 'industry': 5, 'customer': 4, 'us_market': 3, 'geopolitical': 2, 'policy': 1, 'none': 0}
+        item['relevance_score'] = score_map.get(primary_level, 0)
+        
+        # 多分类标签（兼容旧接口）
         title = item.get('title', '')
         content = item.get('content', '') or item.get('summary', '')
         item['catTags'] = classify_multi_tags(title, content)
+        
         # 生成前端展示的关联标签
         if related:
-            tags = []
+            stock_tags = []
             for code in related:
                 info = STOCK_KEYWORDS.get(code, {})
                 level_badge = '⭐' if info.get('level') == 'hero' else ('🔵' if info.get('level') == 'holding' else '⚪')
-                tags.append(f"{level_badge}{info.get('name', code)}")
-            item['stock_tags'] = tags
+                stock_tags.append(f"{level_badge}{info.get('name', code)}")
+            item['stock_tags'] = stock_tags
         else:
             item['stock_tags'] = []
+        
+        # 链接兜底：如果url为空或不可点击，用百度搜索
+        url = item.get('url', '')
+        title = item.get('title', '')
+        if not url or url == '':
+            item['url'] = f"https://www.baidu.com/s?wd={urllib.parse.quote(title)}"
+        elif not url.startswith('http'):
+            item['url'] = f"https://www.baidu.com/s?wd={urllib.parse.quote(title)}"
+    return items
     return items
 
 
@@ -522,6 +650,104 @@ def fetch_tushare_all_news(max_per_source=10):
     return items
 
 
+# ===================== 财联社电报抓取（备用新闻源）=====================
+from bs4 import BeautifulSoup
+
+def fetch_cls_telegraph(max_items=20):
+    """
+    抓取财联社电报(www.cls.cn/telegraph)作为Tushare备用。
+    非交易日Tushare新闻返回0条时，财联社电报仍有实时财经快讯。
+    使用BeautifulSoup解析HTML结构。
+    """
+    try:
+        url = 'https://www.cls.cn/telegraph'
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/120.0.0.0 Safari/537.36',
+            'Accept': 'text/html,application/xhtml+xml',
+        }
+        resp = requests.get(url, headers=headers, timeout=15)
+        soup = BeautifulSoup(resp.text, 'html.parser')
+        
+        items = []
+        today = datetime.datetime.now().strftime('%Y-%m-%d')
+        
+        # 财联社电报页面结构：每个新闻是一个包含时间和内容的块
+        # 尝试多种可能的选择器
+        # 1. 查找包含时间格式 HH:MM:SS 的元素
+        time_elements = soup.find_all(string=re.compile(r'\d{2}:\d{2}:\d{2}'))
+        
+        for time_elem in time_elements[:max_items * 2]:
+            time_str = time_elem.strip()
+            if not re.match(r'^\d{2}:\d{2}:\d{2}$', time_str):
+                continue
+            
+            # 向上查找父元素，找到包含新闻标题的容器
+            parent = time_elem.parent
+            for _ in range(5):  # 向上最多找5层
+                if parent is None:
+                    break
+                # 查找标题：通常是大号字体或加粗
+                title_elem = None
+                # 尝试找h1-h6
+                for h_tag in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+                    h = parent.find(h_tag)
+                    if h:
+                        title_elem = h
+                        break
+                # 尝试找strong/b/em
+                if not title_elem:
+                    for tag in ['strong', 'b', 'em']:
+                        t = parent.find(tag)
+                        if t and len(t.get_text(strip=True)) > 10:
+                            title_elem = t
+                            break
+                # 尝试找包含【】的文本
+                if not title_elem:
+                    text = parent.get_text(separator=' ', strip=True)
+                    match = re.search(r'【([^】]+)】', text)
+                    if match:
+                        title = match.group(1).strip()
+                    else:
+                        # 提取除了时间以外的第一行作为标题
+                        lines = [l.strip() for l in text.split('\n') if l.strip() and time_str not in l]
+                        if lines:
+                            title = lines[0][:100]
+                        else:
+                            parent = parent.parent
+                            continue
+                else:
+                    title = title_elem.get_text(strip=True)[:100]
+                
+                if title and len(title) > 5:
+                    cat = classify_event(title)
+                    items.append({
+                        'date': today,
+                        'time': time_str,
+                        'title': title,
+                        'url': f'https://www.baidu.com/s?wd={urllib.parse.quote(title)}',
+                        'category': cat,
+                        'source': '财联社电报',
+                        'sourceClass': 'cls',
+                    })
+                    break
+                parent = parent.parent
+        
+        # 去重
+        seen = set()
+        unique_items = []
+        for item in items:
+            key = item['title']
+            if key not in seen:
+                seen.add(key)
+                unique_items.append(item)
+        
+        print(f"[OK] 财联社电报: {len(unique_items)} 条")
+        return unique_items[:max_items]
+    except Exception as e:
+        print(f"[WARN] 财联社电报: {e}")
+        return []
+
+
 # ===================== 新浪个股新闻抓取 =====================
 SINA_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -555,13 +781,11 @@ def classify_multi_tags(title, content=''):
     t = (title + ' ' + content).lower()
     tags = []
     
-    # 1. 持仓直击：标题含持仓/建仓股名或代码
+    # 1. 持仓直击：标题含持仓/关注股名或代码
     portfolio_kw = [
-        '九州一轨', '688485', '红星发展', '600367', '禾望电气', '603063',
-        '汉钟精机', '002158', '鑫磊股份', '301317', '宝丰能源', '600989',
-        '招商银行', '600036', '长江电力', '600900', '中国核电', '601985',
-        'ST利达', '603828', '通源环境', '688679', '华蓝集团', '301027',
-        '腾亚精工', '301125',
+        '九州一轨', '688485', '汉钟精机', '002158',
+        '中恒电气', '002364', '江海股份', '002484',
+        '启明星辰', '002439',
     ]
     if any(k in t for k in portfolio_kw):
         tags.append('portfolio')
@@ -1072,28 +1296,20 @@ def fetch_premarket_candidates():
             for src, cnt in counts_local.items():
                 source_counts[src] = source_counts.get(src, 0) + cnt
     
-    # ⚠️ 政策/RSS/Tushare 新闻抓取已禁用（API超时问题），仅保留持仓股新闻
-    # 如需恢复，需给每个函数加 timeout 参数
-    #
-    # 政策/宏观新闻（已禁用）
-    # try:
-    #     policy_items = fetch_policy_news()
-    #     all_items.extend(policy_items)
-    # except Exception as e:
-    #     print(f"[WARN] fetch_policy_news: {e}")
+    # RSS时政/国际新闻（宏观政策）
+    try:
+        people_items = fetch_people_rss(max_items=5)
+        all_items.extend(people_items)
+        source_counts['人民网RSS'] = len(people_items)
+    except Exception as e:
+        print(f"[WARN] fetch_people_rss: {e}")
     
-    # RSS时政/国际新闻（已禁用）
-    # try:
-    #     people_items = fetch_people_rss(max_items=8)
-    #     all_items.extend(people_items)
-    # except Exception as e:
-    #     print(f"[WARN] fetch_people_rss: {e}")
-    #
-    # try:
-    #     huanqiu_items = fetch_huanqiu_rss(max_items=8)
-    #     all_items.extend(huanqiu_items)
-    # except Exception as e:
-    #     print(f"[WARN] fetch_huanqiu_rss: {e}")
+    try:
+        huanqiu_items = fetch_huanqiu_rss(max_items=5)
+        all_items.extend(huanqiu_items)
+        source_counts['中国新闻网RSS'] = len(huanqiu_items)
+    except Exception as e:
+        print(f"[WARN] fetch_huanqiu_rss: {e}")
     
     # Tushare 全来源新闻（精简版，只抓20条，加超时）
     try:
@@ -1106,6 +1322,14 @@ def fetch_premarket_candidates():
     except Exception as e:
         print(f"[WARN] fetch_tushare_all_news: {e}")
     
+    # 财联社电报（备用源：非交易日Tushare返回0条时补充）
+    try:
+        cls_items = fetch_cls_telegraph(max_items=20)
+        all_items.extend(cls_items)
+        source_counts['财联社电报'] = len(cls_items)
+    except Exception as e:
+        print(f"[WARN] fetch_cls_telegraph: {e}")
+    
     # ===================== 财经相关性过滤 =====================
     # 策略：只保留与用户股票池真正相关的新闻，过滤掉社会/娱乐/旅游等杂讯
     # 保留条件（满足任一即可）：
@@ -1116,7 +1340,7 @@ def fetch_premarket_candidates():
     # 5. 来源为宏观政策类（央行、财政部、证监会、国务院金融等）且标题含财经关键词
     
     # 用户持仓相关核心行业关键词（精准匹配）
-    # 2026-05-09 更新：聚焦7只核心标的
+    # 2026-05-09 更新：聚焦5只核心标的
     USER_INDUSTRY_KWS = [
         # 九州一轨
         '轨交', '高铁', '铁路', '地铁', '轨道交通', '减震', '降噪',
@@ -1124,17 +1348,13 @@ def fetch_premarket_candidates():
         '通用设备', '压缩机', '风机', '水泵', '真空泵', '制冷', '磁悬浮',
         # 启明星辰
         '网络安全', '信息安全', 'AI安全', '数据安全', '国资云', '网安',
-        # 通源环境
-        '液冷', '散热', '数据中心', '浸没式液冷', '温控', 'IDC',
-        # ST柯利达
-        '建筑装饰', '装修', '幕墙', 'ST', '重组', '借壳', '摘帽',
-        # 华蓝集团
-        '设计院', '工程咨询', '算电协同', '元禾控股',
-        # 腾亚精工
-        '电动工具', '园林机械', '割草机', '泳池机器人', '机器人关节',
+        # 江海股份
+        '电容', '超级电容', '铝电解', '薄膜电容', 'MLCC',
+        # 中恒电气
+        'HVDC', '高压直流', '数据中心电源', '储能', '充电桩', '巴拿马电源',
         # 半导体（九州、汉钟相关）
         '半导体', '芯片', '晶圆', '光刻', 'IC', '集成电路',
-        # 算力/AI（启明、通源、华蓝相关）
+        # 算力/AI
         'AI', '人工智能', '算力', '光模块', '大模型', 'Agent',
     ]
     
@@ -1180,15 +1400,25 @@ def fetch_premarket_candidates():
         '地名：红旗渠', '地名：黄山', '地名：泰山', '地名：故宫',  # 仅示例，实际用更通用方式
     ]
     
+    # ===================== 关联度分析（移到过滤之前）=====================
+    # 先给所有新闻标记六维关联度，再用关联度结果过滤
+    all_items = mark_news_relevance(all_items)
+    
+    # ===================== 财经相关性过滤 =====================
+    # 策略：保留六维关联度非空的新闻，过滤纯社会/娱乐/旅游杂讯
+    # 保留条件（满足任一即可）：
+    # 1. relevance_tags 非空（direct/industry/customer/geopolitical/us_market/policy）
+    # 2. 标题含通用财经关键词
+    # 丢弃条件：含排除词且无关联度
+    
     filtered_items = []
     dropped = 0
     for item in all_items:
         title = item.get('title', '')
-        level = item.get('relevance_level', 'none')
-        source = item.get('source', '')
+        tags = item.get('relevance_tags', [])
         
-        # 优先条件1-2：与持仓/建仓股有关联
-        if level in ('direct', 'industry'):
+        # 条件1：六维关联度非空（direct/industry/customer/geopolitical/us_market/policy）
+        if tags:
             filtered_items.append(item)
             continue
         
@@ -1197,17 +1427,7 @@ def fetch_premarket_candidates():
             dropped += 1
             continue
         
-        # 条件3：用户持仓相关行业
-        if any(kw in title for kw in USER_INDUSTRY_KWS):
-            filtered_items.append(item)
-            continue
-        
-        # 条件4：重要地缘/宏观
-        if any(kw in title for kw in MACRO_KWS):
-            filtered_items.append(item)
-            continue
-        
-        # 条件5：通用财经关键词（严格匹配）
+        # 条件2：通用财经关键词兜底
         if any(kw in title for kw in GENERAL_FINANCE_KWS):
             filtered_items.append(item)
             continue
@@ -1263,17 +1483,65 @@ def fetch_premarket_candidates():
         base['date'] = latest_date
         # 标记为合并来源
         base['merged_sources'] = sources
+        # 保留关联度标签（取所有合并项中的最佳标签）
+        all_tags = []
+        all_related = []
+        for g in group:
+            tags = g.get('relevance_tags', [])
+            if tags:
+                all_tags.extend(tags)
+            related = g.get('related_stocks', [])
+            if related:
+                all_related.extend(related)
+        if all_tags:
+            # 去重并保持优先级顺序
+            seen_tags = []
+            for t in all_tags:
+                if t not in seen_tags:
+                    seen_tags.append(t)
+            base['relevance_tags'] = seen_tags
+            # 更新 primary_level
+            priority_order = ['direct', 'industry', 'customer', 'us_market', 'geopolitical', 'policy', 'none']
+            for p in priority_order:
+                if p in seen_tags:
+                    base['relevance_level'] = p
+                    base['relevance_score'] = {'direct': 6, 'industry': 5, 'customer': 4, 'us_market': 3, 'geopolitical': 2, 'policy': 1, 'none': 0}.get(p, 0)
+                    break
+        if all_related:
+            base['related_stocks'] = list(dict.fromkeys(all_related))
         merged.append(base)
     
     unique = merged
     
-    # 关联度分析：给每条新闻标记与持仓/建仓股的关联度
-    unique = mark_news_relevance(unique)
+    # 日期过滤：当天优先，不足50条补昨天，再不足补前天
+    now = datetime.datetime.now()
+    today_str = now.strftime('%Y-%m-%d')
+    yesterday_str = (now - datetime.timedelta(days=1)).strftime('%Y-%m-%d')
+    day_before_yesterday_str = (now - datetime.timedelta(days=2)).strftime('%Y-%m-%d')
     
-    # 只保留当天新闻，按时间倒序排序：最新的在上面
-    today_str = datetime.datetime.now().strftime('%Y-%m-%d')
-    unique = [x for x in unique if x.get('date', '') == today_str]
-    unique.sort(key=lambda x: x.get('date', '') + x.get('time', ''), reverse=True)
+    # 先过滤当天
+    today_items = [x for x in unique if x.get('date', '') == today_str]
+    # 如果当天不足50条，补充昨天
+    if len(today_items) < 50:
+        yesterday_items = [x for x in unique if x.get('date', '') == yesterday_str and x not in today_items]
+        combined = today_items + yesterday_items
+        # 如果还是不足50条，补充前天
+        if len(combined) < 50:
+            db_yesterday_items = [x for x in unique if x.get('date', '') == day_before_yesterday_str and x not in combined]
+            combined = combined + db_yesterday_items
+        unique = combined
+    else:
+        unique = today_items
+    
+    # 排序：先按相关性评分降序，同分数内按时间倒序
+    def sort_key(x):
+        score = x.get('relevance_score', 0)
+        dt = x.get('date', '') + ' ' + x.get('time', '')
+        # 用字符串排序：高score在前面，同score时晚时间在前面
+        # score 0-6，用 6-score 作为前缀
+        prefix = str(6 - score).zfill(2)
+        return prefix + '_' + dt
+    unique.sort(key=sort_key, reverse=True)
     
     # 分类
     categories = {
@@ -1451,7 +1719,15 @@ def fetch_all_events():
         except:
             return True  # 日期解析失败时保留
     
-    unique = [n for n in unique if n.get('relevance_level') == 'direct' and is_within_5_days(n.get('date', ''))]
+    unique = [n for n in unique if n.get('relevance_level') == 'direct']
+    
+    # 保留最近3天
+    now = datetime.datetime.now()
+    valid_dates = set()
+    for i in range(3):
+        d = now - datetime.timedelta(days=i)
+        valid_dates.add(d.strftime('%Y-%m-%d'))
+    unique = [n for n in unique if n.get('date', '') in valid_dates]
     
     # 按时间倒序排序：最新的在上面
     unique.sort(key=lambda x: x.get('date', '') + x.get('time', ''), reverse=True)

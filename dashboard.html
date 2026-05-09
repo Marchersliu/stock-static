@@ -144,8 +144,7 @@ const STOCK_CONFIG = {
   // 持仓股
   '688485.SH': { name: '九州一轨', sector: '轨交设备', target: '80/100', stop: 52, shares: 19569, cost: 46.70, hero: true },
   '002158.SZ': { name: '汉钟精机', sector: '通用设备', target: '35-40', stop: 28, shares: 13100, cost: 32.00, hero: false },
-  // 关注股（4只）
-  '688693.SH': { name: '锴威特', sector: '半导体/芯片', target: '38-42', stop: 28, shares: 0, cost: 0, hero: false },
+  // 关注股（3只）
   '002484.SZ': { name: '江海股份', sector: 'AI算力·电容', target: '48-52', stop: 38, shares: 0, cost: 0, hero: false },
   '002364.SZ': { name: '中恒电气', sector: 'AI算力·电源', target: '12-13', stop: 9.5, shares: 0, cost: 0, hero: false },
   '002439.SZ': { name: '启明星辰', sector: '网络安全', target: '25-30', stop: 18, shares: 0, cost: 0, hero: false },
@@ -158,7 +157,6 @@ const STOCK_FALLBACK = {
   '688485.SH': { price: 63.99, change: 4.03, pct: 6.72, main_net: -0.18, pe: 45.2, pb: 6.8, turnover: 12.4, ma5: 58.5, ma20: 48.2, volume_ratio: 0.83 },
   '002158.SZ': { price: 31.39, change: -0.58, pct: -1.81, main_net: -0.59, pe: 25.0, pb: 4.2, turnover: 2.1, ma5: 31.8, ma20: 29.5, volume_ratio: 0.95 },
   // 关注股
-  '688693.SH': { price: 30.00, change: 0, pct: 0, main_net: 0, pe: 0, pb: 3.5, turnover: 5.0, ma5: 29.0, ma20: 28.0, volume_ratio: 1.0 },
   '002484.SZ': { price: 43.14, change: 0, pct: 0, main_net: 0, pe: 53.6, pb: 5.8, turnover: 2.8, ma5: 42.0, ma20: 38.5, volume_ratio: 1.1 },
   '002364.SZ': { price: 10.50, change: 0, pct: 0, main_net: 0, pe: 35.0, pb: 3.2, turnover: 3.5, ma5: 10.2, ma20: 9.8, volume_ratio: 1.0 },
   '002439.SZ': { price: 16.63, change: 0.46, pct: 2.84, main_net: 1.25, pe: 88.0, pb: 2.5, turnover: 3.2, ma5: 16.1, ma20: 15.8, volume_ratio: 1.1 },
@@ -166,19 +164,15 @@ const STOCK_FALLBACK = {
 
 // 全球指数fallback
 const GLOBAL_FALLBACK = {
-  '000001.SH': { name: '上证指数', price: 3957.32, change: -12.5, pct: -0.32, region: 'CN' },
-  '399001.SZ': { name: '深证成指', price: 11852.1, change: -45.2, pct: -0.38, region: 'CN' },
-  '399006.SZ': { name: '创业板指', price: 2156.8, change: -8.3, pct: -0.38, region: 'CN' },
-  '000016.SH': { name: '上证50', price: 2654.5, change: -5.2, pct: -0.20, region: 'CN' },
-  '000300.SH': { name: '沪深300', price: 3785.2, change: -12.1, pct: -0.32, region: 'CN' },
-  '000688.SH': { name: '科创50', price: 1028.5, change: -5.8, pct: -0.56, region: 'CN' },
-  'HSI': { name: '恒生指数', price: 22548.3, change: -158.2, pct: -0.70, region: 'HK' },
-  'DJI': { name: '道琼斯', price: 41250.1, change: 125.8, pct: 0.31, region: 'US' },
-  'IXIC': { name: '纳斯达克', price: 17895.2, change: 85.4, pct: 0.48, region: 'US' },
-  'SPX': { name: '标普500', price: 5658.3, change: 22.5, pct: 0.40, region: 'US' },
-  'FTSE': { name: '英国富时', price: 8425.6, change: -15.2, pct: -0.18, region: 'UK' },
-  'DAX': { name: '德国DAX', price: 23568.2, change: 45.8, pct: 0.19, region: 'DE' },
-  'NI225': { name: '日经225', price: 36852.1, change: -125.6, pct: -0.34, region: 'JP' },
+  '000001.SH': { name: '上证指数', price: 4179.95, change: -0.14, pct: -0.00, region: 'CN' },
+  '399001.SZ': { name: '深证成指', price: 15563.80, change: -78.09, pct: -0.50, region: 'CN' },
+  '399006.SZ': { name: '创业板指', price: 3796.13, change: -36.93, pct: -0.96, region: 'CN' },
+  '000016.SH': { name: '上证50', price: 3003.58, change: -25.61, pct: -0.85, region: 'CN' },
+  '000300.SH': { name: '沪深300', price: 4871.91, change: -28.60, pct: -0.58, region: 'CN' },
+  '000688.SH': { name: '科创50', price: 1640.46, change: -38.43, pct: -2.29, region: 'CN' },
+  'HSI': { name: '恒生指数', price: 26393.71, change: -232.57, pct: -0.87, region: 'HK' },
+  'DJI': { name: '道琼斯', price: 49609.16, change: 12.19, pct: 0.02, region: 'US' },
+  'IXIC': { name: '纳斯达克', price: 26247.08, change: 440.88, pct: 1.71, region: 'US' },
 };
 
 // 板块fallback
@@ -371,15 +365,17 @@ function renderNews(data) {
     return;
   }
   
-  // 关联7只标的的新闻优先
-  const portfolioItems = allItems.filter(item => {
-    const related = item.related_stocks || [];
-    return related.some(code => STOCK_CONFIG[code]);
+  // 合并所有分类新闻，按时间倒序排序（最新的在上面）
+  allItems.sort((a, b) => {
+    const ta = (a.date || '') + (a.time || '');
+    const tb = (b.date || '') + (b.time || '');
+    return tb.localeCompare(ta);
   });
   
+  // 去重
   const seen = new Set();
   const displayItems = [];
-  for (const item of [...portfolioItems, ...allItems]) {
+  for (const item of allItems) {
     const key = item.title;
     if (!seen.has(key)) {
       seen.add(key);

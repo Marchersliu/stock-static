@@ -90,7 +90,6 @@ HOLDINGS = [
 ]
 
 WATCHLIST = [
-    {"code": "688693.SH", "name": "锴威特", "target": "38-42", "stop": 28.0, "rec": 30.0},
     {"code": "002484.SZ", "name": "江海股份", "target": "48-52", "stop": 38.0, "rec": 43.0},
     {"code": "002364.SZ", "name": "中恒电气", "target": "12-13", "stop": 9.5, "rec": 10.5},
     {"code": "002439.SZ", "name": "启明星辰", "target": "25-30", "stop": 18.0, "rec": 20.00},
@@ -107,7 +106,6 @@ STOCK_SECTORS = {
     '002364.SZ': {'sector': 'AI算力·电源', 'sector_code': None, 'related': ['数据中心', '储能', '算电协同', '新能源超充']},
     '002484.SZ': {'sector': 'AI算力·电容', 'sector_code': None, 'related': ['电子元件', '英伟达供应链', '国产替代']},
     '002439.SZ': {'sector': '网络安全', 'sector_code': None, 'related': ['AI安全', '国产替代', '信创']},
-    '688693.SH': {'sector': '半导体/芯片', 'sector_code': None, 'related': ['华为算力', '第三代半导体', '国产替代', '功率器件']},
 }
 
 # ===================== 价格提醒配置 =====================
@@ -224,13 +222,6 @@ STOCK_KEYWORDS = {
         'name': '启明星辰',
         'keywords': ['启明星辰', '002439', '启明', '网络安全', '信息安全', 'AI安全', '数据安全', '中国移动', '国资云'],
         'industry': ['网络安全', 'AI安全'],
-        'level': 'watchlist'
-    },
-    # 新增关注
-    '688693.SH': {
-        'name': '锴威特',
-        'keywords': ['锴威特', '688693', 'SiC', '碳化硅', '功率器件', '第三代半导体', '华为', '算力', '国产替代', '充电桩'],
-        'industry': ['半导体', '功率器件'],
         'level': 'watchlist'
     },
 }
@@ -1279,9 +1270,10 @@ def fetch_premarket_candidates():
     # 关联度分析：给每条新闻标记与持仓/建仓股的关联度
     unique = mark_news_relevance(unique)
     
-    # 先按日期时间倒序，再按关联度降序（稳定排序保留时间顺序）
+    # 只保留当天新闻，按时间倒序排序：最新的在上面
+    today_str = datetime.datetime.now().strftime('%Y-%m-%d')
+    unique = [x for x in unique if x.get('date', '') == today_str]
     unique.sort(key=lambda x: x.get('date', '') + x.get('time', ''), reverse=True)
-    unique.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
     
     # 分类
     categories = {
@@ -1461,9 +1453,8 @@ def fetch_all_events():
     
     unique = [n for n in unique if n.get('relevance_level') == 'direct' and is_within_5_days(n.get('date', ''))]
     
-    # 先按日期时间倒序，再按关联度降序（稳定排序保留时间顺序）
+    # 按时间倒序排序：最新的在上面
     unique.sort(key=lambda x: x.get('date', '') + x.get('time', ''), reverse=True)
-    unique.sort(key=lambda x: x.get('relevance_score', 0), reverse=True)
     
     # 分类
     categories = {
@@ -2201,7 +2192,7 @@ def aggregate_sector_moneyflow(stocks):
         'AI算力·电源': ['002364.SZ'],
         'AI算力·电容': ['002484.SZ'],
         '网络安全': ['002439.SZ'],
-        '半导体/芯片': ['688693.SH'],
+        '半导体/芯片': ['688485.SH', '002158.SZ'],
         # 产业链映射（一只股票可出现在多个板块）
         'AI芯片散热': ['688485.SH'],
         '半导体设备': ['002158.SZ'],
@@ -2212,10 +2203,7 @@ def aggregate_sector_moneyflow(stocks):
         '电子元件': ['002484.SZ'],
         '英伟达供应链': ['002484.SZ'],
         'AI安全': ['002439.SZ'],
-        '华为算力': ['688693.SH'],
-        '第三代半导体': ['688693.SH'],
-        '功率器件': ['688693.SH'],
-        '国产替代': ['688485.SH', '002158.SZ', '002484.SZ', '002439.SZ', '688693.SH'],
+        '国产替代': ['688485.SH', '002158.SZ', '002484.SZ', '002439.SZ'],
         '信创': ['002439.SZ'],
     }
     
@@ -2368,12 +2356,10 @@ sector_cache_info = {
 }
 
 def background_fetch():
-    """后台定时抓取Tushare数据 — 非交易日自动静默"""
+    """后台定时抓取数据 — 全球指数每日更新，A股数据保留最近交易日"""
     while True:
-        # 自动检测交易日，非交易日静默不推送
-        if not is_trading_day():
-            time.sleep(600)  # 非交易日10分钟检查一次
-            continue
+        # 非交易日延长间隔，但仍抓取全球指数
+        sleep_interval = 600 if is_trading_day() else 3600  # 交易日10分钟，非交易日1小时
         
         try:
             print(f"[{datetime.datetime.now()}] 开始抓取数据...")
@@ -2453,9 +2439,8 @@ def background_fetch():
         except Exception as e:
             print(f"[ERR] background_fetch: {e}")
         
-        # 交易时段每30秒（价格提醒需要极致及时），非交易时段每10分钟
-        sleep_seconds = 300 if is_trading_time() else 600
-        time.sleep(sleep_seconds)
+        # 使用开头定义的间隔（交易日10分钟/非交易日1小时）
+        time.sleep(sleep_interval)
 
 
 # ===================== HTTP 服务 =====================

@@ -1,5 +1,5 @@
-# GitHub Pages 只部署看板前端
-# 仅保留必要文件，其他全部忽略
+# GitHub Pages 部署 + 看板数据同步
+# 保留必要文件
 *
 !.gitignore
 !skills/
@@ -14,10 +14,13 @@
 !.github/
 !.github/workflows/
 !.github/workflows/pages.yml
+!dashboard.html
+!stock_service.py
+!scripts/
+!scripts/dashboard_auto_sync.sh
 
-# 本地敏感文件/脚本（绝不提交）
+# 本地敏感文件（绝不提交）
 TOOLS.md
-stock_service.py
 price_alert_state.json
 price_alert_queue.json
 update_html_news.py
@@ -30,5 +33,9 @@ __pycache__/
 .env.production
 .env.*
 
-# memory文件（可能含敏感上下文，本地保留）
+# memory文件（本地保留）
 memory/
+
+# 日志文件
+logs/
+*.log

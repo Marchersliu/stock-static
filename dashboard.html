@@ -474,13 +474,10 @@ function renderNewsFallback() {
 // ===================== 静态数据支持（服务端渲染）=====================
 function renderDashboard(staticData) {
   document.getElementById('update-time').textContent = '静态数据 · ' + (staticData.generated_at || '') + ' · API后台刷新中';
-  const status = staticData.market_status || '休市';
-  document.getElementById('market-status').textContent = status;
-  if (staticData.stocks) renderStocks(staticData.stocks);
-  if (staticData.sectors) renderSectors({ sectors: staticData.sectors });
   if (staticData.global_indices) renderGlobal(staticData.global_indices);
+  if (staticData.stocks) renderStockTable(staticData.stocks);
+  if (staticData.sectors) renderSectors(staticData.sectors);
   if (staticData.news) renderNews(staticData.news);
-  if (staticData.events) renderEvents(staticData.events);
 }
 
 function init() {

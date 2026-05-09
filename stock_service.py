@@ -1810,7 +1810,7 @@ def fetch_moneyflow():
             if df is not None and not df.empty:
                 row = df.iloc[0]
                 flows[code] = {
-                    'main_net': round(row.get('net_mf_amount', 0) / 10000, 2),  # 万元
+                    'main_net': round(row.get('net_mf_amount', 0), 2),  # net_mf_amount 单位已经是万元
                     'main_pct': round(row.get('net_mf_rate', 0), 2),
                 }
     except Exception as e:
@@ -2174,7 +2174,7 @@ def aggregate_sector_moneyflow(stocks):
             count = 0
             for code in codes:
                 s = stocks.get(code, {})
-                pct = s.get('pct_chg')
+                pct = s.get('pct')  # fix: 字段名是 pct 不是 pct_chg
                 if pct is not None:
                     total_pct += pct
                     count += 1
@@ -2390,6 +2390,14 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
     def log_message(self, format, *args):
         # 减少日志噪音
         pass
+    
+    def do_OPTIONS(self):
+        """处理CORS预检请求"""
+        self.send_response(204)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type, Authorization')
+        self.end_headers()
     
     def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')

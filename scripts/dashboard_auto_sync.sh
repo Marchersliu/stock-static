@@ -45,7 +45,13 @@ echo "" >> "$LOGFILE"
 
 sleep 3
 
-# 4. GitHub 同步
+# 4. 生成静态页面（服务端渲染，用于 GitHub Pages）
+echo "[$(date '+%Y-%m-%d %H:%M:%S')] 生成静态页面..." >> "$LOGFILE"
+python3 "$WORKSPACE/scripts/generate_static.py" >> "$LOGFILE" 2>&1 || echo "[$(date '+%Y-%m-%d %H:%M:%S')] 静态生成失败" >> "$LOGFILE"
+
+sleep 1
+
+# 5. GitHub 同步
 cd "$WORKSPACE"
 
 # 检查是否有变更（排除日志文件）

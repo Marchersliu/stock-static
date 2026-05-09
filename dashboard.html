@@ -206,11 +206,14 @@ const INDEX_NAMES = {
 // 新闻fallback（API未连接时显示）
 const NEWS_FALLBACK = [];
 
-const API_BASE = 'http://localhost:8888';
+const API_BASE = (window.location.hostname.includes('github.io') || window.location.hostname.includes('vercel.app'))
+  ? null
+  : 'http://localhost:8888';
 
 let _cache = { stocks: {}, indices: {}, sector_flows: [], timestamp: '' };
 
 async function loadData() {
+  if (!API_BASE) return; // GitHub Pages 静态模式，不走 API
   try {
     const res = await fetch(API_BASE + '/api/data?t=' + Date.now());
     const data = await res.json();
@@ -332,6 +335,7 @@ function renderSectors(sector_flows) {
 
 // ===================== 渲染：新闻 =====================
 async function loadNews() {
+  if (!API_BASE) return; // GitHub Pages 静态模式，不走 API
   try {
     const res = await fetch(API_BASE + '/api/premarket?t=' + Date.now());
     const data = await res.json();
@@ -467,7 +471,29 @@ function renderNewsFallback() {
 }
 
 // ===================== 初始化 =====================
+// ===================== 静态数据支持（服务端渲染）=====================
+function renderDashboard(staticData) {
+  document.getElementById('update-time').textContent = '静态数据 · ' + (staticData.generated_at || '') + ' · API后台刷新中';
+  const status = staticData.market_status || '休市';
+  document.getElementById('market-status').textContent = status;
+  if (staticData.stocks) renderStocks(staticData.stocks);
+  if (staticData.sectors) renderSectors({ sectors: staticData.sectors });
+  if (staticData.global_indices) renderGlobal(staticData.global_indices);
+  if (staticData.news) renderNews(staticData.news);
+  if (staticData.events) renderEvents(staticData.events);
+}
+
 function init() {
+  // 优先使用服务端注入的静态数据
+  if (window.STATIC_DATA && window.STATIC_DATA.stocks && Object.keys(window.STATIC_DATA.stocks).length > 0) {
+    console.log('[Static] 使用内联静态数据渲染，生成时间:', window.STATIC_DATA.generated_at);
+    renderDashboard(window.STATIC_DATA);
+    // 后台静默尝试刷新 API
+    setTimeout(() => { loadData(); loadNews(); }, 2000);
+    setInterval(() => { loadData(); loadNews(); }, 120000);
+    return;
+  }
+  // 无静态数据，走正常 API 流程
   renderAll({ stocks: STOCK_FALLBACK, indices: GLOBAL_FALLBACK, sector_flows: SECTOR_FALLBACK });
   document.getElementById('update-time').textContent = '休市 · 数据日期: 2026-05-08 (周五收盘) · fallback';
   renderNewsFallback();

@@ -33,14 +33,14 @@ fi
 
 # 2. 触发数据抓取（调用API触发后台刷新）
 echo "[$(date '+%Y-%m-%d %H:%M:%S')] 触发数据抓取..." >> "$LOGFILE"
-curl -s -o /dev/null -w "%{http_code}" "http://localhost:8765/api/data?t=$(date +%s)" >> "$LOGFILE" 2>&1 || true
+curl -s -o /dev/null -w "%{http_code}" "http://localhost:8888/api/data?t=$(date +%s)" >> "$LOGFILE" 2>&1 || true
 echo "" >> "$LOGFILE"
 
 # 等待数据抓取完成
 sleep 5
 
 # 3. 触发新闻抓取
-curl -s -o /dev/null -w "%{http_code}" "http://localhost:8765/api/premarket?t=$(date +%s)" >> "$LOGFILE" 2>&1 || true
+curl -s -o /dev/null -w "%{http_code}" "http://localhost:8888/api/premarket?t=$(date +%s)" >> "$LOGFILE" 2>&1 || true
 echo "" >> "$LOGFILE"
 
 sleep 3

@@ -304,7 +304,7 @@ function renderSectors(sector_flows) {
     const color = isUp ? 'var(--red)' : 'var(--green)';
     const sign = isUp ? '+' : '';
     html += `
-      <div class="sector-card" style="border-left-color:${isUp?'var(--red)':'var(--green')};">
+      <div class="sector-card" style="border-left-color:${isUp ? "var(--red)" : "var(--green)"};">
         <div class="header">
           <span class="name">${s.name}</span>
           <span class="flow" style="color:${color}">${sign}${s.main_net?.toFixed(0) || 0}万</span>

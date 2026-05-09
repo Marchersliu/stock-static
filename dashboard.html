@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="version" content="v2026-05-09-2100">
+<meta name="version" content="v2026-05-09-2125">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -89,7 +89,7 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 
 <div class="header">
   <h1>📊 投资组合实时监控中心</h1>
-  <p>11只核心标的追踪 | 五朵金花AI算力产业链 | 全球指数 | 板块资金 | 技术+资金+新闻</p>
+  <p>5只核心标的追踪 | 五朵金花AI算力产业链 | 全球指数 | 板块资金 | 技术+资金+新闻</p>
   <p class="update-time" id="update-time">正在连接服务器...</p>
 </div>
 
@@ -101,9 +101,9 @@ tr:hover td { background:rgba(74,158,255,0.05); }
   </div>
 </div>
 
-<!-- 核心标的列表（11只） -->
+<!-- 核心标的列表（5只） -->
 <div class="card">
-  <div class="card-title">📋 核心标的概览（11只）<span class="update-time" id="stocks-update-time"></span></div>
+  <div class="card-title">📋 核心标的概览（5只）<span class="update-time" id="stocks-update-time"></span></div>
   <div style="overflow-x:auto;">
     <table>
       <thead><tr>
@@ -144,36 +144,22 @@ const STOCK_CONFIG = {
   // 持仓股
   '688485.SH': { name: '九州一轨', sector: '轨交设备', target: '80/100', stop: 52, shares: 19569, cost: 46.70, hero: true },
   '002158.SZ': { name: '汉钟精机', sector: '通用设备', target: '35-40', stop: 28, shares: 13100, cost: 32.00, hero: false },
-  // 五朵金花（AI算力产业链）
+  // 关注股（前5只）
   '002364.SZ': { name: '中恒电气', sector: 'AI算力·电源', target: '12-13', stop: 9.5, shares: 0, cost: 0, hero: false },
   '002484.SZ': { name: '江海股份', sector: 'AI算力·电容', target: '48-52', stop: 38, shares: 0, cost: 0, hero: false },
-  '688693.SH': { name: '锴威特', sector: 'AI算力·SiC', target: '38-42', stop: 28, shares: 0, cost: 0, hero: false },
-  '300819.SZ': { name: '聚杰微纤', sector: 'AI算力·电子布', target: '90-100', stop: 68, shares: 0, cost: 0, hero: false },
-  // 现有关注
   '002439.SZ': { name: '启明星辰', sector: '网络安全', target: '25-30', stop: 18, shares: 0, cost: 0, hero: false },
-  '688679.SH': { name: '通源环境', sector: '环保/液冷', target: '60-80', stop: 35, shares: 0, cost: 0, hero: false },
-  '603828.SH': { name: 'ST柯利达', sector: '建筑装饰', target: '8-12', stop: 5, shares: 0, cost: 0, hero: false },
-  '301027.SZ': { name: '华蓝集团', sector: '工程咨询', target: '--', stop: null, shares: 0, cost: 0, hero: false },
-  '301125.SZ': { name: '腾亚精工', sector: '通用设备', target: '--', stop: null, shares: 0, cost: 0, hero: false },
 };
 
 // 5月8日收盘静态fallback数据（API加载前显示）
-// 2026-05-09 更新：融合五朵金花AI算力产业链
+// 2026-05-09 精简：只保留前5只核心标的
 const STOCK_FALLBACK = {
   // 持仓股
   '688485.SH': { price: 63.99, change: 4.03, pct: 6.72, main_net: -0.18, pe: 45.2, pb: 6.8, turnover: 12.4, ma5: 58.5, ma20: 48.2, volume_ratio: 0.83 },
   '002158.SZ': { price: 31.39, change: -0.58, pct: -1.81, main_net: -0.59, pe: 25.0, pb: 4.2, turnover: 2.1, ma5: 31.8, ma20: 29.5, volume_ratio: 0.95 },
-  // 五朵金花
+  // 关注股
   '002364.SZ': { price: 10.50, change: 0, pct: 0, main_net: 0, pe: 35.0, pb: 3.2, turnover: 3.5, ma5: 10.2, ma20: 9.8, volume_ratio: 1.0 },
   '002484.SZ': { price: 43.14, change: 0, pct: 0, main_net: 0, pe: 53.6, pb: 5.8, turnover: 2.8, ma5: 42.0, ma20: 38.5, volume_ratio: 1.1 },
-  '688693.SH': { price: 32.50, change: 0, pct: 0, main_net: 0, pe: 0, pb: 4.5, turnover: 4.2, ma5: 31.5, ma20: 29.0, volume_ratio: 1.2 },
-  '300819.SZ': { price: 80.05, change: 0, pct: 0, main_net: 0, pe: 60.0, pb: 8.5, turnover: 6.5, ma5: 75.0, ma20: 68.0, volume_ratio: 1.5 },
-  // 现有关注
   '002439.SZ': { price: 16.63, change: 0.46, pct: 2.84, main_net: 1.25, pe: 88.0, pb: 2.5, turnover: 3.2, ma5: 16.1, ma20: 15.8, volume_ratio: 1.1 },
-  '688679.SH': { price: 55.91, change: -2.09, pct: -3.60, main_net: -0.85, pe: 0, pb: 3.1, turnover: 5.8, ma5: 56.5, ma20: 52.0, volume_ratio: 1.2 },
-  '603828.SH': { price: 5.54, change: 0.26, pct: 4.92, main_net: 0.12, pe: 0, pb: 1.8, turnover: 1.5, ma5: 5.3, ma20: 5.1, volume_ratio: 0.7 },
-  '301027.SZ': { price: 25.58, change: 1.10, pct: 4.49, main_net: 0.35, pe: 0, pb: 4.2, turnover: 2.8, ma5: 24.5, ma20: 23.8, volume_ratio: 0.9 },
-  '301125.SZ': { price: 26.06, change: 0.76, pct: 3.00, main_net: 0.28, pe: 0, pb: 3.5, turnover: 3.5, ma5: 25.3, ma20: 24.8, volume_ratio: 1.0 },
 };
 
 // 全球指数fallback
@@ -197,15 +183,11 @@ const GLOBAL_FALLBACK = {
 const SECTOR_FALLBACK = [
   { name: 'AI算力·电源', main_net: 5200, avg_pct: 2.8 },
   { name: 'AI算力·电容', main_net: 4800, avg_pct: 3.2 },
-  { name: 'AI算力·SiC', main_net: 3500, avg_pct: 4.5 },
-  { name: 'AI算力·电子布', main_net: 2100, avg_pct: 1.8 },
-  { name: '半导体/芯片', main_net: 2100, avg_pct: 2.5 },
   { name: '网络安全', main_net: 1800, avg_pct: 2.1 },
   { name: '轨交设备', main_net: 1200, avg_pct: 1.5 },
   { name: '通用设备', main_net: 850, avg_pct: 1.2 },
-  { name: '环保/液冷', main_net: -800, avg_pct: -0.5 },
-  { name: '建筑装饰', main_net: 450, avg_pct: 0.8 },
-  { name: '工程咨询', main_net: 280, avg_pct: 1.1 },
+  { name: '半导体/芯片', main_net: 2100, avg_pct: 2.5 },
+  { name: '数据中心/储能', main_net: 3500, avg_pct: 2.5 },
 ];
 
 const INDEX_NAMES = {

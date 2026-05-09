@@ -1829,22 +1829,35 @@ def fetch_moneyflow():
 
 
 def fetch_daily_basic():
-    """抓取每日基本面指标（PE/PB/市值等）"""
+    """抓取每日基本面指标（PE/PB/市值等）
+    daily_basic 不支持逗号分隔多个 ts_code，改为全量查询当天数据后过滤
+    """
     trade_date = get_last_trade_date()
     basics = {}
     
     try:
-        codes = ','.join(ALL_STOCK_CODES)
-        df = pro.daily_basic(ts_code=codes, trade_date=trade_date)
-        for _, row in df.iterrows():
-            code = row['ts_code']
-            basics[code] = {
-                'turnover': round(row.get('turnover_rate', 0), 2),
-                'pe': round(row.get('pe', 0), 2),
-                'pb': round(row.get('pb', 0), 2),
-                'mv': round(row.get('total_mv', 0), 2),  # 总市值（万元）
-                'circ_mv': round(row.get('circ_mv', 0), 2),
-            }
+        # 不指定 ts_code，查当天所有股票（free tier 返回 ~5000 行）
+        df = pro.daily_basic(trade_date=trade_date)
+        if df is not None and not df.empty:
+            # 只保留我们关注的股票
+            our_codes = set(ALL_STOCK_CODES)
+            for _, row in df.iterrows():
+                code = row['ts_code']
+                if code not in our_codes:
+                    continue
+                # 处理 pe 为 nan 的情况（亏损股票）
+                import math
+                pe = row.get('pe')
+                pe = round(pe, 2) if pe is not None and not math.isnan(pe) else 0
+                basics[code] = {
+                    'turnover': round(row.get('turnover_rate', 0), 2),
+                    'pe': pe,
+                    'pb': round(row.get('pb', 0), 2),
+                    'mv': round(row.get('total_mv', 0), 2),  # 总市值（万元）
+                    'circ_mv': round(row.get('circ_mv', 0), 2),
+                }
+            if basics:
+                print(f"[OK] daily_basic: {len(basics)} 只股票, trade_date={trade_date}")
     except Exception as e:
         print(f"[ERR] fetch_daily_basic: {e}")
     
@@ -2353,6 +2366,16 @@ def background_fetch():
             stocks, trade_date = fetch_daily_data()
             moneyflow = fetch_moneyflow()
             basics = fetch_daily_basic()
+            # 休市日 daily_basic 可能返回空，保留缓存中的旧数据
+            if not basics:
+                cached_data = cache.get()
+                if cached_data and 'stocks' in cached_data:
+                    for code in cached_data['stocks']:
+                        old = cached_data['stocks'][code]
+                        if any(k in old for k in ['turnover','pe','pb','mv']):
+                            basics[code] = {k: old[k] for k in ['turnover','pe','pb','mv','circ_mv'] if k in old}
+                if basics:
+                    print(f"[CACHE] daily_basic 休市日返回空，保留 {len(basics)} 只股票缓存数据")
             indices = fetch_global_indices()  # 全球指数
             
             margins = fetch_margin_data()

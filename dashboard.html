@@ -50,13 +50,12 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 .global-box .name { color:var(--text2); font-size:11px; }
 .global-box .value { font-size:18px; font-weight:700; margin-top:2px; }
 .global-box .change { font-size:12px; margin-top:2px; }
-.sector-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
-@media(min-width:768px){ .sector-grid { grid-template-columns:repeat(4,1fr); } }
-@media(min-width:1400px){ .sector-grid { grid-template-columns:repeat(5,1fr); } }
-.sector-card { background:var(--bg-inner); border-radius:6px; padding:5px 8px; border-left:2px solid var(--blue); }
-.sector-card .header { display:flex; justify-content:space-between; align-items:center; }
-.sector-card .name { font-size:11px; font-weight:500; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:60%; }
-.sector-card .flow { font-size:10px; font-weight:600; white-space:nowrap; }
+.sector-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:5px; }
+@media(min-width:1400px){ .sector-grid { grid-template-columns:repeat(auto-fill,minmax(155px,1fr)); } }
+.sector-card { background:var(--bg-inner); border-radius:5px; padding:4px 8px; border-left:2px solid var(--blue); }
+.sector-card .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; }
+.sector-card .name { font-size:11px; font-weight:600; color:var(--gold); }
+.sector-card .flow { font-size:10px; font-weight:700; }
 .news-grid { display:grid; grid-template-columns:1fr; gap:12px; }
 @media(min-width:768px){ .news-grid { grid-template-columns:1fr 1fr; } }
 .news-item { background:var(--bg-inner); border-radius:10px; padding:14px; border-left:3px solid var(--text2); }
@@ -319,7 +318,7 @@ function renderSectors(sector_flows) {
     return;
   }
   let html = '';
-  for (const s of sector_flows.slice(0, 20)) {
+  for (const s of sector_flows.slice(0, 24)) {
     const isUp = (s.main_net || 0) >= 0;
     const color = isUp ? 'var(--red)' : 'var(--green)';
     const sign = isUp ? '+' : '';
@@ -327,7 +326,9 @@ function renderSectors(sector_flows) {
       <div class="sector-card" style="border-left-color:${isUp ? "var(--red)" : "var(--green)"};">
         <div class="header">
           <span class="name">${s.name}</span>
-          <span class="flow" style="color:${color}">${sign}${s.main_net?.toFixed(0) || 0}万 · ${s.avg_pct ? (s.avg_pct>0?'+':'')+s.avg_pct.toFixed(2)+'%' : '--'}</span>
+        </div>
+        <div style="font-size:10px;">
+          <span style="color:${color};font-weight:700;">${sign}${s.main_net?.toFixed(0) || 0}万</span> · <span style="color:${(s.avg_pct||0)>=0?'var(--red)':'var(--green)'}">${s.avg_pct ? (s.avg_pct>0?'+':'')+s.avg_pct.toFixed(2)+'%' : '--'}</span>
         </div>
       </div>`;
   }

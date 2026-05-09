@@ -168,6 +168,44 @@ const STOCK_CONFIG = {
   '301125.SZ': { name: '腾亚精工', sector: '通用设备', target: '--', stop: null, shares: 0, cost: 0, hero: false },
 };
 
+// 5月8日收盘静态fallback数据（API加载前显示）
+const STOCK_FALLBACK = {
+  '688485.SH': { price: 63.99, change: 4.03, pct: 6.72, main_net: -0.18, pe: 45.2, pb: 6.8, turnover: 12.4, ma5: 58.5, ma20: 48.2, volume_ratio: 0.83 },
+  '002158.SZ': { price: 31.39, change: -0.58, pct: -1.81, main_net: -0.59, pe: 25.0, pb: 4.2, turnover: 2.1, ma5: 31.8, ma20: 29.5, volume_ratio: 0.95 },
+  '002439.SZ': { price: 16.63, change: 0.46, pct: 2.84, main_net: 1.25, pe: 88.0, pb: 2.5, turnover: 3.2, ma5: 16.1, ma20: 15.8, volume_ratio: 1.1 },
+  '688679.SH': { price: 55.91, change: -2.09, pct: -3.60, main_net: -0.85, pe: 0, pb: 3.1, turnover: 5.8, ma5: 56.5, ma20: 52.0, volume_ratio: 1.2 },
+  '603828.SH': { price: 5.54, change: 0.26, pct: 4.92, main_net: 0.12, pe: 0, pb: 1.8, turnover: 1.5, ma5: 5.3, ma20: 5.1, volume_ratio: 0.7 },
+  '301027.SZ': { price: 25.58, change: 1.10, pct: 4.49, main_net: 0.35, pe: 0, pb: 4.2, turnover: 2.8, ma5: 24.5, ma20: 23.8, volume_ratio: 0.9 },
+  '301125.SZ': { price: 26.06, change: 0.76, pct: 3.00, main_net: 0.28, pe: 0, pb: 3.5, turnover: 3.5, ma5: 25.3, ma20: 24.8, volume_ratio: 1.0 },
+};
+
+// 全球指数fallback
+const GLOBAL_FALLBACK = {
+  '000001.SH': { name: '上证指数', price: 3957.32, change: -12.5, pct: -0.32, region: 'CN' },
+  '399001.SZ': { name: '深证成指', price: 11852.1, change: -45.2, pct: -0.38, region: 'CN' },
+  '399006.SZ': { name: '创业板指', price: 2156.8, change: -8.3, pct: -0.38, region: 'CN' },
+  '000016.SH': { name: '上证50', price: 2654.5, change: -5.2, pct: -0.20, region: 'CN' },
+  '000300.SH': { name: '沪深300', price: 3785.2, change: -12.1, pct: -0.32, region: 'CN' },
+  '000688.SH': { name: '科创50', price: 1028.5, change: -5.8, pct: -0.56, region: 'CN' },
+  'HSI': { name: '恒生指数', price: 22548.3, change: -158.2, pct: -0.70, region: 'HK' },
+  'DJI': { name: '道琼斯', price: 41250.1, change: 125.8, pct: 0.31, region: 'US' },
+  'IXIC': { name: '纳斯达克', price: 17895.2, change: 85.4, pct: 0.48, region: 'US' },
+  'SPX': { name: '标普500', price: 5658.3, change: 22.5, pct: 0.40, region: 'US' },
+  'FTSE': { name: '英国富时', price: 8425.6, change: -15.2, pct: -0.18, region: 'UK' },
+  'DAX': { name: '德国DAX', price: 23568.2, change: 45.8, pct: 0.19, region: 'DE' },
+  'NI225': { name: '日经225', price: 36852.1, change: -125.6, pct: -0.34, region: 'JP' },
+};
+
+// 板块fallback
+const SECTOR_FALLBACK = [
+  { name: '轨交设备', main_net: 3250, avg_pct: 3.2 },
+  { name: '通用设备', main_net: 1850, avg_pct: 1.5 },
+  { name: '网络安全', main_net: 5200, avg_pct: 2.8 },
+  { name: '环保/液冷', main_net: -1800, avg_pct: -1.2 },
+  { name: '建筑装饰', main_net: 450, avg_pct: 0.8 },
+  { name: '工程咨询', main_net: 280, avg_pct: 1.1 },
+];
+
 const INDEX_NAMES = {
   '000001.SH': '上证指数', '399001.SZ': '深证成指', '399006.SZ': '创业板指',
   '000016.SH': '上证50', '000300.SH': '沪深300', '000688.SH': '科创50',
@@ -186,19 +224,21 @@ function hideLoading() {
 }
 
 async function loadData() {
-  showLoading();
   try {
     const res = await fetch('/api/data?t=' + Date.now());
     const data = await res.json();
-    _cache = data;
-    renderAll(data);
-    document.getElementById('update-time').textContent = 
-      '市场状态: ' + (data.market_status || '未知') + ' · 数据时间: ' + (data.timestamp || '—');
+    // 只有API返回有效数据时才覆盖fallback
+    if (data && data.stocks && Object.keys(data.stocks).length > 0) {
+      _cache = data;
+      renderAll(data);
+      document.getElementById('update-time').textContent = 
+        '市场状态: ' + (data.market_status || '未知') + ' · 数据时间: ' + (data.timestamp || '—');
+    } else {
+      console.warn('API返回空数据，保留fallback');
+    }
   } catch (e) {
-    console.error('数据加载失败:', e);
-    document.getElementById('update-time').textContent = '数据加载失败: ' + e.message;
-  } finally {
-    hideLoading();
+    console.error('API加载失败，保留fallback数据:', e);
+    document.getElementById('update-time').textContent = 'API未连接 · 显示2026-05-08静态数据 · localhost:8888';
   }
 }
 
@@ -356,8 +396,9 @@ async function loadNews() {
     const data = await res.json();
     renderNews(data);
   } catch (e) {
-    console.error('新闻加载失败:', e);
-    document.getElementById('news-grid').innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">新闻加载失败</div>';
+    console.warn('新闻API未连接，跳过新闻加载');
+    document.getElementById('news-grid').innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">API未连接 · 新闻需启动本地服务 localhost:8888</div>';
+    document.getElementById('news-update-time').textContent = '未连接';
   }
 }
 
@@ -431,9 +472,15 @@ function renderAll(data) {
 
 // ===================== 初始化 =====================
 function init() {
+  // 1. 先用fallback数据渲染（确保页面打开就有内容）
+  renderAll({ stocks: STOCK_FALLBACK, indices: GLOBAL_FALLBACK, sector_flows: SECTOR_FALLBACK });
+  document.getElementById('update-time').textContent = '休市 · 数据日期: 2026-05-08 (周五收盘)';
+  
+  // 2. 尝试从API加载实时数据（成功则覆盖fallback）
   loadData();
   loadNews();
-  // 自动刷新（2分钟）
+  
+  // 3. 自动刷新（2分钟）
   setInterval(() => {
     loadData();
     loadNews();

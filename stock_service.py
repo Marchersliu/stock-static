@@ -2658,6 +2658,39 @@ def start_server():
 
 
 if __name__ == '__main__':
+    # 启动时立即预抓取一次数据（避免启动后缓存为空）
+    try:
+        print("[INIT] 启动时预抓取数据...")
+        stocks, trade_date = fetch_daily_data()
+        moneyflow = fetch_moneyflow()
+        basics = fetch_daily_basic()
+        indices = fetch_global_indices()
+        margins = fetch_margin_data()
+        history = fetch_history_changes()
+        mas = fetch_moving_averages()
+        for code in stocks:
+            if code in moneyflow: stocks[code].update(moneyflow[code])
+            if code in basics: stocks[code].update(basics[code])
+            if code in history: stocks[code].update(history[code])
+            if code in mas: stocks[code].update(mas[code])
+            if code in margins: stocks[code].update(margins[code])
+        try:
+            sector_flows = aggregate_sector_moneyflow(stocks)
+        except Exception as e:
+            print(f"[ERR] 板块资金聚合失败: {e}")
+            sector_flows = []
+        cache.update({
+            "stocks": stocks,
+            "indices": indices,
+            "sector_flows": sector_flows,
+            "market_status": "交易中" if is_trading_time() else "休市",
+            "trade_date": trade_date,
+            "timestamp": datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),
+        })
+        print(f"[INIT] 预抓取完成: {len(stocks)} 只股票, {len(indices)} 个指数")
+    except Exception as e:
+        print(f"[WARN] 启动预抓取失败: {e}")
+    
     # 启动后台数据抓取线程
     fetch_thread = threading.Thread(target=background_fetch, daemon=True)
     fetch_thread.start()

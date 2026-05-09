@@ -1809,7 +1809,12 @@ def fetch_daily_data():
 
 
 def fetch_moneyflow():
-    """抓取资金流向数据"""
+    """抓取资金流向数据
+    
+    Tushare 的 net_mf_amount 使用的是内部算法，不等于用户理解的"主力净流入"。
+    这里手动计算：主力净流入 = (大单买入 + 特大单买入) - (大单卖出 + 特大单卖出)
+    主力净占比 = 主力净流入 / (大单+特大单总成交额) * 100
+    """
     trade_date = get_last_trade_date()
     flows = {}
     
@@ -1818,9 +1823,19 @@ def fetch_moneyflow():
             df = pro.moneyflow(ts_code=code, trade_date=trade_date)
             if df is not None and not df.empty:
                 row = df.iloc[0]
+                # 手动计算主力净流入（大单+特大单）
+                buy_lg = row.get('buy_lg_amount', 0)
+                sell_lg = row.get('sell_lg_amount', 0)
+                buy_elg = row.get('buy_elg_amount', 0)
+                sell_elg = row.get('sell_elg_amount', 0)
+                
+                main_net = round((buy_lg + buy_elg) - (sell_lg + sell_elg), 2)
+                main_total = buy_lg + sell_lg + buy_elg + sell_elg
+                main_pct = round(main_net / main_total * 100, 2) if main_total else 0
+                
                 flows[code] = {
-                    'main_net': round(row.get('net_mf_amount', 0), 2),  # net_mf_amount 单位已经是万元
-                    'main_pct': round(row.get('net_mf_rate', 0), 2),
+                    'main_net': main_net,
+                    'main_pct': main_pct,
                 }
     except Exception as e:
         print(f"[ERR] fetch_moneyflow: {e}")

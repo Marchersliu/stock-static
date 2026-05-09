@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="version" content="v2026-05-09-1500">
+<meta name="version" content="v2026-05-09-2100">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -89,7 +89,7 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 
 <div class="header">
   <h1>📊 投资组合实时监控中心</h1>
-  <p>7只核心标的追踪 | 全球指数 | 板块资金 | 技术+资金+新闻</p>
+  <p>11只核心标的追踪 | 五朵金花AI算力产业链 | 全球指数 | 板块资金 | 技术+资金+新闻</p>
   <p class="update-time" id="update-time">正在连接服务器...</p>
 </div>
 
@@ -101,9 +101,9 @@ tr:hover td { background:rgba(74,158,255,0.05); }
   </div>
 </div>
 
-<!-- 核心标的列表（7只） -->
+<!-- 核心标的列表（11只） -->
 <div class="card">
-  <div class="card-title">📋 核心标的概览（7只）<span class="update-time" id="stocks-update-time"></span></div>
+  <div class="card-title">📋 核心标的概览（11只）<span class="update-time" id="stocks-update-time"></span></div>
   <div style="overflow-x:auto;">
     <table>
       <thead><tr>
@@ -141,8 +141,15 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 <script>
 // ===================== 配置 =====================
 const STOCK_CONFIG = {
+  // 持仓股
   '688485.SH': { name: '九州一轨', sector: '轨交设备', target: '80/100', stop: 52, shares: 19569, cost: 46.70, hero: true },
   '002158.SZ': { name: '汉钟精机', sector: '通用设备', target: '35-40', stop: 28, shares: 13100, cost: 32.00, hero: false },
+  // 五朵金花（AI算力产业链）
+  '002364.SZ': { name: '中恒电气', sector: 'AI算力·电源', target: '12-13', stop: 9.5, shares: 0, cost: 0, hero: false },
+  '002484.SZ': { name: '江海股份', sector: 'AI算力·电容', target: '48-52', stop: 38, shares: 0, cost: 0, hero: false },
+  '688693.SH': { name: '锴威特', sector: 'AI算力·SiC', target: '38-42', stop: 28, shares: 0, cost: 0, hero: false },
+  '300819.SZ': { name: '聚杰微纤', sector: 'AI算力·电子布', target: '90-100', stop: 68, shares: 0, cost: 0, hero: false },
+  // 现有关注
   '002439.SZ': { name: '启明星辰', sector: '网络安全', target: '25-30', stop: 18, shares: 0, cost: 0, hero: false },
   '688679.SH': { name: '通源环境', sector: '环保/液冷', target: '60-80', stop: 35, shares: 0, cost: 0, hero: false },
   '603828.SH': { name: 'ST柯利达', sector: '建筑装饰', target: '8-12', stop: 5, shares: 0, cost: 0, hero: false },
@@ -151,9 +158,17 @@ const STOCK_CONFIG = {
 };
 
 // 5月8日收盘静态fallback数据（API加载前显示）
+// 2026-05-09 更新：融合五朵金花AI算力产业链
 const STOCK_FALLBACK = {
+  // 持仓股
   '688485.SH': { price: 63.99, change: 4.03, pct: 6.72, main_net: -0.18, pe: 45.2, pb: 6.8, turnover: 12.4, ma5: 58.5, ma20: 48.2, volume_ratio: 0.83 },
   '002158.SZ': { price: 31.39, change: -0.58, pct: -1.81, main_net: -0.59, pe: 25.0, pb: 4.2, turnover: 2.1, ma5: 31.8, ma20: 29.5, volume_ratio: 0.95 },
+  // 五朵金花
+  '002364.SZ': { price: 10.50, change: 0, pct: 0, main_net: 0, pe: 35.0, pb: 3.2, turnover: 3.5, ma5: 10.2, ma20: 9.8, volume_ratio: 1.0 },
+  '002484.SZ': { price: 43.14, change: 0, pct: 0, main_net: 0, pe: 53.6, pb: 5.8, turnover: 2.8, ma5: 42.0, ma20: 38.5, volume_ratio: 1.1 },
+  '688693.SH': { price: 32.50, change: 0, pct: 0, main_net: 0, pe: 0, pb: 4.5, turnover: 4.2, ma5: 31.5, ma20: 29.0, volume_ratio: 1.2 },
+  '300819.SZ': { price: 80.05, change: 0, pct: 0, main_net: 0, pe: 60.0, pb: 8.5, turnover: 6.5, ma5: 75.0, ma20: 68.0, volume_ratio: 1.5 },
+  // 现有关注
   '002439.SZ': { price: 16.63, change: 0.46, pct: 2.84, main_net: 1.25, pe: 88.0, pb: 2.5, turnover: 3.2, ma5: 16.1, ma20: 15.8, volume_ratio: 1.1 },
   '688679.SH': { price: 55.91, change: -2.09, pct: -3.60, main_net: -0.85, pe: 0, pb: 3.1, turnover: 5.8, ma5: 56.5, ma20: 52.0, volume_ratio: 1.2 },
   '603828.SH': { price: 5.54, change: 0.26, pct: 4.92, main_net: 0.12, pe: 0, pb: 1.8, turnover: 1.5, ma5: 5.3, ma20: 5.1, volume_ratio: 0.7 },
@@ -180,13 +195,17 @@ const GLOBAL_FALLBACK = {
 
 // 板块fallback
 const SECTOR_FALLBACK = [
-  { name: '轨交设备', main_net: 3250, avg_pct: 3.2 },
-  { name: '通用设备', main_net: 1850, avg_pct: 1.5 },
-  { name: '网络安全', main_net: 5200, avg_pct: 2.8 },
-  { name: '环保/液冷', main_net: -1800, avg_pct: -1.2 },
+  { name: 'AI算力·电源', main_net: 5200, avg_pct: 2.8 },
+  { name: 'AI算力·电容', main_net: 4800, avg_pct: 3.2 },
+  { name: 'AI算力·SiC', main_net: 3500, avg_pct: 4.5 },
+  { name: 'AI算力·电子布', main_net: 2100, avg_pct: 1.8 },
+  { name: '半导体/芯片', main_net: 2100, avg_pct: 2.5 },
+  { name: '网络安全', main_net: 1800, avg_pct: 2.1 },
+  { name: '轨交设备', main_net: 1200, avg_pct: 1.5 },
+  { name: '通用设备', main_net: 850, avg_pct: 1.2 },
+  { name: '环保/液冷', main_net: -800, avg_pct: -0.5 },
   { name: '建筑装饰', main_net: 450, avg_pct: 0.8 },
   { name: '工程咨询', main_net: 280, avg_pct: 1.1 },
-  { name: '半导体/芯片', main_net: 2100, avg_pct: 2.5 },
 ];
 
 const INDEX_NAMES = {
@@ -197,22 +216,15 @@ const INDEX_NAMES = {
 };
 
 // 新闻fallback（API未连接时显示）
-const NEWS_FALLBACK = [
-  { title: '九州一轨：晶禧科技SDBG散热基板送样英伟达供应链，产业化加速', summary: '晶禧科技金刚石散热基板（DiamonDBond™）已进入英伟达H100/B200封装供应链送样阶段，预计2026Q2完成验证。九州一轨完成晶禧收购后，半导体材料业务占比快速提升。', source: '产业调研', date: '2026-05-08', time: '14:30', category: 'portfolio', related_stocks: ['688485.SH'], url: 'https://finance.sina.com.cn/stock/relnews/cn/2026-05-08/doc-ifyfekmc1841234.shtml' },
-  { title: '汉钟精机：半导体真空泵获国内头部晶圆厂订单，国产化替代加速', summary: '汉钟精机半导体级真空泵正式获得国内头部晶圆厂（中芯国际、长江存储）批量订单，2026年半导体业务收入目标同比+50%。', source: '公司调研', date: '2026-05-08', time: '10:15', category: 'portfolio', related_stocks: ['002158.SZ'], url: 'https://finance.sina.com.cn/stock/relnews/cn/2026-05-08/doc-ifyfekmc1841235.shtml' },
-  { title: '启明星辰：AI安全需求激增，Q1订单同比增长40%', summary: '随着AI大模型部署加速，企业网络安全支出向AI原生安全架构迁移。启明星辰AI安全产品线（安全大模型+智能威胁狩猎）Q1订单同比+40%，毛利率提升至65%。', source: '券商研报', date: '2026-05-08', time: '09:45', category: 'portfolio', related_stocks: ['002439.SZ'], url: 'https://finance.sina.com.cn/stock/relnews/cn/2026-05-08/doc-ifyfekmc1841236.shtml' },
-  { title: '通源环境：液冷联合体筹建推进，旭创技术合作细节曝光', summary: '通源环境液冷技术联合体已完成工商注册，旭创科技提供液冷模块技术，通源负责数据中心场景落地。首条产线预计2026Q3投产，目标年收入5亿元。', source: '财联社', date: '2026-05-08', time: '11:20', category: 'portfolio', related_stocks: ['688679.SH'], url: 'https://finance.sina.com.cn/stock/relnews/cn/2026-05-08/doc-ifyfekmc1841237.shtml' },
-  { title: 'A股冲高回落，半导体板块资金净流入超50亿元', summary: '沪指盘中冲击4000点后回落收跌0.32%，半导体板块逆势走强，主力资金净流入52.3亿元。AI芯片、先进封装、半导体设备涨幅居前。', source: '新浪财经', date: '2026-05-08', time: '15:05', category: 'market', related_stocks: [], url: 'https://finance.sina.com.cn/stock/marketresearch/2026-05-08/doc-ifyfekmc1841238.shtml' },
-  { title: '中美关税谈判反复，市场避险情绪短期升温', summary: '特朗普政府宣布对中国部分商品关税从145%上调至160%，中方表态将坚决反制。A股尾盘跳水，北向资金净流出85亿元，黄金、军工板块受追捧。', source: '华尔街见闻', date: '2026-05-08', time: '16:00', category: 'geo', related_stocks: [], url: 'https://wallstreetcn.com/articles/3725849' },
-  { title: '碳酸锂价格触底反弹，锂电产业链修复预期增强', summary: '电池级碳酸锂现货价回升至7.2万元/吨（+3.5%），氢氧化锂6.8万元/吨（+2.1%）。锂盐价格企稳利好华友钴业等上游材料企业。', source: 'SMM', date: '2026-05-08', time: '10:00', category: 'chain', related_stocks: [], url: 'https://www.smm.cn/news/show/123456' },
-  { title: 'ST柯利达：国资重整方案获省级批复，保壳进入倒计时', summary: '江苏省国资委批复柯利达重整方案，引入省属建工集团作为战略投资者。若2026年报前完成债务重组，有望摘星脱帽。', source: '巨潮资讯', date: '2026-05-08', time: '13:00', category: 'portfolio', related_stocks: ['603828.SH'], url: 'http://www.cninfo.com.cn/new/disclosure/detail?orgId=9900014851&announcementId=1212345678&announcementTime=2026-05-08' },
-];
+const NEWS_FALLBACK = [];
+
+const API_BASE = 'http://localhost:8888';
 
 let _cache = { stocks: {}, indices: {}, sector_flows: [], timestamp: '' };
 
 async function loadData() {
   try {
-    const res = await fetch('/api/data?t=' + Date.now());
+    const res = await fetch(API_BASE + '/api/data?t=' + Date.now());
     const data = await res.json();
     if (data && data.stocks && Object.keys(data.stocks).length > 0) {
       _cache = data;
@@ -334,7 +346,7 @@ function renderSectors(sector_flows) {
 // ===================== 渲染：新闻 =====================
 async function loadNews() {
   try {
-    const res = await fetch('/api/premarket?t=' + Date.now());
+    const res = await fetch(API_BASE + '/api/premarket?t=' + Date.now());
     const data = await res.json();
     renderNews(data);
   } catch (e) {
@@ -345,33 +357,42 @@ async function loadNews() {
 
 function renderNews(data) {
   const grid = document.getElementById('news-grid');
-  const allItems = data.all || [];
   
-  const today = new Date().toISOString().slice(0, 10);
-  const recentItems = allItems.filter(item => {
-    const d = item.date || '';
-    return d === today || d === today.replace(/-/g, '');
-  });
+  // 新数据结构: categories.{policy,company,material,finance}.items
+  const cats = data.categories || {};
+  let allItems = [];
+  for (const catKey in cats) {
+    const cat = cats[catKey];
+    if (cat && Array.isArray(cat.items)) {
+      allItems = allItems.concat(cat.items);
+    }
+  }
+  // 兼容旧数据结构
+  if (allItems.length === 0 && Array.isArray(data.all)) {
+    allItems = data.all;
+  }
   
-  const portfolioItems = recentItems.filter(item => {
+  if (allItems.length === 0) {
+    grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">今日暂无关联新闻</div>';
+    document.getElementById('news-update-time').textContent = '0条';
+    return;
+  }
+  
+  // 关联7只标的的新闻优先
+  const portfolioItems = allItems.filter(item => {
     const related = item.related_stocks || [];
     return related.some(code => STOCK_CONFIG[code]);
   });
   
   const seen = new Set();
   const displayItems = [];
-  for (const item of [...portfolioItems, ...recentItems]) {
+  for (const item of [...portfolioItems, ...allItems]) {
     const key = item.title;
     if (!seen.has(key)) {
       seen.add(key);
       displayItems.push(item);
     }
     if (displayItems.length >= 20) break;
-  }
-  
-  if (displayItems.length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">今日暂无关联新闻</div>';
-    return;
   }
   
   let html = '';
@@ -389,14 +410,17 @@ function renderNews(data) {
     const cat = item.category || 'market';
     const catTag = `<span class="news-tag tag-${cat}">${cat === 'portfolio' ? '持仓' : cat === 'chain' ? '产业链' : cat === 'policy' ? '政策' : cat === 'geo' ? '地缘' : '市场'}</span>`;
     
-    const summary = item.summary || '';
-    const summaryHtml = summary ? `<div class="news-summary">${summary}</div>` : '';
-    const url = item.url || '#';
+    const summary = item.summary || item.content || '';
+    const summaryHtml = summary ? `<div class="news-summary">${summary.substring(0, 120)}${summary.length > 120 ? '...' : ''}</div>` : '';
+    const url = item.url || '';
+    const titleHtml = url 
+      ? `<a href="${url}" target="_blank" style="color:var(--text);text-decoration:none;cursor:pointer;">${item.title}</a>`
+      : `<span style="color:var(--text);">${item.title}</span>`;
     
     html += `
       <div class="news-item ${cls}">
         <div style="margin-bottom:6px;">${catTag}${tags}</div>
-        <div class="news-title"><a href="${url}" target="_blank" style="color:var(--text);text-decoration:none;cursor:pointer;">${item.title}</a></div>
+        <div class="news-title">${titleHtml}</div>
         ${summaryHtml}
         <div class="news-time">${item.source || '未知'} · ${item.date || ''} ${item.time || ''}</div>
       </div>`;
@@ -414,36 +438,8 @@ function renderAll(data) {
 
 function renderNewsFallback() {
   const grid = document.getElementById('news-grid');
-  const items = NEWS_FALLBACK || [];
-  if (items.length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">暂无新闻</div>';
-    return;
-  }
-  let html = '';
-  for (const item of items) {
-    const related = item.related_stocks || [];
-    const hasPortfolio = related.some(code => STOCK_CONFIG[code]);
-    const cls = hasPortfolio ? 'critical' : '';
-    let tags = '';
-    for (const code of related) {
-      const cfg = STOCK_CONFIG[code];
-      if (cfg) tags += `<span class="news-tag tag-portfolio">${cfg.name}</span>`;
-    }
-    const cat = item.category || 'market';
-    const catTag = `<span class="news-tag tag-${cat}">${cat === 'portfolio' ? '持仓' : cat === 'chain' ? '产业链' : cat === 'policy' ? '政策' : cat === 'geo' ? '地缘' : '市场'}</span>`;
-    const summary = item.summary || '';
-    const summaryHtml = summary ? `<div class="news-summary">${summary}</div>` : '';
-    const url = item.url || '#';
-    html += `
-      <div class="news-item ${cls}">
-        <div style="margin-bottom:6px;">${catTag}${tags}</div>
-        <div class="news-title"><a href="${url}" target="_blank" style="color:var(--text);text-decoration:none;cursor:pointer;">${item.title}</a></div>
-        ${summaryHtml}
-        <div class="news-time">${item.source || '未知'} · ${item.date || ''} ${item.time || ''}</div>
-      </div>`;
-  }
-  grid.innerHTML = html;
-  document.getElementById('news-update-time').textContent = items.length + '条';
+  grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">今日暂无新闻 · 启动本地服务后从 Tushare Pro / 新浪财经 / 财联社 获取</div>';
+  document.getElementById('news-update-time').textContent = '未连接';
 }
 
 // ===================== 初始化 =====================

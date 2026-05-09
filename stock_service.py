@@ -90,15 +90,16 @@ HOLDINGS = [
 ]
 
 WATCHLIST = [
-    # 拐点博弈
+    # AI算力五朵金花（研报推荐）
+    {"code": "002364.SZ", "name": "中恒电气", "target": "12-13", "stop": 9.5, "rec": 10.5},
+    {"code": "002484.SZ", "name": "江海股份", "target": "48-52", "stop": 38.0, "rec": 43.0},
+    {"code": "688693.SH", "name": "锴威特", "target": "38-42", "stop": 28.0, "rec": 32.5},
+    {"code": "300819.SZ", "name": "聚杰微纤", "target": "90-100", "stop": 68.0, "rec": 80.0},
+    # 现有关注标的
     {"code": "002439.SZ", "name": "启明星辰", "target": "25-30", "stop": 18.0, "rec": 20.00},
-    # 主题博弈（液冷+旭创家族代持）
     {"code": "688679.SH", "name": "通源环境", "target": "60-80", "stop": 35.0, "rec": None},
-    # 壳资源博弈（国资入主+立案未结）
     {"code": "603828.SH", "name": "ST柯利达", "target": "8-12", "stop": 5.0, "rec": None},
-    # 观望
     {"code": "301027.SZ", "name": "华蓝集团", "target": "--", "stop": None, "rec": None},
-    # 回避
     {"code": "301125.SZ", "name": "腾亚精工", "target": "--", "stop": None, "rec": None},
 ]
 
@@ -114,6 +115,11 @@ STOCK_SECTORS = {
     '603828.SH': {'sector': '建筑装饰', 'sector_code': None},
     '301027.SZ': {'sector': '工程咨询', 'sector_code': None},
     '301125.SZ': {'sector': '通用设备', 'sector_code': None},
+    # 五朵金花
+    '002364.SZ': {'sector': '电源设备', 'sector_code': None},
+    '002484.SZ': {'sector': '电子元件', 'sector_code': None},
+    '688693.SH': {'sector': '半导体', 'sector_code': None},
+    '300819.SZ': {'sector': '纺织/电子布', 'sector_code': None},
 }
 
 # ===================== 价格提醒配置 =====================
@@ -213,7 +219,32 @@ STOCK_KEYWORDS = {
         'industry': ['通用设备', '半导体设备'],
         'level': 'holding'
     },
-    # 关注股
+    # 五朵金花（AI算力产业链）
+    '002364.SZ': {
+        'name': '中恒电气',
+        'keywords': ['中恒电气', '002364', '中恒', 'HVDC', '高压直流', '算电协同', '数据中心电源', '储能', '超充', '宁德时代', '英伟达电源'],
+        'industry': ['电源设备', '储能', '数据中心'],
+        'level': 'watchlist'
+    },
+    '002484.SZ': {
+        'name': '江海股份',
+        'keywords': ['江海股份', '002484', '江海', '超级电容', 'MLPC', '固态电容', 'GB300', '英伟达电容', 'Cerebus', '服务器电容'],
+        'industry': ['电子元件', '半导体材料'],
+        'level': 'watchlist'
+    },
+    '688693.SH': {
+        'name': '锴威特',
+        'keywords': ['锴威特', '688693', 'SiC', '碳化硅', 'MOSFET', '华为半导体', '第三代半导体', '功率器件', '车规级'],
+        'industry': ['半导体', '第三代半导体'],
+        'level': 'watchlist'
+    },
+    '300819.SZ': {
+        'name': '聚杰微纤',
+        'keywords': ['聚杰微纤', '300819', '聚杰', '电子布', '低介电', '玻纤', 'PCB基材', 'AI电子布', '高频电子布'],
+        'industry': ['电子材料', 'PCB'],
+        'level': 'watchlist'
+    },
+    # 现有关注股
     '002439.SZ': {
         'name': '启明星辰',
         'keywords': ['启明星辰', '002439', '启明', '网络安全', '信息安全', 'AI安全', '数据安全', '中国移动', '国资云'],
@@ -250,6 +281,8 @@ STOCK_KEYWORDS = {
 INDUSTRY_KEYWORDS = {
     '新能源': ['新能源', '锂电', '电动车', '动力电池', '储能', '光伏', '风电', '氢能'],
     '半导体': ['半导体', '芯片', '晶圆', '光刻', 'IC', '集成电路', 'EDA', '先进制程'],
+    'AI算力': ['AI', '人工智能', '算力', '数据中心', '光模块', '英伟达', 'NVIDIA', 'Blackwell', 'GB300', '液冷', '服务器', '推理', 'Agentic AI', 'HVDC', '高压直流'],
+    '国产替代': ['国产替代', '自主可控', '卡脖子', '制裁', '管制', '脱钩', '华为', '海思', '鸿蒙'],
     '有色': ['铝', '铜', '镍', '钴', '锂', '稀土', '钨', '钼', '锌', '锡', '锑', '有色'],
     '化工': ['化工', '烯烃', '甲醇', '尿素', 'PVC', 'MDI', '钛白粉', '醋酸'],
     '医药': ['医药', '创新药', '仿制药', '集采', 'CXO', '医疗器械', '生物药'],
@@ -259,6 +292,8 @@ INDUSTRY_KEYWORDS = {
     '消费': ['白酒', '啤酒', '食品', '家电', '汽车', '零售', '旅游'],
     '科技': ['AI', '人工智能', '算力', '数据中心', '光模块', '机器人', '具身智能'],
     '原材料': ['纸浆', '造纸', '木材', '棉花', '白糖', '大豆', '玉米'],
+    '电子材料': ['电子布', '玻纤', 'PCB', '低介电', '基材', '覆铜板', 'CCL'],
+    '功率半导体': ['SiC', '碳化硅', 'MOSFET', 'IGBT', '功率器件', '第三代半导体'],
 }
 
 # ===================== 新闻关联分析 =====================
@@ -416,11 +451,25 @@ def fetch_tushare_all_news(max_per_source=10):
                 cat = classify_event(title + ' ' + content)
                 if cat == 'company':
                     cat = cfg['defaultCat']
+                # Tushare news接口不提供原始url，构建来源站搜索链接
+                # 财联社 → use cls.cn search, 新浪财经 → sina search, etc.
+                src_url_map = {
+                    'sina': f'https://search.sina.com.cn/?q={urllib.parse.quote(title)}&c=news',
+                    'wallstreetcn': f'https://wallstreetcn.com/search?q={urllib.parse.quote(title)}',
+                    '10jqka': f'https://www.10jqka.com.cn/stockpage/search/?keyword={urllib.parse.quote(title)}',
+                    'eastmoney': f'https://search.eastmoney.com/search/web?q={urllib.parse.quote(title)}',
+                    'yuncaijing': f'https://www.yuncaijing.com/search?keyword={urllib.parse.quote(title)}',
+                    'fenghuang': f'https://search.ifeng.com/sofeng/search.action?c=1&q={urllib.parse.quote(title)}',
+                    'jinrongjie': f'https://search.jrj.com.cn/search?keyword={urllib.parse.quote(title)}',
+                    'cls': f'https://www.cls.cn/searchPage?keyword={urllib.parse.quote(title)}',
+                    'yicai': f'https://www.yicai.com.cn/search?keys={urllib.parse.quote(title)}',
+                }
+                fallback_url = src_url_map.get(src_id, f'https://www.baidu.com/s?wd={urllib.parse.quote(title)}')
                 items.append({
                     'date': date_str,
                     'time': time_str,
                     'title': title,
-                    'url': f'https://news.baidu.com/ns?word={urllib.parse.quote(title)}&tn=news',
+                    'url': fallback_url,
                     'category': cat,
                     'source': f'Tushare·{cfg["name"]}',
                     'sourceClass': cfg['sourceClass'],
@@ -463,7 +512,7 @@ def fetch_tushare_all_news(max_per_source=10):
                     'date': date_str,
                     'time': time_str,
                     'title': title,
-                    'url': url or f'https://news.baidu.com/ns?word={urllib.parse.quote(title)}&tn=news',
+                    'url': url or f'https://search.eastmoney.com/search/web?q={urllib.parse.quote(title)}',
                     'category': cat,
                     'source': f'Tushare·{src_name}',
                     'sourceClass': cfg['sourceClass'],
@@ -2090,7 +2139,7 @@ def fetch_sector_fund_flow_akshare():
             return []
         
         # 持仓相关行业关键词映射
-        # 2026-05-09 更新：聚焦7只核心标的
+        # 2026-05-09 更新：融合五朵金花AI算力产业链
         SECTOR_KEYWORDS = {
             '轨交设备': ['轨交', '铁路', '车辆', '交通设备'],
             '通用设备': ['通用设备', '机械', '压缩机', '真空泵'],
@@ -2098,7 +2147,13 @@ def fetch_sector_fund_flow_akshare():
             '环保/液冷': ['环保', '环境治理', '液冷', '数据中心'],
             '建筑装饰': ['建筑装饰', '装修', '幕墙', '建筑'],
             '工程咨询': ['工程', '设计', '咨询', '规划'],
-            '半导体/芯片': ['半导体', '芯片', '集成电路', '金刚石', '散热', '真空泵'],
+            # 五朵金花板块
+            'AI算力·电源': ['电源', '电气', 'HVDC', '高压直流', '储能', '超充'],
+            'AI算力·电容': ['电容', '电子元件', '被动元件'],
+            'AI算力·SiC': ['半导体', '碳化硅', '功率器件'],
+            'AI算力·电子布': ['纺织', '纤维', '电子布', '玻纤'],
+            '半导体/芯片': ['半导体', '芯片', '集成电路', '金刚石', '散热', '真空泵', '碳化硅'],
+            '数据中心/储能': ['数据中心', '储能', '液冷', '散热'],
         }
         
         for sector_name, keywords in SECTOR_KEYWORDS.items():
@@ -2142,7 +2197,7 @@ def aggregate_sector_moneyflow(stocks):
     保留为 fallback，当 akshare 不可用时使用。
     """
     # 板块定义：名称 -> [股票代码列表]
-    # 2026-05-09 更新：聚焦7只核心标的
+    # 2026-05-09 更新：融合五朵金花AI算力产业链
     SECTORS = {
         '轨交设备': ['688485.SH'],
         '通用设备': ['002158.SZ', '301125.SZ'],
@@ -2150,7 +2205,14 @@ def aggregate_sector_moneyflow(stocks):
         '环保/液冷': ['688679.SH'],
         '建筑装饰': ['603828.SH'],
         '工程咨询': ['301027.SZ'],
-        '半导体/芯片': ['688485.SH', '002158.SZ'],
+        # 五朵金花板块
+        'AI算力·电源': ['002364.SZ'],
+        'AI算力·电容': ['002484.SZ'],
+        'AI算力·SiC': ['688693.SH'],
+        'AI算力·电子布': ['300819.SZ'],
+        # 跨板块映射
+        '半导体/芯片': ['688485.SH', '002158.SZ', '688693.SH'],
+        '数据中心/储能': ['002364.SZ', '688679.SH'],
     }
     
     sector_data = []
@@ -2397,27 +2459,30 @@ class DashboardHandler(http.server.SimpleHTTPRequestHandler):
         super().end_headers()
     
     def do_GET(self):
-        if self.path == '/':
+        # 提取纯路径（去掉查询参数）
+        path = self.path.split('?')[0]
+        
+        if path == '/':
             self.path = '/dashboard.html'
-        elif self.path == '/api/data':
+        elif path == '/api/data':
             self._send_data()
             return
-        elif self.path == '/api/events':
+        elif path == '/api/events':
             self._send_events()
             return
-        elif self.path == '/api/premarket':
+        elif path == '/api/premarket':
             self._send_premarket()
             return
-        elif self.path == '/api/margin':
+        elif path == '/api/margin':
             self._send_margin()
             return
-        elif self.path == '/api/sectors':
+        elif path == '/api/sectors':
             self._send_sectors()
             return
-        elif self.path == '/api/commodities':
+        elif path == '/api/commodities':
             self._send_commodities()
             return
-        elif self.path == '/api/health':
+        elif path == '/api/health':
             self._send_health()
             return
         super().do_GET()

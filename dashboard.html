@@ -50,13 +50,13 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 .global-box .name { color:var(--text2); font-size:11px; }
 .global-box .value { font-size:18px; font-weight:700; margin-top:2px; }
 .global-box .change { font-size:12px; margin-top:2px; }
-.sector-grid { display:grid; grid-template-columns:1fr; gap:8px; }
-@media(min-width:768px){ .sector-grid { grid-template-columns:repeat(3,1fr); } }
-@media(min-width:1400px){ .sector-grid { grid-template-columns:repeat(4,1fr); } }
-.sector-card { background:var(--bg-inner); border-radius:8px; padding:8px 10px; border-left:3px solid var(--blue); }
-.sector-card .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; }
-.sector-card .name { font-size:12px; font-weight:600; color:var(--gold); }
-.sector-card .flow { font-size:11px; font-weight:700; }
+.sector-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:6px; }
+@media(min-width:768px){ .sector-grid { grid-template-columns:repeat(4,1fr); } }
+@media(min-width:1400px){ .sector-grid { grid-template-columns:repeat(5,1fr); } }
+.sector-card { background:var(--bg-inner); border-radius:6px; padding:5px 8px; border-left:2px solid var(--blue); }
+.sector-card .header { display:flex; justify-content:space-between; align-items:center; }
+.sector-card .name { font-size:11px; font-weight:500; color:var(--text); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:60%; }
+.sector-card .flow { font-size:10px; font-weight:600; white-space:nowrap; }
 .news-grid { display:grid; grid-template-columns:1fr; gap:12px; }
 @media(min-width:768px){ .news-grid { grid-template-columns:1fr 1fr; } }
 .news-item { background:var(--bg-inner); border-radius:10px; padding:14px; border-left:3px solid var(--text2); }
@@ -145,21 +145,23 @@ const STOCK_CONFIG = {
   // 持仓股
   '688485.SH': { name: '九州一轨', sector: '轨交设备', target: '80/100', stop: 52, shares: 19569, cost: 46.70, hero: true },
   '002158.SZ': { name: '汉钟精机', sector: '通用设备', target: '35-40', stop: 28, shares: 13100, cost: 32.00, hero: false },
-  // 关注股（前5只）
-  '002364.SZ': { name: '中恒电气', sector: 'AI算力·电源', target: '12-13', stop: 9.5, shares: 0, cost: 0, hero: false },
+  // 关注股（4只）
+  '688693.SH': { name: '锴威特', sector: '半导体/芯片', target: '38-42', stop: 28, shares: 0, cost: 0, hero: false },
   '002484.SZ': { name: '江海股份', sector: 'AI算力·电容', target: '48-52', stop: 38, shares: 0, cost: 0, hero: false },
+  '002364.SZ': { name: '中恒电气', sector: 'AI算力·电源', target: '12-13', stop: 9.5, shares: 0, cost: 0, hero: false },
   '002439.SZ': { name: '启明星辰', sector: '网络安全', target: '25-30', stop: 18, shares: 0, cost: 0, hero: false },
 };
 
 // 5月8日收盘静态fallback数据（API加载前显示）
-// 2026-05-09 精简：只保留前5只核心标的
+// 2026-05-09 更新：6只核心标的
 const STOCK_FALLBACK = {
   // 持仓股
   '688485.SH': { price: 63.99, change: 4.03, pct: 6.72, main_net: -0.18, pe: 45.2, pb: 6.8, turnover: 12.4, ma5: 58.5, ma20: 48.2, volume_ratio: 0.83 },
   '002158.SZ': { price: 31.39, change: -0.58, pct: -1.81, main_net: -0.59, pe: 25.0, pb: 4.2, turnover: 2.1, ma5: 31.8, ma20: 29.5, volume_ratio: 0.95 },
   // 关注股
-  '002364.SZ': { price: 10.50, change: 0, pct: 0, main_net: 0, pe: 35.0, pb: 3.2, turnover: 3.5, ma5: 10.2, ma20: 9.8, volume_ratio: 1.0 },
+  '688693.SH': { price: 30.00, change: 0, pct: 0, main_net: 0, pe: 0, pb: 3.5, turnover: 5.0, ma5: 29.0, ma20: 28.0, volume_ratio: 1.0 },
   '002484.SZ': { price: 43.14, change: 0, pct: 0, main_net: 0, pe: 53.6, pb: 5.8, turnover: 2.8, ma5: 42.0, ma20: 38.5, volume_ratio: 1.1 },
+  '002364.SZ': { price: 10.50, change: 0, pct: 0, main_net: 0, pe: 35.0, pb: 3.2, turnover: 3.5, ma5: 10.2, ma20: 9.8, volume_ratio: 1.0 },
   '002439.SZ': { price: 16.63, change: 0.46, pct: 2.84, main_net: 1.25, pe: 88.0, pb: 2.5, turnover: 3.2, ma5: 16.1, ma20: 15.8, volume_ratio: 1.1 },
 };
 
@@ -317,7 +319,7 @@ function renderSectors(sector_flows) {
     return;
   }
   let html = '';
-  for (const s of sector_flows.slice(0, 18)) {
+  for (const s of sector_flows.slice(0, 20)) {
     const isUp = (s.main_net || 0) >= 0;
     const color = isUp ? 'var(--red)' : 'var(--green)';
     const sign = isUp ? '+' : '';

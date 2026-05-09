@@ -50,12 +50,13 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 .global-box .name { color:var(--text2); font-size:11px; }
 .global-box .value { font-size:18px; font-weight:700; margin-top:2px; }
 .global-box .change { font-size:12px; margin-top:2px; }
-.sector-grid { display:grid; grid-template-columns:1fr; gap:12px; }
-@media(min-width:768px){ .sector-grid { grid-template-columns:repeat(2,1fr); } }
-.sector-card { background:var(--bg-inner); border-radius:10px; padding:14px; border-left:4px solid var(--blue); }
-.sector-card .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
-.sector-card .name { font-size:14px; font-weight:600; color:var(--gold); }
-.sector-card .flow { font-size:13px; font-weight:700; }
+.sector-grid { display:grid; grid-template-columns:1fr; gap:8px; }
+@media(min-width:768px){ .sector-grid { grid-template-columns:repeat(3,1fr); } }
+@media(min-width:1400px){ .sector-grid { grid-template-columns:repeat(4,1fr); } }
+.sector-card { background:var(--bg-inner); border-radius:8px; padding:8px 10px; border-left:3px solid var(--blue); }
+.sector-card .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; }
+.sector-card .name { font-size:12px; font-weight:600; color:var(--gold); }
+.sector-card .flow { font-size:11px; font-weight:700; }
 .news-grid { display:grid; grid-template-columns:1fr; gap:12px; }
 @media(min-width:768px){ .news-grid { grid-template-columns:1fr 1fr; } }
 .news-item { background:var(--bg-inner); border-radius:10px; padding:14px; border-left:3px solid var(--text2); }
@@ -118,7 +119,7 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 
 <!-- 板块资金流向 -->
 <div class="card">
-  <div class="card-title">🏭 板块资金流向<span class="update-time" id="sector-update-time"></span></div>
+  <div class="card-title" style="margin-bottom:10px;">🏭 板块资金流向<span class="update-time" id="sector-update-time"></span></div>
   <div class="sector-grid" id="sector-grid">
     <div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">加载中...</div>
   </div>
@@ -324,10 +325,7 @@ function renderSectors(sector_flows) {
       <div class="sector-card" style="border-left-color:${isUp ? "var(--red)" : "var(--green)"};">
         <div class="header">
           <span class="name">${s.name}</span>
-          <span class="flow" style="color:${color}">${sign}${s.main_net?.toFixed(0) || 0}万</span>
-        </div>
-        <div style="font-size:11px;color:var(--text2);">
-          板块涨跌: <span style="color:${(s.avg_pct||0)>=0?'var(--red)':'var(--green)'}">${s.avg_pct ? (s.avg_pct>0?'+':'')+s.avg_pct.toFixed(2)+'%' : '--'}</span>
+          <span class="flow" style="color:${color}">${sign}${s.main_net?.toFixed(0) || 0}万 · ${s.avg_pct ? (s.avg_pct>0?'+':'')+s.avg_pct.toFixed(2)+'%' : '--'}</span>
         </div>
       </div>`;
   }

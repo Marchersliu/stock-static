@@ -365,8 +365,17 @@ function renderNews(data) {
     return;
   }
   
-  // 后端已按相关性+时间排序，前端直接使用，不再重新排序
-  // 仅去重
+  // 后端已按时间排序，但分类存储打乱了顺序
+  // 前端重新按时间倒序拼接（最新的在上面）
+  allItems.sort((a, b) => {
+    const da = (a.date || '').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+    const db = (b.date || '').replace(/(\d{4})(\d{2})(\d{2})/, '$1-$2-$3');
+    const ta = da + ' ' + (a.time || '');
+    const tb = db + ' ' + (b.time || '');
+    return tb.localeCompare(ta);
+  });
+  
+  // 去重
   const seen = new Set();
   const displayItems = [];
   for (const item of allItems) {

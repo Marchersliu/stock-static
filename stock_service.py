@@ -1533,14 +1533,18 @@ def fetch_premarket_candidates():
     else:
         unique = today_items
     
-    # 排序：先按相关性评分降序，同分数内按时间倒序
+    # 排序：按时间倒序（最新的在上面），同时间按相关性评分降序
     def sort_key(x):
+        raw_date = x.get('date', '')
+        time_str = x.get('time', '')
+        # 统一日期格式：20260509 → 2026-05-09
+        if len(raw_date) == 8 and raw_date.isdigit():
+            norm_date = f"{raw_date[:4]}-{raw_date[4:6]}-{raw_date[6:8]}"
+        else:
+            norm_date = raw_date
+        dt = f"{norm_date} {time_str}"
         score = x.get('relevance_score', 0)
-        dt = x.get('date', '') + ' ' + x.get('time', '')
-        # 用字符串排序：高score在前面，同score时晚时间在前面
-        # score 0-6，用 6-score 作为前缀
-        prefix = str(6 - score).zfill(2)
-        return prefix + '_' + dt
+        return dt + '_' + str(score).zfill(2)
     unique.sort(key=sort_key, reverse=True)
     
     # 分类

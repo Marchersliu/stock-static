@@ -316,7 +316,7 @@ function renderSectors(sector_flows) {
     return;
   }
   let html = '';
-  for (const s of sector_flows.slice(0, 6)) {
+  for (const s of sector_flows.slice(0, 18)) {
     const isUp = (s.main_net || 0) >= 0;
     const color = isUp ? 'var(--red)' : 'var(--green)';
     const sign = isUp ? '+' : '';

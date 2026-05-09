@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="version" content="v2026-05-09-1400">
+<meta name="version" content="v2026-05-09-1500">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -29,10 +29,11 @@ body {
 .card { background:var(--bg-module); border-radius:16px; padding:20px; border:1px solid var(--border); margin-bottom:20px; }
 .card-title { font-size:17px; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:8px; font-weight:700; }
 .update-time { font-size:10px; color:var(--text3); font-weight:400; margin-left:8px; }
-table { width:100%; border-collapse:collapse; font-size:13px; }
-th { text-align:left; padding:10px 8px; color:var(--text2); font-weight:600; border-bottom:1px solid var(--border); font-size:12px; }
-td { padding:10px 8px; border-bottom:1px solid var(--border); vertical-align:top; }
+table { width:100%; border-collapse:collapse; font-size:12px; }
+th { text-align:left; padding:10px 6px; color:var(--text2); font-weight:600; border-bottom:1px solid var(--border); font-size:11px; white-space:nowrap; }
+td { padding:10px 6px; border-bottom:1px solid var(--border); vertical-align:middle; white-space:nowrap; }
 tr:last-child td { border-bottom:none; }
+tr:hover td { background:rgba(74,158,255,0.05); }
 .up { color:var(--red); font-weight:700; }
 .down { color:var(--green); font-weight:700; }
 .neutral { color:var(--text2); }
@@ -55,34 +56,22 @@ tr:last-child td { border-bottom:none; }
 .sector-card .header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; }
 .sector-card .name { font-size:14px; font-weight:600; color:var(--gold); }
 .sector-card .flow { font-size:13px; font-weight:700; }
-.stock-grid { display:grid; grid-template-columns:1fr; gap:16px; }
-@media(min-width:768px){ .stock-grid { grid-template-columns:repeat(2,1fr); } }
-.stock-card { background:var(--bg-card); border-radius:12px; padding:16px; border:1px solid var(--border); }
-.stock-card .header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
-.stock-card .name { font-size:16px; font-weight:700; }
-.stock-card .code { font-size:11px; color:var(--text3); }
-.stock-card .price { font-size:24px; font-weight:700; margin-top:4px; }
-.stock-card .change { font-size:14px; margin-top:2px; }
-.stock-card .row { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:12px; font-size:11px; }
-.stock-card .stat { background:var(--bg-inner); padding:8px; border-radius:6px; text-align:center; }
-.stock-card .stat .label { color:var(--text2); font-size:10px; }
-.stock-card .stat .value { font-size:14px; font-weight:700; margin-top:2px; }
 .news-grid { display:grid; grid-template-columns:1fr; gap:12px; }
 @media(min-width:768px){ .news-grid { grid-template-columns:1fr 1fr; } }
 .news-item { background:var(--bg-inner); border-radius:10px; padding:14px; border-left:3px solid var(--text2); }
 .news-item:hover { border-left-color:var(--gold); }
 .news-item.critical { border-left-color:var(--red); }
 .news-item.important { border-left-color:var(--orange); }
-.news-title { font-size:14px; font-weight:600; margin-bottom:4px; }
-.news-summary { font-size:11px; color:var(--text2); line-height:1.6; }
-.news-time { font-size:10px; color:var(--text3); margin-top:6px; }
+.news-title { font-size:14px; font-weight:600; margin-bottom:6px; line-height:1.5; }
+.news-summary { font-size:11px; color:var(--text2); line-height:1.6; margin-bottom:6px; }
+.news-time { font-size:10px; color:var(--text3); }
 .news-tag { display:inline-block; padding:1px 6px; border-radius:3px; font-size:10px; margin-right:4px; }
 .tag-portfolio { background:rgba(255,71,87,0.15); color:var(--red); }
 .tag-chain { background:rgba(0,208,132,0.15); color:var(--green); }
 .tag-policy { background:rgba(74,158,255,0.15); color:var(--blue); }
 .tag-geo { background:rgba(168,85,247,0.15); color:var(--purple); }
 .tag-market { background:rgba(251,191,36,0.15); color:var(--gold); }
-.source-note { font-size: 10px; color: #4a5a6d; margin-top: 6px; }
+.source-note { font-size:10px; color:#4a5a6d; margin-top:6px; }
 .footer { text-align:center; color:var(--text3); font-size:11px; padding:24px 0; margin-top:20px; border-top:1px solid var(--border); }
 .loading-overlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(10,14,20,0.8); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:2000; }
 .loading-overlay.hidden { display:none; }
@@ -112,24 +101,17 @@ tr:last-child td { border-bottom:none; }
   </div>
 </div>
 
-<!-- 7只标的概览 -->
+<!-- 核心标的列表（7只） -->
 <div class="card">
   <div class="card-title">📋 核心标的概览（7只）<span class="update-time" id="stocks-update-time"></span></div>
-  <div class="stock-grid" id="stock-grid">
-    <div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">加载中...</div>
-  </div>
-</div>
-
-<!-- 持仓明细 -->
-<div class="card">
-  <div class="card-title">💼 持仓明细<span class="update-time" id="holding-update-time"></span></div>
-  <div class="overflow-x">
+  <div style="overflow-x:auto;">
     <table>
       <thead><tr>
-        <th>名称</th><th>代码</th><th>现价</th><th>日涨跌</th><th>主力流向</th>
-        <th>目标价</th><th>止损</th><th>占比</th><th>状态</th>
+        <th>名称</th><th>代码</th><th>板块</th><th>现价</th><th>涨跌</th><th>主力净流</th>
+        <th>PE</th><th>PB</th><th>换手率</th><th>MA5</th><th>MA20</th><th>量比</th>
+        <th>目标价</th><th>止损</th><th>状态</th>
       </tr></thead>
-      <tbody id="holding-table"></tbody>
+      <tbody id="stock-table"></tbody>
     </table>
   </div>
 </div>
@@ -153,7 +135,7 @@ tr:last-child td { border-bottom:none; }
 
 <div class="footer">
   <p>投资组合实时监控中心 v2026.05.09 | 数据仅供个人参考，不构成投资建议</p>
-  <p id="schedule-note" style="margin-top:4px;">定时更新：10:00 / 15:30 / 19:30 自动抓取，同步 GitHub</p>
+  <p style="margin-top:4px;">定时更新：10:00 / 15:30 / 19:30 自动抓取，同步 GitHub</p>
 </div>
 
 <script>
@@ -213,21 +195,12 @@ const INDEX_NAMES = {
   'FTSE': '英国富时', 'DAX': '德国DAX', 'NI225': '日经225',
 };
 
-// ===================== 数据加载 =====================
 let _cache = { stocks: {}, indices: {}, sector_flows: [], timestamp: '' };
-
-function showLoading() {
-  document.getElementById('loading').classList.remove('hidden');
-}
-function hideLoading() {
-  document.getElementById('loading').classList.add('hidden');
-}
 
 async function loadData() {
   try {
     const res = await fetch('/api/data?t=' + Date.now());
     const data = await res.json();
-    // 只有API返回有效数据时才覆盖fallback
     if (data && data.stocks && Object.keys(data.stocks).length > 0) {
       _cache = data;
       renderAll(data);
@@ -265,11 +238,11 @@ function renderGlobal(indices) {
   document.getElementById('global-update-time').textContent = '已更新';
 }
 
-// ===================== 渲染：股票卡片 =====================
-function renderStockCards(stocks) {
-  const grid = document.getElementById('stock-grid');
+// ===================== 渲染：核心标的列表（表格） =====================
+function renderStockTable(stocks) {
+  const tbody = document.getElementById('stock-table');
   if (!stocks || Object.keys(stocks).length === 0) {
-    grid.innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">暂无数据</div>';
+    tbody.innerHTML = '<tr><td colspan="15" style="text-align:center;color:var(--text3);">暂无数据</td></tr>';
     return;
   }
   let html = '';
@@ -281,62 +254,8 @@ function renderStockCards(stocks) {
     const isUp = pct >= 0;
     const color = isUp ? 'var(--red)' : 'var(--green)';
     const sign = isUp ? '+' : '';
-    const borderColor = cfg.hero ? 'var(--purple)' : 'var(--border)';
-    
-    html += `
-      <div class="stock-card" style="border-color:${borderColor};">
-        <div class="header">
-          <div>
-            <div class="name">${cfg.name} ${cfg.hero ? '<span style="color:var(--purple);font-size:12px;">⭐</span>' : ''}</div>
-            <div class="code">${code}</div>
-          </div>
-          <div style="text-align:right;">
-            <div class="price" style="color:${color}">${price ? price.toFixed(2) : '--'}</div>
-            <div class="change" style="color:${color}">${sign}${change.toFixed(2)} (${sign}${pct.toFixed(2)}%)</div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="stat"><div class="label">主力净流</div><div class="value" style="color:${(s.main_net||0)>=0?'var(--red)':'var(--green)'}" style="font-size:12px;">${s.main_net ? (s.main_net>0?'+':'')+s.main_net.toFixed(0)+'万' : '--'}</div></div>
-          <div class="stat"><div class="label">PE</div><div class="value" style="font-size:12px;">${s.pe ? s.pe.toFixed(1) : '--'}</div></div>
-          <div class="stat"><div class="label">换手率</div><div class="value" style="font-size:12px;">${s.turnover ? s.turnover.toFixed(1)+'%' : '--'}</div></div>
-        </div>
-        <div class="row" style="margin-top:8px;">
-          <div class="stat"><div class="label">MA5</div><div class="value" style="font-size:11px;color:var(--text2);">${s.ma5 ? s.ma5.toFixed(2) : '--'}</div></div>
-          <div class="stat"><div class="label">MA20</div><div class="value" style="font-size:11px;color:var(--text2);">${s.ma20 ? s.ma20.toFixed(2) : '--'}</div></div>
-          <div class="stat"><div class="label">量比</div><div class="value" style="font-size:11px;color:var(--text2);">${s.volume_ratio ? s.volume_ratio.toFixed(2) : '--'}</div></div>
-        </div>
-      </div>`;
-  }
-  grid.innerHTML = html;
-  document.getElementById('stocks-update-time').textContent = '已更新';
-}
-
-// ===================== 渲染：持仓明细 =====================
-function renderHoldings(stocks) {
-  const tbody = document.getElementById('holding-table');
-  if (!stocks) { tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;color:var(--text3);">暂无数据</td></tr>'; return; }
-  
-  // 计算总市值
-  let totalValue = 0;
-  for (const [code, cfg] of Object.entries(STOCK_CONFIG)) {
-    const s = stocks[code] || {};
-    const price = s.price || s.close || 0;
-    const shares = cfg.shares || 0;
-    totalValue += price * shares;
-  }
-  
-  let html = '';
-  for (const [code, cfg] of Object.entries(STOCK_CONFIG)) {
-    const s = stocks[code] || {};
-    const price = s.price || s.close || 0;
-    const pct = s.pct || s.pct_chg || 0;
-    const isUp = pct >= 0;
-    const color = isUp ? 'var(--red)' : 'var(--green)';
-    const sign = isUp ? '+' : '';
     const mainNet = s.main_net || 0;
     const shares = cfg.shares || 0;
-    const value = price * shares;
-    const ratio = totalValue > 0 ? (value / totalValue * 100).toFixed(1) : '0.0';
     
     let status = '<span class="badge badge-gray">观察</span>';
     if (shares > 0) {
@@ -345,21 +264,31 @@ function renderHoldings(stocks) {
       status = '<span class="badge badge-gold">关注</span>';
     }
     
+    const nameHtml = cfg.hero 
+      ? `<strong>${cfg.name}</strong> <span style="color:var(--purple);font-size:11px;">⭐</span>`
+      : `<strong>${cfg.name}</strong>`;
+    
     html += `
       <tr>
-        <td><strong>${cfg.name}</strong></td>
-        <td>${code.split('.')[0]}</td>
+        <td>${nameHtml}</td>
+        <td style="color:var(--text3);font-size:11px;">${code}</td>
+        <td>${cfg.sector}</td>
         <td class="highlight">${price ? price.toFixed(2) : '--'}</td>
-        <td style="color:${color}">${sign}${pct.toFixed(2)}%</td>
-        <td><span style="color:${mainNet>=0?'var(--red)':'var(--green)'}">${mainNet ? (mainNet>0?'+':'')+mainNet.toFixed(0)+'万' : '--'}</span></td>
+        <td style="color:${color}">${sign}${change.toFixed(2)}<br><span style="font-size:10px;">${sign}${pct.toFixed(2)}%</span></td>
+        <td><span style="color:${mainNet>=0?'var(--red)':'var(--green)'};font-size:11px;">${mainNet ? (mainNet>0?'+':'')+mainNet.toFixed(0)+'万' : '--'}</span></td>
+        <td>${s.pe ? s.pe.toFixed(1) : '--'}</td>
+        <td>${s.pb ? s.pb.toFixed(1) : '--'}</td>
+        <td>${s.turnover ? s.turnover.toFixed(1)+'%' : '--'}</td>
+        <td style="color:var(--text2);font-size:11px;">${s.ma5 ? s.ma5.toFixed(1) : '--'}</td>
+        <td style="color:var(--text2);font-size:11px;">${s.ma20 ? s.ma20.toFixed(1) : '--'}</td>
+        <td style="color:var(--text2);font-size:11px;">${s.volume_ratio ? s.volume_ratio.toFixed(2) : '--'}</td>
         <td>${cfg.target}</td>
         <td style="color:var(--red)">${cfg.stop || '--'}</td>
-        <td>${shares > 0 ? ratio + '%' : '--'}</td>
         <td>${status}</td>
       </tr>`;
   }
   tbody.innerHTML = html;
-  document.getElementById('holding-update-time').textContent = '已更新';
+  document.getElementById('stocks-update-time').textContent = '已更新';
 }
 
 // ===================== 渲染：板块资金 =====================
@@ -375,7 +304,7 @@ function renderSectors(sector_flows) {
     const color = isUp ? 'var(--red)' : 'var(--green)';
     const sign = isUp ? '+' : '';
     html += `
-      <div class="sector-card" style="border-left-color:${isUp?'var(--red)':'var(--green)'};">
+      <div class="sector-card" style="border-left-color:${isUp?'var(--red)':'var(--green')};">
         <div class="header">
           <span class="name">${s.name}</span>
           <span class="flow" style="color:${color}">${sign}${s.main_net?.toFixed(0) || 0}万</span>
@@ -396,7 +325,7 @@ async function loadNews() {
     const data = await res.json();
     renderNews(data);
   } catch (e) {
-    console.warn('新闻API未连接，跳过新闻加载');
+    console.warn('新闻API未连接，跳过');
     document.getElementById('news-grid').innerHTML = '<div style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">API未连接 · 新闻需启动本地服务 localhost:8888</div>';
     document.getElementById('news-update-time').textContent = '未连接';
   }
@@ -406,20 +335,17 @@ function renderNews(data) {
   const grid = document.getElementById('news-grid');
   const allItems = data.all || [];
   
-  // 只显示今日新闻（24小时内）
   const today = new Date().toISOString().slice(0, 10);
   const recentItems = allItems.filter(item => {
     const d = item.date || '';
     return d === today || d === today.replace(/-/g, '');
   });
   
-  // 关联7只标的的新闻优先
   const portfolioItems = recentItems.filter(item => {
     const related = item.related_stocks || [];
     return related.some(code => STOCK_CONFIG[code]);
   });
   
-  // 合并去重，最多显示20条
   const seen = new Set();
   const displayItems = [];
   for (const item of [...portfolioItems, ...recentItems]) {
@@ -451,10 +377,14 @@ function renderNews(data) {
     const cat = item.category || 'market';
     const catTag = `<span class="news-tag tag-${cat}">${cat === 'portfolio' ? '持仓' : cat === 'chain' ? '产业链' : cat === 'policy' ? '政策' : cat === 'geo' ? '地缘' : '市场'}</span>`;
     
+    const summary = item.summary || '';
+    const summaryHtml = summary ? `<div class="news-summary">${summary}</div>` : '';
+    
     html += `
       <div class="news-item ${cls}">
         <div style="margin-bottom:6px;">${catTag}${tags}</div>
         <div class="news-title">${item.title}</div>
+        ${summaryHtml}
         <div class="news-time">${item.source || '未知'} · ${item.date || ''} ${item.time || ''}</div>
       </div>`;
   }
@@ -465,26 +395,17 @@ function renderNews(data) {
 // ===================== 总渲染 =====================
 function renderAll(data) {
   renderGlobal(data.indices || {});
-  renderStockCards(data.stocks || {});
-  renderHoldings(data.stocks || {});
+  renderStockTable(data.stocks || {});
   renderSectors(data.sector_flows || []);
 }
 
 // ===================== 初始化 =====================
 function init() {
-  // 1. 先用fallback数据渲染（确保页面打开就有内容）
   renderAll({ stocks: STOCK_FALLBACK, indices: GLOBAL_FALLBACK, sector_flows: SECTOR_FALLBACK });
   document.getElementById('update-time').textContent = '休市 · 数据日期: 2026-05-08 (周五收盘)';
-  
-  // 2. 尝试从API加载实时数据（成功则覆盖fallback）
   loadData();
   loadNews();
-  
-  // 3. 自动刷新（2分钟）
-  setInterval(() => {
-    loadData();
-    loadNews();
-  }, 120000);
+  setInterval(() => { loadData(); loadNews(); }, 120000);
 }
 
 init();

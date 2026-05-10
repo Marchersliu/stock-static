@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>📊 投资组合实时监控中心</title>
+<style>
+:root {
+  --bg: #0a0e14; --bg-module: #111820; --bg-card: #161f2e; --bg-inner: #1a2436;
+  --border: #1e2d3d; --border-light: #2a3a4d;
+  --text: #c8d6e0; --text2: #7a8b9d; --text3: #4a5a6d;
+  --green: #00d084; --green-dim: #00a868; --red: #ff4757; --red-dim: #cc3645;
+  --gold: #fbbf24; --gold-dim: #c49000; --blue: #4a9eff; --purple: #a855f7;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg); color: var(--text); line-height: 1.6;
+  padding: 16px; max-width: 1400px; margin: 0 auto;
+}
+.header { text-align:center; padding:20px 0; border-bottom:2px solid var(--border); margin-bottom:20px; }
+.header h1 { font-size:26px; color:var(--gold); }
+.header p { color:var(--text2); font-size:13px; margin-top:6px; }
+.update-time { color:var(--text3); font-size:11px; margin-top:4px; }
+.card { background:var(--bg-module); border-radius:16px; padding:20px; border:1px solid var(--border); margin-bottom:20px; }
+.card-title { font-size:17px; color:var(--gold); margin-bottom:16px; display:flex; align-items:center; gap:8px; font-weight:700; }
+table { width:100%; border-collapse:collapse; font-size:12px; }
+th { text-align:left; padding:10px 6px; color:var(--text2); font-weight:600; border-bottom:1px solid var(--border); font-size:11px; }
+td { padding:10px 6px; border-bottom:1px solid var(--border); vertical-align:middle; }
+tr:last-child td { border-bottom:none; }
+.up { color:var(--red); font-weight:700; }
+.down { color:var(--green); font-weight:700; }
+.neutral { color:var(--text2); }
+.highlight { color:var(--gold); font-weight:700; }
+.badge { display:inline-block; padding:2px 8px; border-radius:4px; font-size:11px; font-weight:600; }
+.badge-green { background:rgba(0,208,132,0.15); color:var(--green); }
+.badge-gold { background:rgba(251,191,36,0.15); color:var(--gold); }
+.badge-gray { background:rgba(122,139,157,0.15); color:var(--text2); }
+.global-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+@media(min-width:768px){ .global-grid { grid-template-columns:repeat(4,1fr); } }
+.global-box { background:var(--bg-inner); padding:12px; border-radius:10px; text-align:center; }
+.global-box .name { color:var(--text2); font-size:11px; }
+.global-box .value { font-size:18px; font-weight:700; margin-top:2px; }
+.global-box .change { font-size:12px; margin-top:2px; }
+.sector-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:5px; }
+.sector-card { background:var(--bg-inner); border-radius:5px; padding:4px 8px; border-left:2px solid var(--blue); }
+.sector-card .name { font-size:11px; font-weight:600; color:var(--gold); }
+.news-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+@media(min-width:768px){ .news-grid { grid-template-columns:1fr 1fr; } }
+.news-item { background:var(--bg-inner); border-radius:10px; padding:14px; border-left:3px solid var(--text2); }
+.footer { text-align:center; color:var(--text3); font-size:11px; padding:24px 0; margin-top:20px; border-top:1px solid var(--border); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📊 投资组合实时监控中心</h1>
+  <p>5只核心标的追踪 | 五朵金花AI算力产业链 | 全球指数 | 板块资金 | 技术+资金+新闻</p>
+  <p class="update-time">静态展示页 · 数据日期: 2026-05-08 (周五收盘) · 无实时更新</p>
+</div>
+
+<!-- 全球市场 -->
+<div class="card">
+  <div class="card-title">🌍 全球主要市场</div>
+  <div class="global-grid">
+    <div class="global-box">
+      <div class="name">上证指数</div>
+      <div class="value" style="color:var(--green)">4179.95</div>
+      <div class="change" style="color:var(--green)">-0.14 (-0.00%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">深证成指</div>
+      <div class="value" style="color:var(--green)">15563.80</div>
+      <div class="change" style="color:var(--green)">-78.09 (-0.50%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">创业板指</div>
+      <div class="value" style="color:var(--green)">3796.13</div>
+      <div class="change" style="color:var(--green)">-36.93 (-0.96%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">上证50</div>
+      <div class="value" style="color:var(--green)">3003.58</div>
+      <div class="change" style="color:var(--green)">-25.61 (-0.85%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">沪深300</div>
+      <div class="value" style="color:var(--green)">4871.91</div>
+      <div class="change" style="color:var(--green)">-28.60 (-0.58%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">科创50</div>
+      <div class="value" style="color:var(--green)">1640.46</div>
+      <div class="change" style="color:var(--green)">-38.43 (-2.29%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">恒生指数</div>
+      <div class="value" style="color:var(--green)">26393.71</div>
+      <div class="change" style="color:var(--green)">-232.57 (-0.87%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">道琼斯</div>
+      <div class="value" style="color:var(--red)">49609.16</div>
+      <div class="change" style="color:var(--red)">+12.19 (+0.02%)</div>
+    </div>
+    <div class="global-box">
+      <div class="name">纳斯达克</div>
+      <div class="value" style="color:var(--red)">26247.08</div>
+      <div class="change" style="color:var(--red)">+440.88 (+1.71%)</div>
+    </div>
+  </div>
+</div>
+
+<!-- 核心标的 -->
+<div class="card">
+  <div class="card-title">📋 核心标的概览（5只）</div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead><tr>
+        <th>名称</th><th>代码</th><th>板块</th><th>现价</th><th>涨跌</th><th>主力净流</th>
+        <th>PE</th><th>PB</th><th>换手率</th><th>MA5</th><th>MA20</th><th>量比</th>
+        <th>目标价</th><th>止损</th><th>状态</th>
+      </tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>九州一轨</strong> <span style="color:var(--purple);font-size:11px;">⭐</span></td>
+          <td style="color:var(--text3);font-size:11px;">688485.SH</td>
+          <td>轨交设备</td>
+          <td class="highlight">63.99</td>
+          <td class="up">+4.03<br><span style="font-size:10px;">+6.72%</span></td>
+          <td><span style="color:var(--green);font-size:11px;">-0.18万</span></td>
+          <td>45.2</td>
+          <td>6.8</td>
+          <td>12.4%</td>
+          <td style="color:var(--text2);font-size:11px;">58.5</td>
+          <td style="color:var(--text2);font-size:11px;">48.2</td>
+          <td style="color:var(--text2);font-size:11px;">0.83</td>
+          <td>80/100</td>
+          <td style="color:var(--red)">52</td>
+          <td><span class="badge badge-green">持有</span></td>
+        </tr>
+        <tr>
+          <td><strong>汉钟精机</strong></td>
+          <td style="color:var(--text3);font-size:11px;">002158.SZ</td>
+          <td>通用设备</td>
+          <td class="highlight">31.39</td>
+          <td class="down">-0.58<br><span style="font-size:10px;">-1.81%</span></td>
+          <td><span style="color:var(--green);font-size:11px;">-0.59万</span></td>
+          <td>25.0</td>
+          <td>4.2</td>
+          <td>2.1%</td>
+          <td style="color:var(--text2);font-size:11px;">31.8</td>
+          <td style="color:var(--text2);font-size:11px;">29.5</td>
+          <td style="color:var(--text2);font-size:11px;">0.95</td>
+          <td>35-40</td>
+          <td style="color:var(--red)">28</td>
+          <td><span class="badge badge-green">持有</span></td>
+        </tr>
+        <tr>
+          <td><strong>江海股份</strong></td>
+          <td style="color:var(--text3);font-size:11px;">002484.SZ</td>
+          <td>AI算力·电容</td>
+          <td class="highlight">43.14</td>
+          <td class="neutral">0.00<br><span style="font-size:10px;">0.00%</span></td>
+          <td><span style="color:var(--text3);font-size:11px;">--</span></td>
+          <td>53.6</td>
+          <td>5.8</td>
+          <td>2.8%</td>
+          <td style="color:var(--text2);font-size:11px;">42.0</td>
+          <td style="color:var(--text2);font-size:11px;">38.5</td>
+          <td style="color:var(--text2);font-size:11px;">1.10</td>
+          <td>48-52</td>
+          <td style="color:var(--red)">38</td>
+          <td><span class="badge badge-gold">关注</span></td>
+        </tr>
+        <tr>
+          <td><strong>中恒电气</strong></td>
+          <td style="color:var(--text3);font-size:11px;">002364.SZ</td>
+          <td>AI算力·电源</td>
+          <td class="highlight">10.50</td>
+          <td class="neutral">0.00<br><span style="font-size:10px;">0.00%</span></td>
+          <td><span style="color:var(--text3);font-size:11px;">--</span></td>
+          <td>35.0</td>
+          <td>3.2</td>
+          <td>3.5%</td>
+          <td style="color:var(--text2);font-size:11px;">10.2</td>
+          <td style="color:var(--text2);font-size:11px;">9.8</td>
+          <td style="color:var(--text2);font-size:11px;">1.00</td>
+          <td>12-13</td>
+          <td style="color:var(--red)">9.5</td>
+          <td><span class="badge badge-gold">关注</span></td>
+        </tr>
+        <tr>
+          <td><strong>启明星辰</strong></td>
+          <td style="color:var(--text3);font-size:11px;">002439.SZ</td>
+          <td>网络安全</td>
+          <td class="highlight">16.63</td>
+          <td class="up">+0.46<br><span style="font-size:10px;">+2.84%</span></td>
+          <td><span style="color:var(--red);font-size:11px;">+1.25万</span></td>
+          <td>88.0</td>
+          <td>2.5</td>
+          <td>3.2%</td>
+          <td style="color:var(--text2);font-size:11px;">16.1</td>
+          <td style="color:var(--text2);font-size:11px;">15.8</td>
+          <td style="color:var(--text2);font-size:11px;">1.10</td>
+          <td>25-30</td>
+          <td style="color:var(--red)">18</td>
+          <td><span class="badge badge-gold">关注</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- 板块资金 -->
+<div class="card">
+  <div class="card-title">🏭 板块资金流向</div>
+  <div class="sector-grid">
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">网络安全</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+5200万</span> · <span style="color:var(--red)">+2.80%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">AI算力·电源</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+4800万</span> · <span style="color:var(--red)">+2.50%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">AI算力·电容</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+3500万</span> · <span style="color:var(--red)">+3.20%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">半导体/芯片</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+3200万</span> · <span style="color:var(--red)">+2.50%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">轨交设备</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+2100万</span> · <span style="color:var(--red)">+1.50%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">通用设备</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+1800万</span> · <span style="color:var(--red)">+1.20%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">国产替代</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+4500万</span> · <span style="color:var(--red)">+2.20%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">数据中心</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+2800万</span> · <span style="color:var(--red)">+1.80%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">储能</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+1500万</span> · <span style="color:var(--red)">+1.50%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">半导体设备</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+1200万</span> · <span style="color:var(--red)">+2.00%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">AI芯片散热</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+800万</span> · <span style="color:var(--red)">+1.80%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">电子元件</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+600万</span> · <span style="color:var(--red)">+1.20%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">英伟达供应链</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+900万</span> · <span style="color:var(--red)">+2.00%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">算电协同</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+700万</span> · <span style="color:var(--red)">+1.50%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">AI安全</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+1100万</span> · <span style="color:var(--red)">+1.80%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">信创</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+650万</span> · <span style="color:var(--red)">+1.00%</span></div></div>
+    <div class="sector-card" style="border-left-color:var(--red);"><div class="name">新能源超充</div><div style="font-size:10px;"><span style="color:var(--red);font-weight:700;">+500万</span> · <span style="color:var(--red)">+0.80%</span></div></div>
+  </div>
+</div>
+
+<!-- 新闻 -->
+<div class="card">
+  <div class="card-title">📰 今日关联新闻</div>
+  <div class="news-grid">
+    <div class="news-item" style="grid-column:1/-1;color:var(--text3);text-align:center;padding:20px;">
+      今日暂无新闻 · 静态展示页不加载实时新闻数据
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <p>投资组合实时监控中心 · 静态展示页 · 数据日期: 2026-05-08</p>
+  <p style="margin-top:4px;">本页面为 GitHub Pages 静态托管，无实时数据更新功能</p>
+</div>
+
+</body>
+</html>

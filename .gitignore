@@ -1,0 +1,23 @@
+# 本地敏感文件（绝不提交）
+TOOLS.md
+price_alert_state.json
+price_alert_queue.json
+auto_push_github.sh
+start_service.sh
+*.pyc
+__pycache__/
+.env
+.env.local
+.env.production
+.env.*
+
+# memory文件（本地保留）
+memory/
+
+# 日志文件
+logs/
+*.log
+
+# 系统文件
+.DS_Store
+.AppleDouble

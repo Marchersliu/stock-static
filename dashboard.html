@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="version" content="v2026-05-13-1500">
+<meta name="version" content="v2026-05-13-1600">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -162,29 +162,29 @@ tr:hover td { background:rgba(74,158,255,0.05); }
 // ===================== 配置 =====================
 const STOCK_CONFIG = {
   // 持仓股
-  '688485.SH': { name: '九州一轨', sector: '轨交设备', target: '80/100', stop: 52, shares: 19569, cost: 46.70, hero: true },
-  '300433.SZ': { name: '蓝思科技', sector: '消费电子·AI服务器·机器人', target: '38-40', stop: 27, shares: 0, cost: 0, hero: false },
-  '603828.SH': { name: 'ST利达', sector: '建筑装饰', target: '7-8', stop: 4.8, shares: 0, cost: 0, hero: false },
-  '002158.SZ': { name: '汉钟精机', sector: '真空泵·半导体设备', target: '--', stop: '--', shares: 0, cost: 0, hero: false },
-  '600601.SH': { name: '方正科技', sector: 'PCB·AI服务器', target: '--', stop: '--', shares: 0, cost: 0, hero: false },
-  '000034.SZ': { name: '神州数码', sector: 'IT分销·信创·AI算力', target: '50-55', stop: 38, shares: 0, cost: 0, hero: false },
-  '600036.SH': { name: '招商银行', sector: '银行·零售', target: '--', stop: '--', shares: 0, cost: 0, hero: false },
+  '688485.SH': { name: '九州一轨', sector: '轨交设备', target: '80/100', stop: 52, shares: 22300, cost: 46.60, hero: true },
+  '300433.SZ': { name: '蓝思科技', sector: '消费电子·AI服务器·机器人', target: '38-40', stop: 27, shares: 6500, cost: 32.70, hero: false },
+  '603828.SH': { name: 'ST利达', sector: '建筑装饰', target: '7-8', stop: 4.8, shares: 21800, cost: 5.77, hero: false },
+  '002158.SZ': { name: '汉钟精机', sector: '真空泵·半导体设备', target: '--', stop: '--', shares: 6200, cost: 30.30, hero: false },
+  '600601.SH': { name: '方正科技', sector: 'PCB·AI服务器', target: '--', stop: '--', shares: 15400, cost: 14.23, hero: false },
+  '600036.SH': { name: '招商银行', sector: '银行·零售', target: '--', stop: '--', shares: 2800, cost: 37.90, hero: false },
+  '000034.SZ': { name: '神州数码', sector: 'IT分销·信创·AI算力', target: '50-55', stop: 38, shares: 2300, cost: 42.49, hero: false },
   // 关注
   '002439.SZ': { name: '启明星辰', sector: '网络安全', target: '25-30', stop: 18, shares: 0, cost: 0, hero: false },
 };
 
 // 5月13日收盘静态fallback数据（API加载前显示）
-// 2026-05-13 更新：7只标的（5持仓+2关注）
+// 2026-05-13 更新：7只持仓+关注标的
 const STOCK_FALLBACK = {
-  '688485.SH': { price: 63.42, change: -0.57, pct: -0.89, main_net: -0.18, pe: 45.2, pb: 6.8, turnover: 12.1, ma5: 64.0, ma20: 56.0, volume_ratio: 0.85 },
-  '300433.SZ': { price: 30.82, change: 2.27, pct: 7.95, main_net: 0.3, pe: 32.0, pb: 3.2, turnover: 3.8, ma5: 29.0, ma20: 27.5, volume_ratio: 1.8 },
-  '603828.SH': { price: 5.82, change: 0.28, pct: 5.05, main_net: 0.02, pe: 270.0, pb: 6.5, turnover: 0.8, ma5: 5.5, ma20: 5.3, volume_ratio: 0.6 },
+  '688485.SH': { price: 59.30, change: -1.09, pct: -1.80, main_net: -0.18, pe: 45.2, pb: 6.8, turnover: 10.13, ma5: 61.0, ma20: 58.0, volume_ratio: 0.85 },
+  '603828.SH': { price: 5.60, change: -0.29, pct: -4.92, main_net: -0.02, pe: 270.0, pb: 6.5, turnover: 1.25, ma5: 5.8, ma20: 5.7, volume_ratio: 0.6 },
+  '000034.SZ': { price: 42.84, change: 1.05, pct: 2.51, main_net: 0.5, pe: 28.0, pb: 2.8, turnover: 6.58, ma5: 41.0, ma20: 39.0, volume_ratio: 1.1 },
+  '300433.SZ': { price: 32.69, change: 2.21, pct: 7.25, main_net: 1.8, pe: 32.0, pb: 3.2, turnover: 3.64, ma5: 31.0, ma20: 29.0, volume_ratio: 1.8 },
   '002158.SZ': { price: 33.59, change: 0.90, pct: 2.75, main_net: 0, pe: 28.0, pb: 4.2, turnover: 2.5, ma5: 33.0, ma20: 31.0, volume_ratio: 0.8 },
   '600601.SH': { price: 14.18, change: -0.13, pct: -0.91, main_net: -0.1, pe: 98.0, pb: 12.5, turnover: 1.5, ma5: 14.5, ma20: 13.0, volume_ratio: 0.7 },
-  // 关注
-  '000034.SZ': { price: 42.62, change: 2.60, pct: 6.50, main_net: 0.5, pe: 28.0, pb: 2.8, turnover: 12.9, ma5: 40.0, ma20: 37.0, volume_ratio: 1.5 },
   '600036.SH': { price: 37.88, change: -0.02, pct: -0.05, main_net: 0, pe: 6.2, pb: 0.95, turnover: 0.5, ma5: 38.0, ma20: 37.5, volume_ratio: 0.6 },
-  '002439.SZ': { price: 16.42, change: -0.21, pct: -1.26, main_net: -0.3, pe: 88.0, pb: 2.5, turnover: 8.4, ma5: 16.5, ma20: 16.0, volume_ratio: 0.9 },
+  // 关注
+  '002439.SZ': { price: 16.61, change: 0.66, pct: 4.14, main_net: 0.2, pe: 88.0, pb: 2.5, turnover: 9.37, ma5: 16.0, ma20: 16.5, volume_ratio: 0.9 },
 };
 
 // 全球指数fallback

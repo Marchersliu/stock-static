@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="version" content="v2026-05-13-2130">
+<meta name="version" content="v2026-05-15-1600">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
@@ -174,11 +174,11 @@ const STOCK_CONFIG = {
 // 5月14日收盘静态fallback数据（API加载前显示）
 // 2026-05-14 更新：7只持仓标的（调仓后）
 const STOCK_FALLBACK = {
-  '688485.SH': { price: 59.01, change: -1.39, pct: -2.29, main_net: -0.0368, pe: 0, pb: 7.1, turnover: 10.1, ma5: 61.4, ma20: 50.5, volume_ratio: 0.04 },
-  '300433.SZ': { price: 32.91, change: 2.43, pct: 7.97, main_net: 1.028, pe: 43.0, pb: 3.2, turnover: 3.6, ma5: 30.0, ma20: 27.8, volume_ratio: 1.52 },
+  '688485.SH': { price: 56.18, change: -3.03, pct: -5.12, main_net: -0.6229, pe: 0, pb: 7.1, turnover: 12.5, ma5: 59.2, ma20: 50.5, volume_ratio: 1.2 },
+  '300433.SZ': { price: 34.21, change: 1.90, pct: 5.88, main_net: 0.894, pe: 43.0, pb: 3.2, turnover: 5.3, ma5: 32.5, ma20: 27.8, volume_ratio: 1.52 },
   '002158.SZ': { price: 33.55, change: 0.86, pct: 2.63, main_net: 0.090, pe: 0, pb: 0, turnover: 0, ma5: 0, ma20: 0, volume_ratio: 0 },
   '600036.SH': { price: 37.88, change: -0.02, pct: -0.05, main_net: 0, pe: 6.2, pb: 0.95, turnover: 0.5, ma5: 38.0, ma20: 37.5, volume_ratio: 0.6 },
-  '000034.SZ': { price: 42.84, change: 1.05, pct: 2.51, main_net: 0.121, pe: 59.5, pb: 2.8, turnover: 6.6, ma5: 41.7, ma20: 38.1, volume_ratio: 0.61 },
+  '000034.SZ': { price: 40.72, change: -0.18, pct: -0.44, main_net: -0.015, pe: 59.5, pb: 2.8, turnover: 6.2, ma5: 41.7, ma20: 38.1, volume_ratio: 0.61 },
   '600406.SH': { price: 28.02, change: 1.12, pct: 4.16, main_net: 0.050, pe: 27.0, pb: 3.5, turnover: 2.5, ma5: 27.0, ma20: 26.0, volume_ratio: 1.2 },
   '600378.SH': { price: 35.24, change: 1.94, pct: 5.83, main_net: 0.035, pe: 32.0, pb: 2.8, turnover: 3.0, ma5: 34.0, ma20: 33.0, volume_ratio: 1.5 },
 };
@@ -701,7 +701,7 @@ function init() {
   // 1. 先渲染 fallback，确保页面任何情况下不空白
   renderAll({ stocks: STOCK_FALLBACK, indices: GLOBAL_FALLBACK, sector_flows: SECTOR_FALLBACK });
   renderNewsFallback();
-  document.getElementById('update-time').textContent = '休市 · 数据日期: 2026-05-11 (周一收盘) · fallback';
+  document.getElementById('update-time').textContent = '休市 · 数据日期: 2026-05-15 (周五收盘) · fallback';
   
   // 2. 如果有服务端注入的静态数据，用它覆盖 fallback
   if (window.STATIC_DATA && window.STATIC_DATA.stocks && Object.keys(window.STATIC_DATA.stocks).length > 0) {

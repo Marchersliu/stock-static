@@ -155,61 +155,34 @@
             </div>
         </div>
 
-        <!-- 保留不动 -->
+        <!-- 当前持仓总览 -->
         <div class="section">
-            <div class="section-title">💼 保留不动（~71万）</div>
+            <div class="section-title">💼 当前持仓总览（~71万）</div>
             
-            <div class="stock-row">
-                <div class="stock-info">
-                    <div class="stock-name">蓝思科技</div>
-                    <div class="stock-code">300433.SZ | 31.82万 | 盈+4.59%</div>
-                </div>
-                <div class="stock-params">
-                    <span class="stock-tag tag-sell">做T</span>
-                </div>
-            </div>
             <div class="detail-grid">
                 <div class="detail-item">
-                    <div class="detail-label">三档卖出</div>
-                    <div class="detail-value">34.5 / 35.5 / 36.5</div>
+                    <div class="detail-label">蓝思科技 300433</div>
+                    <div class="detail-value">31.82万 | 盈+4.59% 🔄做T</div>
                 </div>
                 <div class="detail-item">
-                    <div class="detail-label">买回锚定</div>
-                    <div class="detail-value">32.5 - 33.0</div>
+                    <div class="detail-label">阿里巴巴-W 09988</div>
+                    <div class="detail-value">16.03万 | 亏-3.71% ⏳持有+加仓</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">*ST利达 603828</div>
+                    <div class="detail-value">21.53万 | 盈+0.59% 🎯等连板</div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">国电南瑞 600406</div>
+                    <div class="detail-value">1.85万（小账户700股）🛡️不动</div>
                 </div>
             </div>
-
-            <div class="stock-row" style="margin-top:12px">
-                <div class="stock-info">
-                    <div class="stock-name">阿里巴巴-W</div>
-                    <div class="stock-code">09988.HK | 16.03万 | 亏-3.71%</div>
-                </div>
-                <div class="stock-params">
-                    <span class="stock-tag tag-hold">持有</span>
-                </div>
-            </div>
-
-            <div class="stock-row" style="margin-top:10px">
-                <div class="stock-info">
-                    <div class="stock-name">*ST利达</div>
-                    <div class="stock-code">603828.SH | 21.53万 | 盈+0.59%</div>
-                </div>
-                <div class="stock-params">
-                    <span class="stock-tag tag-hold">等连板</span>
-                </div>
-            </div>
-
-            <div class="stock-row" style="margin-top:10px">
-                <div class="stock-info">
-                    <div class="stock-name">国电南瑞</div>
-                    <div class="stock-code">小账户700股 | 1.85万</div>
-                </div>
-                <div class="stock-params">
-                    <span class="stock-tag tag-hold">不动</span>
+            <div class="alert-box" style="margin-top:8px">
+                <div class="alert-text">
+                    <strong>蓝思做T纪律：</strong>34.5/35.5/36.5三档卖出 → 32.5-33.0买回锚定。⚠️6月PMG收购公告可能提前，做T有踏空风险。
                 </div>
             </div>
         </div>
-
         <!-- 周一新建 -->
         <div class="section">
             <div class="section-title">🎯 周一只买这2只（42万）</div>
@@ -348,34 +321,76 @@
         </div>
 
         <!-- 砍掉 -->
+        <!-- 砍掉不买 -->
         <div class="section">
-            <div class="section-title">❌ 砍掉不买</div>
+            <div class="section-title">❌ 砍掉不买（永久排除）</div>
             <div style="font-size:13px;line-height:1.8;color:#666;">
                 <span class="strike">银河磁体</span>（正海已覆盖）· 
                 <span class="strike">凯尔达</span>（PE 121x）· 
                 <span class="strike">国电南瑞</span>（用户不考虑）· 
-                <span class="strike">东方证券</span>（没催化）·
-                <span class="strike">五粮液</span>（等企稳，见跟踪机制）
+                <span class="strike">东方证券</span>（没催化）
             </div>
         </div>
 
-        <!-- 五粮液跟踪 -->
+        <!-- 计划标的池（信号跟踪） -->
         <div class="section">
-            <div class="section-title">👀 五粮液跟踪机制（不买，等信号）</div>
-            <div class="alert-box">
+            <div class="section-title">📋 计划标的池（不买，等信号触发）</div>
+            
+            <div class="stock-row">
+                <div class="stock-info">
+                    <div class="stock-name">五粮液</div>
+                    <div class="stock-code">000858.SZ | 目标仓位≤8%</div>
+                </div>
+                <div class="stock-params">
+                    <span class="stock-tag tag-watch">🍶 等企稳</span>
+                </div>
+            </div>
+            <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px;padding:8px 12px;background:#f5f5f7;border-radius:8px;">
+                <strong>触发2/3：</strong>①批价950+稳2周（~920）②北向连续5日流入（持续流出）③RSI6突破30（当前2.5）
+                <br>
+                <strong>每周查：</strong>普五批价、北向资金、社零餐饮 | 买入区间：86-87元
+            </div>
+
+            <div class="stock-row" style="margin-top:10px">
+                <div class="stock-info">
+                    <div class="stock-name">浙江医药</div>
+                    <div class="stock-code">600216.SH | 目标仓位≤5%</div>
+                </div>
+                <div class="stock-params">
+                    <span class="stock-tag tag-watch">💊 等拐点</span>
+                </div>
+            </div>
+            <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px;padding:8px 12px;background:#f5f5f7;border-radius:8px;">
+                <strong>触发2/3：</strong>①VA/VE价格拐点（VA 300+/kg，当前持续跌）②新码生物IPO挂牌（推进中）③Q2净利转正（Q1-29.8%）
+                <br>
+                <strong>每周查：</strong>VA/VE现货价、新码IPO进展 | 买入区间：14-15元
+            </div>
+
+            <div class="stock-row" style="margin-top:10px">
+                <div class="stock-info">
+                    <div class="stock-name">招商银行</div>
+                    <div class="stock-code">600036.SH | 目标仓位≤10%</div>
+                </div>
+                <div class="stock-params">
+                    <span class="stock-tag tag-watch">🏦 等双底</span>
+                </div>
+            </div>
+            <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px;padding:8px 12px;background:#f5f5f7;border-radius:8px;">
+                <strong>触发2/3：</strong>①NIM连续2季不降（~1.85%低位）②不良率<1%或下降（~0.95%）③PB回到0.9+或北向5日流入（PB 0.84破净）
+                <br>
+                <strong>每周查：</strong>股价+北向、社融数据 | 买入区间：37-38元
+            </div>
+
+            <div class="alert-box" style="margin-top:10px">
                 <div class="alert-text">
-                    <strong>触发买入需满足任意2个：</strong><br>
-                    ① 普五批价回升至950+并稳定2周（当前~920）<br>
-                    ② 北向/主力连续5日净买入（当前持续流出）<br>
-                    ③ RSI6突破30 + KDJ金叉（当前RSI6=2.5极度超卖）<br><br>
-                    <strong>危险信号：</strong>批价跌破900元 → 价格战恶化<br>
-                    <strong>决战信号：</strong>茅台批价站稳2600+ → 白酒板块启动
+                    <strong>📊 三只计划标的对比</strong><br>
+                    <strong>五粮液</strong> — 消费周期 | 核心：批价 | 最快触发：批价950+<br>
+                    <strong>浙江医药</strong> — 工业+医药 | 核心：VA/VE价格 | 最快触发：新码IPO挂牌<br>
+                    <strong>招商银行</strong> — 金融价值 | 核心：净息差NIM | 最快触发：息差2季不降<br>
+                    <strong>口诀：</strong>五粮液看批价，浙药看维生素，招行看息差。信号到了再入，不急。
                 </div>
             </div>
         </div>
-
-        <!-- 仓位汇总 -->
-        <div class="section">
             <div class="section-title">📈 仓位汇总</div>
             <div class="detail-grid">
                 <div class="detail-item">
@@ -570,77 +585,6 @@
             </div>
         </div>
 
-        <!-- 跟踪标的机制 -->
-        <div class="section">
-            <div class="section-title">👀 跟踪标的 · 等待触发</div>
-            
-            <div class="stock-row">
-                <div class="stock-info">
-                    <div class="stock-name">五粮液</div>
-                    <div class="stock-code">000858.SZ | 当前不买，等企稳</div>
-                </div>
-                <div class="stock-params">
-                    <span class="stock-tag tag-watch">🍶 消费周期</span>
-                </div>
-            </div>
-            <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px;padding:8px 12px;background:#f5f5f7;border-radius:8px;">
-                <strong>触发买入需满足任意2个：</strong><br>
-                ① 普五批价回升至950+并稳定2周（当前~920低位）<br>
-                ② 北向/主力连续5日净买入（当前持续流出）<br>
-                ③ RSI6突破30 + KDJ金叉（当前RSI6=2.5极度超卖）<br>
-                <strong>预警线：</strong>批价跌破900元→价格战恶化 | 茅台批价站稳2600+→板块启动
-            </div>
-
-            <div class="stock-row" style="margin-top:12px">
-                <div class="stock-info">
-                    <div class="stock-name">浙江医药</div>
-                    <div class="stock-code">600216.SH | 当前不买，等拐点</div>
-                </div>
-                <div class="stock-params">
-                    <span class="stock-tag tag-watch">💊 维生素+医药</span>
-                </div>
-            </div>
-            <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px;padding:8px 12px;background:#f5f5f7;border-radius:8px;">
-                <strong>触发买入需满足任意2个：</strong><br>
-                ① VA/VE现货价拐点：VA重回300+/kg，VE重回80+/kg（当前持续下跌）<br>
-                ② 新码生物港股IPO：挂牌或通过聆讯（推进中）<br>
-                ③ Q2业绩拐点：Q1净利-29.8%，Q2净利转正或环比+50%<br>
-                <strong>每周必查：</strong>VA/VE现货价（百川盈孚）、股价+成交量、新码生物IPO进展<br>
-                <strong>预警线：</strong>VA跌破150→周期底部未到 | VA站上250+新码IPO通过→双重催化
-            </div>
-
-            <div class="stock-row" style="margin-top:12px">
-                <div class="stock-info">
-                    <div class="stock-name">招商银行</div>
-                    <div class="stock-code">600036.SH | 当前不买，等双底</div>
-                </div>
-                <div class="stock-params">
-                    <span class="stock-tag tag-watch">🏦 金融价值</span>
-                </div>
-            </div>
-            <div style="font-size:12px;color:#666;line-height:1.6;margin-top:4px;padding:8px 12px;background:#f5f5f7;border-radius:8px;">
-                <strong>触发买入需满足任意2个：</strong><br>
-                ① 净息差NIM连续2季环比不再下降（当前~1.85%低位）<br>
-                ② 不良率可控：维持<1%或下降（当前~0.95%）<br>
-                ③ PB修复：回到0.9+或北向连续5日净买入（当前PB 0.84破净）<br>
-                <strong>每周必查：</strong>股价+北向资金、社融/信贷数据<br>
-                <strong>预警线：</strong>息差跌破1.75%+不良率>1.1%→利润加速下滑 | LPR不降+社融回暖→板块反转
-            </div>
-
-            <div class="alert-box" style="margin-top:12px">
-                <div class="alert-text">
-                    <strong>📊 三只跟踪标的对比</strong><br><br>
-                    <strong>五粮液</strong> — 类型：消费周期 | 核心跟踪：批价 | 辅助：北向+社零 | 最快触发：批价950+
-                    <br><strong>浙江医药</strong> — 类型：工业+医药 | 核心跟踪：VA/VE价格 | 辅助：新码IPO | 最快触发：新码IPO挂牌
-                    <br><strong>招商银行</strong> — 类型：金融价值 | 核心跟踪：净息差NIM | 辅助：不良率+PB | 最快触发：息差2季不降
-                    <br><br>
-                    <strong>口诀：</strong>五粮液看批价，浙药看维生素，招行看息差。三个都是等拐点型，不急，信号到了再入。
-                </div>
-            </div>
-        </div>
-
-        <!-- 本周大事 --><!-- 本周大事 -->
-        <div class="section">
             <div class="section-title">⏰ 关键节点</div>
             <div class="alert-box purple">
                 <div class="alert-text">
